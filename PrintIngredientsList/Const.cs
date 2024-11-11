@@ -23,6 +23,9 @@ namespace PrintIngredientsList
 
         public const string SelectAll = "全て";
 
+        public const float GapTop = (float)18.5;
+        public const float GapLeft = (float)19.0;
+
 
     }
 }

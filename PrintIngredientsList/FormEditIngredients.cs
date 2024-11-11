@@ -66,6 +66,8 @@ namespace PrintIngredientsList
             }
 
 
+            txtNumOfSheets.Text = "1";
+
             if (editData != null)
             {
                 cmbProduct.SelectedItem = editData.name;
@@ -76,6 +78,8 @@ namespace PrintIngredientsList
                 txtAllergy.Text = editData.allergy;
                 cmbManufacture.Text = editData.manufacturer;
                 txtComment.Text = editData.comment;
+
+                txtNumOfSheets.Text = editData.numOfSheets.ToString();
 
 
             }
@@ -182,7 +186,14 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            int value = 0;
+            if (int.TryParse(txtNumOfSheets.Text, out value) == false)
+            {
+                MessageBox.Show("枚数の値が不正な値です", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+                this.DialogResult = DialogResult.OK;
             this.Close();
         }
         private void button2_Click(object sender, EventArgs e)
@@ -203,6 +214,10 @@ namespace PrintIngredientsList
             editParam.allergy = txtAllergy.Text;
             editParam.manufacturer = cmbManufacture.Text;
             editParam.comment = txtComment.Text;
+
+            editParam.numOfSheets = int.Parse(txtNumOfSheets.Text);
+
+            
             return editParam;
         }
 

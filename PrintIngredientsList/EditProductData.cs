@@ -17,6 +17,10 @@ namespace PrintIngredientsList
         /// </summary>
         public string name;
         /// <summary>
+        /// 印刷枚数
+        /// </summary>
+        public int numOfSheets=1;
+        /// <summary>
         /// 原材料
         /// </summary>
         public string rawMaterials;
@@ -54,7 +58,7 @@ namespace PrintIngredientsList
             return new object[]
             {
                 name,
-                amount,
+                numOfSheets,
                 dtExpirationDate,
                 amount,
                 storageMethod,
