@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using static ExcelReaderUtility.ProductReader;
 
 namespace PrintIngredientsList
 {
@@ -70,14 +71,18 @@ namespace PrintIngredientsList
 
             if (editData != null)
             {
+                var productData = productBaseInfo.GetProductDataByName(editData.name);
+
+
                 cmbProduct.SelectedItem = editData.name;
-                txtMaterial.Text = editData.rawMaterials;
+                txtMaterial.Text = productData.rawMaterials;
                 txtAmount.Text = editData.amount;
-                timePicker.Value = editData.dtExpirationDate;
+                txtValidDays.Value = editData.validDays;
+                //timePicker.Value = editData.dtExpirationDate;
                 cmbStorage.Text = editData.storageMethod;
                 txtAllergy.Text = editData.allergy;
                 cmbManufacture.Text = editData.manufacturer;
-                txtComment.Text = editData.comment;
+                txtComment.Text = productData.comment;
 
                 txtNumOfSheets.Text = editData.numOfSheets.ToString();
 
@@ -165,7 +170,7 @@ namespace PrintIngredientsList
             var today = DateTime.Now;
 
             timePicker.ValueChanged -= timePicker_ValueChanged;
-            timePicker.Value = today.Add(TimeSpan.FromDays(date-1));
+            timePicker.Value = Utility.GetValidDate(date);
             timePicker.ValueChanged += timePicker_ValueChanged;
 
         }
@@ -207,13 +212,14 @@ namespace PrintIngredientsList
 
             editParam.kind = cmbKind.Text;
             editParam.name = cmbProduct.Text;
-            editParam.rawMaterials = txtMaterial.Text;
+            //editParam.rawMaterials = txtMaterial.Text;
             editParam.amount = txtAmount.Text;
-            editParam.dtExpirationDate = timePicker.Value;
+            editParam.validDays = (int)txtValidDays.Value;
+            //editParam.dtExpirationDate = timePicker.Value;
             editParam.storageMethod = cmbStorage.Text;
             editParam.allergy = txtAllergy.Text;
             editParam.manufacturer = cmbManufacture.Text;
-            editParam.comment = txtComment.Text;
+            //editParam.comment = txtComment.Text;
 
             editParam.numOfSheets = int.Parse(txtNumOfSheets.Text);
 
