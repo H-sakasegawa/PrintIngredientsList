@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
-using System.Linq;
 
 using NPOI.XSSF.UserModel;
 
@@ -45,10 +44,6 @@ namespace ExcelReaderUtility
             /// </summary>
             public int validDays;
             /// <summary>
-            /// 賞味期限（日付）
-            /// </summary>
-            //public DateTime dtExpirationDate;
-            /// <summary>
             /// 保存方法
             /// </summary>
             public string storageMethod;
@@ -66,11 +61,23 @@ namespace ExcelReaderUtility
             public string comment;
         }
 
+        const string kind = "分類";
+        const string name = "名称";
+        const string rawMaterials = "原材料";
+        const string amount = "内容量";
+        const string validDays = "賞味期限";
+        const string storageMethod = "保存方法";
+        const string allergy = "アレルギー";
+        const string manufacturer = "製造者";
+        const string comment = "欄外";
+
         //Exel 列データフォーマット
         string[] colDataNames = new string[]
         {
-            "分類","名称","原材料","内容量","賞味期限(日)","保存方法","アレルギー","製造者","欄外"
+            kind,name,rawMaterials,amount,validDays,storageMethod,allergy,manufacturer,comment
         };
+
+        private Dictionary<string, int> dicColmunIndex = new Dictionary<string, int>();
 
         /// <summary>
         /// 商品基本データ
@@ -112,6 +119,21 @@ namespace ExcelReaderUtility
                     {
                         //最初の行をタイトル行とする。
                         bReadTitle = true;
+                        dicColmunIndex.Clear();
+                        //カラムインデックス ディクショナリを作成
+                        foreach ( var name in colDataNames)
+                        {
+                            int index = lstRowData.FindIndex(x => string.Compare(x.Text, name, true) == 0);
+                            if( index<0)
+                            {
+                                MessageBox.Show($"商品データベースに「{name}」項目が見つかりません。");
+                                return -1;
+                            }
+
+                            dicColmunIndex[name] = index;
+                        }
+
+
                     }
                     else
                     {
@@ -120,15 +142,15 @@ namespace ExcelReaderUtility
 
                         ProductData data = new ProductData();
 
-                        data.kind = lstRowData[0].Text;
-                        data.name = lstRowData[1].Text;
-                        data.rawMaterials = lstRowData[2].Text;
-                        data.amount = lstRowData[3].Text;
-                        data.validDays = int.Parse(lstRowData[4].Text);
-                        data.storageMethod = lstRowData[5].Text;
-                        data.allergy = lstRowData[6].Text;
-                        data.manufacturer = lstRowData[7].Text;
-                        data.comment = lstRowData[8].Text;
+                        data.kind           = lstRowData[dicColmunIndex[kind]].Text;
+                        data.name           = lstRowData[dicColmunIndex[name]].Text;
+                        data.rawMaterials   = lstRowData[dicColmunIndex[rawMaterials]].Text;
+                        data.amount         = lstRowData[dicColmunIndex[amount]].Text;
+                        data.validDays      = int.Parse(lstRowData[dicColmunIndex[validDays]].Text);
+                        data.storageMethod  = lstRowData[dicColmunIndex[storageMethod]].Text;
+                        data.allergy        = lstRowData[dicColmunIndex[allergy]].Text;
+                        data.manufacturer   = lstRowData[dicColmunIndex[manufacturer]].Text;
+                        data.comment        = lstRowData[dicColmunIndex[comment]].Text;
 
                         lstProduct.Add(data);
 

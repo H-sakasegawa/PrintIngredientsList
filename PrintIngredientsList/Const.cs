@@ -26,6 +26,8 @@ namespace PrintIngredientsList
         public const float GapTop = (float)18.5;
         public const float GapLeft = (float)19.0;
 
+        public const string defaultFontName = "Meiryo UI";
+
 
     }
 }

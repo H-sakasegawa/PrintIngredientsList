@@ -15,40 +15,29 @@ namespace PrintIngredientsList
 {
     internal class DrawUtil2
     {
+
+        PrintSettingData settingData;
+        Graphics graphics = null;
+
+
         //印刷ページの左上の余白（コンストラクタで確定）
         float PageGapTopMM = 0;
         float PageGapLeftMM = 0;
 
-        //１つのラベル印刷領域における余白
-        const float LabelAreaGapTop = (float)2.0;
-        const float LabelAreaGapBottom = (float)2.0;
-        const float LabelAreaGapLeft = (float)2.0;
-        const float LabelAreaGapRight = (float)2.0;
+        //--------------------------------------------------
+        // Init()関数で設定
+        //--------------------------------------------------
+        public float labelDrawAreaWidthMM = 0; //mm
+        public float labelDrawAreaHeightMM = 0; //mm
+        float titleAreWidthMM          = 0; //mm
+        float contentAreWidthMM        = 0;  //mm
 
-
-        //ラベル領域内の各セル（矩形）内の文字描画範囲余白サイズ
-        const float CellBoxGapTop = (float)0.2;
-        const float CellBoxGapBottom = (float)0.2;
-        const float CellBoxGapLeft = (float)0.2;
-        const float CellBoxGapRight = (float)0.2;
-
-        
-        const float CellBoxGapSumHeight = (CellBoxGapTop + CellBoxGapBottom);
-        const float CellBoxGapSumWidth = (CellBoxGapLeft + CellBoxGapRight);
-
-        Graphics g = null;
-
-        public const string fontName = "Meiryo UI";
-
-
-        public const float cellWidthMM       = 43 - (LabelAreaGapLeft + LabelAreaGapRight); //mm
-        public const float cellHeightMM      = 65 - (LabelAreaGapTop  + LabelAreaGapBottom); //mm
-        const float titleAreWidthMM   = 10; //mm
-        const float contentAreWidthMM = cellWidthMM - titleAreWidthMM;  //mm
+        float CellBoxGapSumHeight = 0;
+        float CellBoxGapSumWidth = 0;
 
         const float fontSizeDec =(float) 0.2;
 
-        // |<---     cellWidthMM      -->|
+        // |<--- labelDrawAreaWidthMM -->|
         // |                             |
         // | titleAreWidthMM             |
         // |   ↓     contentAreWidthMM  |
@@ -60,7 +49,7 @@ namespace PrintIngredientsList
         // |--------+--------------------|    ｜
         // |        |                    |    ｜
         // |--------+--------------------|
-        // |        |                    |    cellHeightMM 
+        // |        |                    |   labelDrawAreaHeightMM
         // |--------+--------------------|
         // |        |                    |    ｜
         // |--------+--------------------|    ｜
@@ -75,20 +64,24 @@ namespace PrintIngredientsList
         //float dpiX = 0;
         //float dpiY = 0;
         //private const float MillimetersPerInch = 25.4f;
-        public DrawUtil2(Graphics g)
+        public DrawUtil2(Graphics g, PrintSettingData settingData)
         {
+            this.graphics = g;
+            this.settingData = settingData;
+            this.graphics.PageUnit = GraphicsUnit.Millimeter;
 
-            g.PageUnit = GraphicsUnit.Millimeter;
-            this.g = g;
+            Init();
         }
 
-        public DrawUtil2(Graphics g, float PageGapTopMM, float PageGapLeftMM)
+        public DrawUtil2(Graphics g, PrintSettingData settingData, float PageGapTopMM, float PageGapLeftMM)
         {
-            g.PageUnit = GraphicsUnit.Millimeter;
-            this.g = g;
+            this.graphics = g;
+            this.settingData = settingData;
+            this.graphics.PageUnit = GraphicsUnit.Millimeter;
             this.PageGapTopMM = PageGapTopMM;
             this.PageGapLeftMM = PageGapLeftMM;
 
+            Init();
 
             //  GapLeftMM
             // |<->|
@@ -103,16 +96,31 @@ namespace PrintIngredientsList
 
         }
 
+        private void Init()
+        {
+            labelDrawAreaWidthMM = settingData.LabelDrawArealWidthMM;
+            labelDrawAreaHeightMM = settingData.LabelDrawAreaHeightMM;
+
+            titleAreWidthMM     = settingData.TitleAreWidthMM;
+
+            contentAreWidthMM   = settingData.ContentAreWidthMM;
+
+            CellBoxGapSumHeight = settingData.CellBoxGapSumHeight;
+            CellBoxGapSumWidth  = settingData.CellBoxGapSumWidth;
+
+
+        }
+
         public float DrawItemComment(string title, string content, float startY, float baseFontSize, bool bDrawFrame = true)
         {
             Font fntTitle = GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM);
             //備考欄の高さは、全エリアの高さから直前の描画開始位置を引いた残りから、セルギャップを差し引いた高さ
-            float contentsLimitHightMM = cellHeightMM - startY - CellBoxGapSumHeight;
+            float contentsLimitHightMM = labelDrawAreaHeightMM - startY - CellBoxGapSumHeight;
             float contentsHight = 0;
 
-            Font fntContents = GetFontCalcedBydHeightAndWidth(baseFontSize, content, cellWidthMM, contentsLimitHightMM, ref contentsHight);
+            Font fntContents = GetFontCalcedBydHeightAndWidth(baseFontSize, content, labelDrawAreaWidthMM, contentsLimitHightMM, ref contentsHight);
 
-            DrawItem( content, startY, fntTitle, fntContents, contentsHight, (float)( contentsHight + Math.Ceiling(CellBoxGapBottom)),bDrawFrame);
+            DrawItem( content, startY, fntTitle, fntContents, contentsHight, (float)( contentsHight + Math.Ceiling(settingData.CellBoxGapBottom)),bDrawFrame);
 
             return startY + contentsHight;
         }
@@ -124,7 +132,7 @@ namespace PrintIngredientsList
             float contentsHight = 0;
             Font fntContents = GetFontCalcedBydHeight(baseFontSize, content, limitHight - CellBoxGapSumHeight, ref contentsHight);
 
-            float cellHeight = contentsHight + (int)Math.Ceiling(CellBoxGapBottom);
+            float cellHeight = contentsHight + (int)Math.Ceiling(settingData.CellBoxGapBottom);
 
             DrawItem( title,  content,  startY, fntTitle, fntContents, contentsHight, cellHeight,  bDrawFrame);
 
@@ -135,45 +143,45 @@ namespace PrintIngredientsList
         private void DrawItem(string title, string content, float startY, Font fntTitle, Font fntContens, float contentsHight, float gridHeight, bool bDrawFrame)
         {
             //グリッドセルのTop/Leftの余白
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
 
             Brush brs = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
-            PointF point = new PointF(_X(CellBoxGapLeft), _Y(startY + CellBoxGapTop));
-            g.DrawString(title, fntTitle, brs, point);
-            point.X = titleAreWidthMM + CellBoxGapLeft;
-            g.DrawString(content, fntContens, brs, new RectangleF(_X(point.X), _Y(startY), contentAreWidthMM, contentsHight));
+            PointF point = new PointF(_X(settingData.CellBoxGapLeft), _Y(startY + settingData.CellBoxGapTop));
+            graphics.DrawString(title, fntTitle, brs, point);
+            point.X = titleAreWidthMM + settingData.CellBoxGapLeft;
+            graphics.DrawString(content, fntContens, brs, new RectangleF(_X(point.X), _Y(startY + settingData.CellBoxGapTop), contentAreWidthMM, contentsHight));
 
             if (bDrawFrame)
             {
                 //ライン描画
                 Pen pen = new Pen(Color.Black, (float)0.1);
-                g.DrawRectangle(pen,_X(0), _Y(startY), cellWidthMM, gridHeight);
-                g.DrawLine(pen, new PointF(_X(titleAreWidthMM), _Y(startY)), new PointF(_X(titleAreWidthMM), _Y(startY + gridHeight)));
+                graphics.DrawRectangle(pen,_X(0), _Y(startY), labelDrawAreaWidthMM, gridHeight);
+                graphics.DrawLine(pen, new PointF(_X(titleAreWidthMM), _Y(startY)), new PointF(_X(titleAreWidthMM), _Y(startY + gridHeight)));
             }
 
         }
         private void DrawItem( string content, float startY, Font fntTitle, Font fntContens, float contentsHight, float gridHeight, bool bDrawFrame)
         {
             //グリッドセルのTop/Leftの余白
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
 
             Brush brs = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
-            PointF point = new PointF(_X(CellBoxGapLeft), _Y(startY + CellBoxGapTop));
-            g.DrawString(content, fntContens, brs, new RectangleF(point.X, point.Y, cellWidthMM - CellBoxGapSumWidth, contentsHight));
+            PointF point = new PointF(_X(settingData.CellBoxGapLeft), _Y(startY + settingData.CellBoxGapTop));
+            graphics.DrawString(content, fntContens, brs, new RectangleF(point.X, point.Y, labelDrawAreaWidthMM - CellBoxGapSumWidth, contentsHight));
 
             if (bDrawFrame)
             {
                 //ライン描画
                 Pen pen = new Pen(Color.Black, (float)0.1);
-                g.DrawRectangle(pen,_X(0), _Y(startY), cellWidthMM, gridHeight);
+                graphics.DrawRectangle(pen,_X(0), _Y(startY), labelDrawAreaWidthMM, gridHeight);
             }
 
         }
 
-        float _X(float x) { return PageGapLeftMM + LabelAreaGapTop + x; }
-        float _Y(float y) { return PageGapTopMM + LabelAreaGapLeft + y; }
+        float _X(float x) { return PageGapLeftMM + settingData.LabelAreaGapLeft + x; }
+        float _Y(float y) { return PageGapTopMM + settingData.LabelAreaGapTop + y; }
 
 
         /// <summary>
@@ -186,8 +194,8 @@ namespace PrintIngredientsList
             float fntSize = startFontSize;
             while (fntSize > 0)
             {
-                Font font = new Font(fontName, fntSize, FontStyle.Regular);
-                SizeF size = g.MeasureString(s, font);
+                Font font = new Font(settingData.fontName, fntSize, FontStyle.Regular);
+                SizeF size = graphics.MeasureString(s, font);
 
                 if( limitHight!=0 && size.Height > limitHight)
                 {
@@ -216,8 +224,8 @@ namespace PrintIngredientsList
             float fntSize = startFontSize;
             while (fntSize > 0)
             {
-                Font font = new Font(fontName, fntSize, FontStyle.Regular);
-                SizeF size = g.MeasureString(s, font, (int)contentAreWidthMM);
+                Font font = new Font(settingData.fontName, fntSize, FontStyle.Regular);
+                SizeF size = graphics.MeasureString(s, font, (int)contentAreWidthMM);
 
                 height = size.Height;
 
@@ -240,8 +248,8 @@ namespace PrintIngredientsList
             float fntSize = startFontSize;
             while (fntSize > 0)
             {
-                Font font = new Font(fontName, fntSize, FontStyle.Regular);
-                SizeF size = g.MeasureString(s, font, (int)limitWidth);
+                Font font = new Font(settingData.fontName, fntSize, FontStyle.Regular);
+                SizeF size = graphics.MeasureString(s, font, (int)limitWidth);
 
                 height = size.Height;
 
@@ -270,7 +278,7 @@ namespace PrintIngredientsList
         /// <param name="p2">ライン座標</param>
         public void DrawLine(Pen pen, PointF p1, PointF p2)
         {
-            g.DrawLine(pen, p1, p2);
+            graphics.DrawLine(pen, p1, p2);
         }
 
     }

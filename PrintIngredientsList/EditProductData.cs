@@ -84,7 +84,7 @@ namespace PrintIngredientsList
         }
 
 
-        public string ToString()
+        public override string ToString()
         {
             return $"kind:{kind}" +
                    $",name:{name}" +

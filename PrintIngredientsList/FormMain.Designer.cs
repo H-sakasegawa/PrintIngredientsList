@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.gridList = new System.Windows.Forms.DataGridView();
             this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -51,21 +51,29 @@
             this.button6 = new System.Windows.Forms.Button();
             this.panelPreviw = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
+            this.txtPrintTopGap = new System.Windows.Forms.TextBox();
+            this.txtPrintLeftGap = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.txtLabelAreaGapBottom = new System.Windows.Forms.TextBox();
+            this.txtLabelAreaGapTop = new System.Windows.Forms.TextBox();
+            this.txtLabelAreaGapLeft = new System.Windows.Forms.TextBox();
+            this.txtLabelAreaGapRight = new System.Windows.Forms.TextBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button9 = new System.Windows.Forms.Button();
+            this.chkTestLineDraw = new System.Windows.Forms.CheckBox();
+            this.button8 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtCopyNum = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -76,9 +84,6 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolBtnSave = new System.Windows.Forms.ToolStripButton();
-            this.chkTestLineDraw = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -95,29 +100,32 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.tabControl2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // gridList
             // 
             this.gridList.AllowUserToAddRows = false;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            this.gridList.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCheck,
@@ -159,17 +167,17 @@
             // 
             // colPrintNum
             // 
-            dataGridViewCellStyle11.NullValue = null;
-            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle2.NullValue = null;
+            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle2;
             this.colPrintNum.HeaderText = "枚数";
             this.colPrintNum.Name = "colPrintNum";
             this.colPrintNum.Width = 50;
             // 
             // colLImitDate
             // 
-            dataGridViewCellStyle12.Format = "d";
-            dataGridViewCellStyle12.NullValue = null;
-            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle3.Format = "d";
+            dataGridViewCellStyle3.NullValue = null;
+            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle3;
             this.colLImitDate.HeaderText = "賞味期限";
             this.colLImitDate.Name = "colLImitDate";
             this.colLImitDate.ReadOnly = true;
@@ -317,11 +325,11 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.tabControl2);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Controls.Add(this.button8);
-            this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.label2);
-            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.txtCopyNum);
             this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Controls.Add(this.groupBox3);
@@ -334,6 +342,201 @@
             this.tabPage2.Text = "印刷";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage3);
+            this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Location = new System.Drawing.Point(253, 20);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(381, 250);
+            this.tabControl2.TabIndex = 11;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.button5);
+            this.tabPage3.Controls.Add(this.txtPrintTopGap);
+            this.tabPage3.Controls.Add(this.txtPrintLeftGap);
+            this.tabPage3.Controls.Add(this.pictureBox1);
+            this.tabPage3.Controls.Add(this.button4);
+            this.tabPage3.Controls.Add(this.button2);
+            this.tabPage3.Controls.Add(this.button3);
+            this.tabPage3.Controls.Add(this.button1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(373, 224);
+            this.tabPage3.TabIndex = 0;
+            this.tabPage3.Text = "印刷位置の調整";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(213, 32);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(84, 28);
+            this.button5.TabIndex = 26;
+            this.button5.Text = "リセット";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // txtPrintTopGap
+            // 
+            this.txtPrintTopGap.Location = new System.Drawing.Point(6, 73);
+            this.txtPrintTopGap.Name = "txtPrintTopGap";
+            this.txtPrintTopGap.Size = new System.Drawing.Size(48, 19);
+            this.txtPrintTopGap.TabIndex = 25;
+            this.txtPrintTopGap.Text = "0.0";
+            this.txtPrintTopGap.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPrintTopGap.TextChanged += new System.EventHandler(this.txtPrintTopGap_TextChanged);
+            // 
+            // txtPrintLeftGap
+            // 
+            this.txtPrintLeftGap.Location = new System.Drawing.Point(76, 9);
+            this.txtPrintLeftGap.Name = "txtPrintLeftGap";
+            this.txtPrintLeftGap.Size = new System.Drawing.Size(44, 19);
+            this.txtPrintLeftGap.TabIndex = 24;
+            this.txtPrintLeftGap.Text = "0.0";
+            this.txtPrintLeftGap.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPrintLeftGap.TextChanged += new System.EventHandler(this.txtPrintLeftGap_TextChanged);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
+            this.pictureBox1.Location = new System.Drawing.Point(43, 32);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(140, 131);
+            this.pictureBox1.TabIndex = 23;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button4
+            // 
+            this.button4.AutoSize = true;
+            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
+            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button4.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button4.Location = new System.Drawing.Point(8, 52);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(29, 22);
+            this.button4.TabIndex = 21;
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button2
+            // 
+            this.button2.AutoSize = true;
+            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button2.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button2.Location = new System.Drawing.Point(48, 8);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(29, 22);
+            this.button2.TabIndex = 22;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.AutoSize = true;
+            this.button3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button3.BackgroundImage")));
+            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button3.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button3.Location = new System.Drawing.Point(9, 93);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(29, 22);
+            this.button3.TabIndex = 17;
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button1
+            // 
+            this.button1.AutoSize = true;
+            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button1.Location = new System.Drawing.Point(120, 8);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(29, 22);
+            this.button1.TabIndex = 18;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.txtLabelAreaGapBottom);
+            this.tabPage4.Controls.Add(this.txtLabelAreaGapTop);
+            this.tabPage4.Controls.Add(this.txtLabelAreaGapLeft);
+            this.tabPage4.Controls.Add(this.txtLabelAreaGapRight);
+            this.tabPage4.Controls.Add(this.pictureBox2);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(373, 224);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "印刷微調整";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // txtLabelAreaGapBottom
+            // 
+            this.txtLabelAreaGapBottom.Location = new System.Drawing.Point(7, 184);
+            this.txtLabelAreaGapBottom.Name = "txtLabelAreaGapBottom";
+            this.txtLabelAreaGapBottom.Size = new System.Drawing.Size(39, 19);
+            this.txtLabelAreaGapBottom.TabIndex = 25;
+            this.txtLabelAreaGapBottom.Text = "0.0";
+            this.txtLabelAreaGapBottom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtLabelAreaGapBottom.TextChanged += new System.EventHandler(this.txtLabelAreaGapBottom_TextChanged);
+            // 
+            // txtLabelAreaGapTop
+            // 
+            this.txtLabelAreaGapTop.Location = new System.Drawing.Point(7, 35);
+            this.txtLabelAreaGapTop.Name = "txtLabelAreaGapTop";
+            this.txtLabelAreaGapTop.Size = new System.Drawing.Size(41, 19);
+            this.txtLabelAreaGapTop.TabIndex = 25;
+            this.txtLabelAreaGapTop.Text = "0.0";
+            this.txtLabelAreaGapTop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtLabelAreaGapTop.TextChanged += new System.EventHandler(this.txtLabelAreaGapTop_TextChanged);
+            // 
+            // txtLabelAreaGapLeft
+            // 
+            this.txtLabelAreaGapLeft.Location = new System.Drawing.Point(52, 6);
+            this.txtLabelAreaGapLeft.Name = "txtLabelAreaGapLeft";
+            this.txtLabelAreaGapLeft.Size = new System.Drawing.Size(43, 19);
+            this.txtLabelAreaGapLeft.TabIndex = 25;
+            this.txtLabelAreaGapLeft.Text = "0.0";
+            this.txtLabelAreaGapLeft.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtLabelAreaGapLeft.TextChanged += new System.EventHandler(this.txtLabelAreaGapLeft_TextChanged);
+            // 
+            // txtLabelAreaGapRight
+            // 
+            this.txtLabelAreaGapRight.Location = new System.Drawing.Point(150, 6);
+            this.txtLabelAreaGapRight.Name = "txtLabelAreaGapRight";
+            this.txtLabelAreaGapRight.Size = new System.Drawing.Size(43, 19);
+            this.txtLabelAreaGapRight.TabIndex = 25;
+            this.txtLabelAreaGapRight.Text = "0.0";
+            this.txtLabelAreaGapRight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtLabelAreaGapRight.TextChanged += new System.EventHandler(this.txtLabelAreaGapRight_TextChanged);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(52, 28);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(152, 191);
+            this.pictureBox2.TabIndex = 0;
+            this.pictureBox2.TabStop = false;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.button9);
+            this.groupBox4.Controls.Add(this.chkTestLineDraw);
+            this.groupBox4.Location = new System.Drawing.Point(6, 265);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(158, 103);
+            this.groupBox4.TabIndex = 10;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "プレビュー";
+            // 
             // button9
             // 
             this.button9.Location = new System.Drawing.Point(6, 18);
@@ -344,9 +547,19 @@
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
+            // chkTestLineDraw
+            // 
+            this.chkTestLineDraw.AutoSize = true;
+            this.chkTestLineDraw.Location = new System.Drawing.Point(9, 69);
+            this.chkTestLineDraw.Name = "chkTestLineDraw";
+            this.chkTestLineDraw.Size = new System.Drawing.Size(128, 16);
+            this.chkTestLineDraw.TabIndex = 9;
+            this.chkTestLineDraw.Text = "テストラインを描画する";
+            this.chkTestLineDraw.UseVisualStyleBackColor = true;
+            // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(172, 235);
+            this.button8.Location = new System.Drawing.Point(170, 285);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(146, 45);
             this.button8.TabIndex = 7;
@@ -354,139 +567,30 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.button4);
-            this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.pictureBox2);
-            this.groupBox2.Controls.Add(this.pictureBox1);
-            this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.textBox3);
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(242, 20);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(333, 174);
-            this.groupBox2.TabIndex = 5;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "印刷位置の調整";
-            // 
-            // button4
-            // 
-            this.button4.AutoSize = true;
-            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
-            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button4.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button4.Location = new System.Drawing.Point(158, 17);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(29, 22);
-            this.button4.TabIndex = 12;
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.AutoSize = true;
-            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button2.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button2.Location = new System.Drawing.Point(6, 132);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(29, 22);
-            this.button2.TabIndex = 12;
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.YellowGreen;
-            this.pictureBox2.Location = new System.Drawing.Point(66, 60);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(81, 70);
-            this.pictureBox2.TabIndex = 11;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(38, 44);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(79, 66);
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
-            // 
-            // button3
-            // 
-            this.button3.AutoSize = true;
-            this.button3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button3.BackgroundImage")));
-            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button3.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button3.Location = new System.Drawing.Point(159, 58);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(29, 22);
-            this.button3.TabIndex = 7;
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.AutoSize = true;
-            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.Location = new System.Drawing.Point(84, 132);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(29, 22);
-            this.button1.TabIndex = 7;
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(158, 39);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(57, 19);
-            this.textBox3.TabIndex = 6;
-            this.textBox3.Text = "0";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(36, 134);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(48, 19);
-            this.textBox2.TabIndex = 6;
-            this.textBox2.Text = "0";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(123, 140);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(101, 12);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "横方向の調整(mm)";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(221, 42);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 12);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "縦方向の調整(mm)";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(157, 178);
+            this.label2.Location = new System.Drawing.Point(134, 178);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "セット";
             // 
-            // textBox1
+            // txtCopyNum
             // 
-            this.textBox1.Location = new System.Drawing.Point(88, 175);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(63, 19);
-            this.textBox1.TabIndex = 2;
+            this.txtCopyNum.Location = new System.Drawing.Point(88, 175);
+            this.txtCopyNum.Name = "txtCopyNum";
+            this.txtCopyNum.Size = new System.Drawing.Size(44, 19);
+            this.txtCopyNum.TabIndex = 2;
+            this.txtCopyNum.TextChanged += new System.EventHandler(this.txtCopyNum_TextChanged);
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(168, 339);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(222, 45);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "PDFに出力したい場合は、「印刷」ボタンから出力先にPDFを選択してください。";
             // 
             // label1
             // 
@@ -525,6 +629,7 @@
             this.cmbFont.Name = "cmbFont";
             this.cmbFont.Size = new System.Drawing.Size(128, 20);
             this.cmbFont.TabIndex = 0;
+            this.cmbFont.SelectedIndexChanged += new System.EventHandler(this.cmbFont_SelectedIndexChanged);
             // 
             // groupBox1
             // 
@@ -596,35 +701,6 @@
             this.toolBtnSave.Text = "toolStripButton1";
             this.toolBtnSave.Click += new System.EventHandler(this.toolBtnSave_Click);
             // 
-            // chkTestLineDraw
-            // 
-            this.chkTestLineDraw.AutoSize = true;
-            this.chkTestLineDraw.Location = new System.Drawing.Point(9, 69);
-            this.chkTestLineDraw.Name = "chkTestLineDraw";
-            this.chkTestLineDraw.Size = new System.Drawing.Size(128, 16);
-            this.chkTestLineDraw.TabIndex = 9;
-            this.chkTestLineDraw.Text = "テストラインを描画する";
-            this.chkTestLineDraw.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(170, 289);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(222, 45);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "PDFに出力したい場合は、「印刷」ボタンから出力先にPDFを選択してください。";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.button9);
-            this.groupBox4.Controls.Add(this.chkTestLineDraw);
-            this.groupBox4.Location = new System.Drawing.Point(8, 215);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(158, 103);
-            this.groupBox4.TabIndex = 10;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "プレビュー";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -653,10 +729,15 @@
             this.splitContainer3.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -668,8 +749,6 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -685,19 +764,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radPrintSelect;
         private System.Windows.Forms.RadioButton radPrintAll;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtCopyNum;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label5;
@@ -723,6 +791,22 @@
         private System.Windows.Forms.CheckBox chkTestLineDraw;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TextBox txtPrintLeftGap;
+        private System.Windows.Forms.TextBox txtLabelAreaGapBottom;
+        private System.Windows.Forms.TextBox txtLabelAreaGapTop;
+        private System.Windows.Forms.TextBox txtLabelAreaGapLeft;
+        private System.Windows.Forms.TextBox txtLabelAreaGapRight;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.TextBox txtPrintTopGap;
+        private System.Windows.Forms.Button button5;
     }
 }
 
