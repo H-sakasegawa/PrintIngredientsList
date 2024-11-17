@@ -78,9 +78,8 @@ namespace PrintIngredientsList
                 txtMaterial.Text = productData.rawMaterials;
                 txtAmount.Text = editData.amount;
                 txtValidDays.Value = editData.validDays;
-                //timePicker.Value = editData.dtExpirationDate;
                 cmbStorage.Text = editData.storageMethod;
-                txtAllergy.Text = editData.allergy;
+                txtAllergy.Text = productData.allergy;
                 cmbManufacture.Text = editData.manufacturer;
                 txtComment.Text = productData.comment;
 
@@ -208,16 +207,19 @@ namespace PrintIngredientsList
 
         public EditProductData GetEditParam()
         {
+
+            var productData = productBaseInfo.GetProductDataByName(cmbProduct.Text);
+
             EditProductData editParam = new EditProductData();
 
-            editParam.kind = cmbKind.Text;
+            editParam.kind = productData.kind;
             editParam.name = cmbProduct.Text;
             //editParam.rawMaterials = txtMaterial.Text;
             editParam.amount = txtAmount.Text;
             editParam.validDays = (int)txtValidDays.Value;
             //editParam.dtExpirationDate = timePicker.Value;
             editParam.storageMethod = cmbStorage.Text;
-            editParam.allergy = txtAllergy.Text;
+            //editParam.allergy = txtAllergy.Text;
             editParam.manufacturer = cmbManufacture.Text;
             //editParam.comment = txtComment.Text;
 

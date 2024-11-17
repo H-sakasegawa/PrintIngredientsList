@@ -45,7 +45,7 @@ namespace PrintIngredientsList
         /// <summary>
         /// アレルギー
         /// </summary>
-        public string allergy;
+        //public string allergy;
         /// <summary>
         /// 製造者
         /// </summary>
@@ -68,15 +68,16 @@ namespace PrintIngredientsList
 
         public object[] GetParams()
         {
+            //グリッドに表示する文字の一覧
             DateTime dt = Utility.GetValidDate(validDays);
             return new object[]
             {
+                kind,
                 name,
                 numOfSheets,
-                dt.ToShortDateString(),
+                dt.ToShortDateString(), //日数ではなく、日付文字列
                 amount,
                 storageMethod,
-                allergy,
                 manufacturer
             };
 
@@ -89,14 +90,10 @@ namespace PrintIngredientsList
             return $"kind:{kind}" +
                    $",name:{name}" +
                    $",numOfSheets:{numOfSheets}" +
-                   //$"rawMaterials:{rawMaterials}," +
                    $",amount:{amount}" +
-                   //$"dtExpirationDate:{dtExpirationDate.ToShortDateString()}," +
                    $",validDays:{validDays}" +
                    $",storageMethod:{storageMethod}" +
-                   $",allergy:{allergy}" +
                    $",manufacturer:{manufacturer}" 
-                   //$"comment:{comment}"
                    ;
 
         }
@@ -107,14 +104,10 @@ namespace PrintIngredientsList
             kind = GetValue(ary, "kind", "");
             name = GetValue(ary, "name", "");
             numOfSheets = int.Parse(GetValue(ary, "numOfSheets", "1"));
-            //rawMaterials = GetValue(ary, "rawMaterials", "");
             amount = GetValue(ary, "amount", "");
-            //dtExpirationDate = DateTime.Parse(GetValue(ary, "dtExpirationDate", ""));
             validDays =int.Parse( GetValue(ary, "validDays", "0"));
             storageMethod = GetValue(ary, "storageMethod", "");
-            allergy = GetValue(ary, "allergy", "");
             manufacturer = GetValue(ary, "manufacturer", "");
-            //comment = GetValue(ary, "comment", "");
 
 
         }

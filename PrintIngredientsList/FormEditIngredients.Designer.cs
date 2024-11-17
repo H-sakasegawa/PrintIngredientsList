@@ -148,6 +148,7 @@
             this.txtComment.Location = new System.Drawing.Point(63, 384);
             this.txtComment.Multiline = true;
             this.txtComment.Name = "txtComment";
+            this.txtComment.ReadOnly = true;
             this.txtComment.Size = new System.Drawing.Size(317, 71);
             this.txtComment.TabIndex = 14;
             // 
@@ -192,6 +193,7 @@
             this.txtAllergy.Location = new System.Drawing.Point(69, 257);
             this.txtAllergy.Multiline = true;
             this.txtAllergy.Name = "txtAllergy";
+            this.txtAllergy.ReadOnly = true;
             this.txtAllergy.Size = new System.Drawing.Size(311, 48);
             this.txtAllergy.TabIndex = 11;
             // 

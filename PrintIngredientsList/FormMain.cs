@@ -86,7 +86,8 @@ namespace PrintIngredientsList
             ReadDatabase();
 
             //前回の編集データの読み込み
-            ReadSavedPath();
+            List<string> lstErrName = new List<string>();
+            ReadSavedPath(ref lstErrName);
 
             //セッティング情報の読み込み
             settingData.Read(settingDataFilePath);
@@ -94,6 +95,16 @@ namespace PrintIngredientsList
             //印刷設定をUIに設定
             SettingDataToUI(settingData);
 
+            if(lstErrName.Count>0)
+            {
+                string s="";
+                foreach( var name in lstErrName)
+                {
+                    if (!string.IsNullOrEmpty(s)) s += "\n";
+                    s += name;
+                }
+                MessageBox.Show($"保存データに登録されている以下の商品がデータベースに見つかりませんでした。\n{s}", "警告",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
 
         }
@@ -406,11 +417,12 @@ namespace PrintIngredientsList
         /// <summary>
         /// 保存データ読み込み
         /// </summary>
-        private void ReadSavedPath()
+        /// <returns>0..正常</returns>
+        private int ReadSavedPath(ref List<string> errList)
         {
             if (!File.Exists(prevDataFilePath))
             {
-                return;
+                return 0;
             }
             using (var sr = new StreamReader(prevDataFilePath))
             {
@@ -421,6 +433,16 @@ namespace PrintIngredientsList
 
                     EditProductData data = new EditProductData(s);
 
+                    //前回保存された商品名に該当するものが、商品データベースにあるかをチェック
+                    var productData = productBaseInfo.GetProductDataByName(data.name);
+                    if (productData == null)
+                    {
+                        errList.Add(data.name);
+                        continue;
+                    }
+                    //種別名はデータベースの内容で更新
+                    data.kind = productData.kind;
+
                     EditParamToGridAdd(data, false);
                 }
             }
@@ -430,6 +452,8 @@ namespace PrintIngredientsList
                 gridList.Rows[0].Selected = true;
                 UpdatePreview();
             }
+
+            return 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -553,6 +577,10 @@ namespace PrintIngredientsList
             SettingDataToUI(settingData);
         }
 
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

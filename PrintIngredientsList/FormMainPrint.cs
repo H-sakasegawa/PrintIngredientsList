@@ -241,31 +241,30 @@ namespace PrintIngredientsList
             var commonDefManifac = commonDefInfo.GetCommonDefData("製造者", param.manufacturer);
 
             var productData = productBaseInfo.GetProductDataByName(param.name);
-            var today = DateTime.Now;
-            DateTime dt = Utility.GetValidDate(productData.validDays);
+            DateTime dt = Utility.GetValidDate(param.validDays);
 
             //DrawUtil2 util = new DrawUtil2(gPreview, 2, 2);
             DrawUtil2 util = new DrawUtil2(gPreview, settingData, gapTop, gapLeft);
 
             //項目毎の基本フォントサイズ
             //範囲に入りきらない場合は、このフォントサイズから小さいフォントサイズに自動調整
-            const float fontSizeProductTitle = 8;
-            const float fontSizMaterial = 8;
+            const float fontSizeProductTitle = 6;
+            const float fontSizMaterial = 5;
             const float fontSizAmount = 7;
-            const float fontSizLimitDate = 6;
-            const float fontSizStorage = 6;
+            const float fontSizLimitDate = 7;
+            const float fontSizStorage = 7;
             const float fontSizManifac = 6;
-            const float fontSizeComment = 8;
+            const float fontSizeComment = 4;
 
             //ラベル描画処理
             float nextY = 0;
-            nextY = util.DrawItem("名   称", param.name, 0, Line1Hight, fontSizeProductTitle);
+            nextY = util.DrawItem("名    称", param.name, 0, Line1Hight, fontSizeProductTitle);
             nextY = util.DrawItem("原材料名", productData.rawMaterials, nextY, MaterialRowHight1, fontSizMaterial);
             nextY = util.DrawItem("内 容 量", param.amount, nextY, Line1Hight, fontSizAmount);
             nextY = util.DrawItem("賞味期限", dt.ToLongDateString(), nextY, Line1Hight, fontSizLimitDate);
             nextY = util.DrawItem("保存方法", commonDefStorage.printText, nextY, Line2Hight, fontSizStorage);
             nextY = util.DrawItem("製 造 者", commonDefManifac.printText, nextY, Line2Hight, fontSizManifac);
-            nextY = util.DrawItemComment("欄   外", productData.comment, nextY, fontSizeComment, false);
+            nextY = util.DrawItemComment("", productData.comment, nextY, fontSizeComment, false);
 
 
 

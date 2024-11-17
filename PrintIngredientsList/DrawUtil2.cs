@@ -19,6 +19,7 @@ namespace PrintIngredientsList
         PrintSettingData settingData;
         Graphics graphics = null;
 
+        float fontSizeItemTitle = 6;
 
         //印刷ページの左上の余白（コンストラクタで確定）
         float PageGapTopMM = 0;
@@ -113,7 +114,9 @@ namespace PrintIngredientsList
 
         public float DrawItemComment(string title, string content, float startY, float baseFontSize, bool bDrawFrame = true)
         {
-            Font fntTitle = GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM);
+            Font fntTitle = new Font(settingData.fontName, fontSizeItemTitle, FontStyle.Regular);
+
+            //Font fntTitle = GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM);
             //備考欄の高さは、全エリアの高さから直前の描画開始位置を引いた残りから、セルギャップを差し引いた高さ
             float contentsLimitHightMM = labelDrawAreaHeightMM - startY - CellBoxGapSumHeight;
             float contentsHight = 0;
@@ -128,7 +131,8 @@ namespace PrintIngredientsList
         {
 
             //タイトル領域は、横１列として表示可能なフォントサイズのフォントを取得
-            Font fntTitle = GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM - CellBoxGapSumWidth, limitHight-CellBoxGapSumHeight );
+            Font fntTitle = new Font(settingData.fontName, fontSizeItemTitle, FontStyle.Regular);
+            //Font fntTitle = new Font(GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM - CellBoxGapSumWidth, limitHight-CellBoxGapSumHeight );
             float contentsHight = 0;
             Font fntContents = GetFontCalcedBydHeight(baseFontSize, content, limitHight - CellBoxGapSumHeight, ref contentsHight);
 
