@@ -232,7 +232,7 @@ namespace PrintIngredientsList
 #if true
             //枠描画
 
-            const float Line1Hight = 3;
+            const float Line1Hight = 4;
             const float Line2Hight = 6;
             const float MaterialRowHight1 = 20;
 
@@ -246,26 +246,16 @@ namespace PrintIngredientsList
             //DrawUtil2 util = new DrawUtil2(gPreview, 2, 2);
             DrawUtil2 util = new DrawUtil2(gPreview, settingData, gapTop, gapLeft);
 
-            //項目毎の基本フォントサイズ
-            //範囲に入りきらない場合は、このフォントサイズから小さいフォントサイズに自動調整
-            const float fontSizeProductTitle = 6;
-            const float fontSizMaterial = 5;
-            const float fontSizAmount = 7;
-            const float fontSizLimitDate = 7;
-            const float fontSizStorage = 7;
-            const float fontSizManifac = 6;
-            const float fontSizeComment = 4;
 
             //ラベル描画処理
             float nextY = 0;
-            nextY = util.DrawItem("名    称", param.name, 0, Line1Hight, fontSizeProductTitle);
-            nextY = util.DrawItem("原材料名", productData.rawMaterials, nextY, MaterialRowHight1, fontSizMaterial);
-            nextY = util.DrawItem("内 容 量", param.amount, nextY, Line1Hight, fontSizAmount);
-            nextY = util.DrawItem("賞味期限", dt.ToLongDateString(), nextY, Line1Hight, fontSizLimitDate);
-            nextY = util.DrawItem("保存方法", commonDefStorage.printText, nextY, Line2Hight, fontSizStorage);
-            nextY = util.DrawItem("製 造 者", commonDefManifac.printText, nextY, Line2Hight, fontSizManifac);
-            nextY = util.DrawItemComment("", productData.comment, nextY, fontSizeComment, false);
-
+            nextY = util.DrawItem("名    称", param.name,                 0,     Line1Hight,        settingData.fontSizeProductTitle);
+            nextY = util.DrawItem("原材料名", productData.rawMaterials,   nextY, MaterialRowHight1, settingData.fontSizMaterial, true);
+            nextY = util.DrawItem("内 容 量", param.amount,               nextY, Line1Hight,        settingData.fontSizAmount);
+            nextY = util.DrawItem("賞味期限", dt.ToLongDateString(),      nextY, Line1Hight,        settingData.fontSizLimitDate);
+            nextY = util.DrawItem("保存方法", commonDefStorage.printText, nextY, Line2Hight,        settingData.fontSizStorage);
+            nextY = util.DrawItem("製 造 者", commonDefManifac.printText, nextY, Line2Hight,        settingData.fontSizManifac);
+            nextY = util.DrawItemComment("", productData.comment,         nextY,                    settingData.fontSizeComment, false);
 
 
 #else
@@ -288,6 +278,63 @@ namespace PrintIngredientsList
         {
             settingData.fontName = cmbFont.Text;
             panelPreviw.Invalidate();
+        }
+
+        private void txtFontProductTitle_TextChanged(object sender, EventArgs e)
+        {
+            if( !float.TryParse(txtFontProductTitle.Text, out settingData.fontSizeProductTitle))
+            {
+                ErrMsg("名称フォントサイズ");
+            }
+        }
+
+        private void txtFontMaterial_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtFontMaterial.Text, out settingData.fontSizMaterial))
+            {
+                ErrMsg("原材料フォントサイズ");
+            }
+        }
+
+        private void txtFontAmount_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtFontAmount.Text, out settingData.fontSizAmount))
+            {
+                ErrMsg("内容量フォントサイズ");
+            }
+        }
+
+        private void txtFontValidDays_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtFontValidDays.Text, out settingData.fontSizLimitDate))
+            {
+                ErrMsg("賞味期限フォントサイズ");
+            }
+        }
+
+        private void txtFontSotrage_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtFontSotrage.Text, out settingData.fontSizStorage))
+            {
+                ErrMsg("保存方法フォントサイズ");
+            }
+        }
+
+        private void txtFontManifucture_TextAlignChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtFontManifucture.Text, out settingData.fontSizManifac))
+            {
+                ErrMsg("製造者フォントサイズ");
+            }
+        }
+
+
+        private void txtFontComment_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtFontComment.Text, out settingData.fontSizeComment))
+            {
+                ErrMsg("欄外フォントサイズ");
+            }
         }
     }
 

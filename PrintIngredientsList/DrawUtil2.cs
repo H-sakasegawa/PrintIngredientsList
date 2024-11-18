@@ -127,7 +127,8 @@ namespace PrintIngredientsList
 
             return startY + contentsHight;
         }
-        public float DrawItem(string title, string content, float startY, float limitHight, float baseFontSize, bool bDrawFrame = true)
+
+        public float DrawItem(string title, string content, float startY, float limitHight, float baseFontSize,bool bResizeHeight=false, bool bDrawFrame = true)
         {
 
             //タイトル領域は、横１列として表示可能なフォントサイズのフォントを取得
@@ -136,7 +137,12 @@ namespace PrintIngredientsList
             float contentsHight = 0;
             Font fntContents = GetFontCalcedBydHeight(baseFontSize, content, limitHight - CellBoxGapSumHeight, ref contentsHight);
 
-            float cellHeight = contentsHight + (int)Math.Ceiling(settingData.CellBoxGapBottom);
+            float cellHeight = limitHight;
+            if (bResizeHeight)
+            {
+                cellHeight = contentsHight + (int)Math.Ceiling(settingData.CellBoxGapSumHeight);
+            }
+
 
             DrawItem( title,  content,  startY, fntTitle, fntContents, contentsHight, cellHeight,  bDrawFrame);
 

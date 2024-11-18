@@ -37,6 +37,17 @@ namespace PrintIngredientsList
 
         public float TitleAreWidthMM = (float)10;
 
+        //項目毎の基本フォントサイズ
+        //範囲に入りきらない場合は、このフォントサイズから小さいフォントサイズに自動調整
+        public float fontSizeProductTitle = 6;
+        public float fontSizMaterial = 5;
+        public float fontSizAmount = 7;
+        public float fontSizLimitDate = 7;
+        public float fontSizStorage = 7;
+        public float fontSizManifac = 6;
+        public float fontSizeComment = 4;
+
+
         /// <summary>
         /// １つのラベルシールの描画可能領域幅(mm) 左右の余白を差し引いた値
         /// </summary>
@@ -101,6 +112,16 @@ namespace PrintIngredientsList
                 Write(sw, "CELLAREAGAPLEFT", CellBoxGapLeft);
                 Write(sw, "CELLAREAGAPRIGHT", CellBoxGapRight);
                 Write(sw, "COPYNUM", copyNum);
+
+                Write(sw, "FONT_PRODUCT", fontSizeProductTitle);
+                Write(sw, "FONT_MATERIAL", fontSizMaterial);
+                Write(sw, "FONT_AMOUNT", fontSizAmount);
+                Write(sw, "FONT_LIMITDATE", fontSizLimitDate);
+                Write(sw, "FONT_STORAGE", fontSizStorage);
+                Write(sw, "FONT_MANIFAC", fontSizManifac);
+                Write(sw, "FONT_COMMNETT", fontSizeComment);
+
+
             }
         }
 
@@ -133,6 +154,16 @@ namespace PrintIngredientsList
                         case "CELLAREAGAPBOTTOM":   CellBoxGapBottom    = float.Parse(valueItem[1]); break;
                         case "CELLAREAGAPLEFT":     CellBoxGapLeft      = float.Parse(valueItem[1]); break;
                         case "CELLAREAGAPRIGHT":    CellBoxGapRight     = float.Parse(valueItem[1]); break;
+
+
+                        case "FONT_PRODUCT":        fontSizeProductTitle = float.Parse(valueItem[1]); break;
+                        case "FONT_MATERIAL":       fontSizMaterial      = float.Parse(valueItem[1]); break;
+                        case "FONT_AMOUNT":         fontSizAmount        = float.Parse(valueItem[1]); break;
+                        case "FONT_LIMITDATE":      fontSizLimitDate     = float.Parse(valueItem[1]); break;
+                        case "FONT_STORAGE":        fontSizStorage       = float.Parse(valueItem[1]); break;
+                        case "FONT_MANIFAC":        fontSizManifac       = float.Parse(valueItem[1]); break;
+                        case "FONT_COMMNETT":       fontSizeComment      = float.Parse(valueItem[1]); break;
+
                     }
 
                 }

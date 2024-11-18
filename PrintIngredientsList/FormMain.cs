@@ -86,8 +86,7 @@ namespace PrintIngredientsList
             ReadDatabase();
 
             //前回の編集データの読み込み
-            List<string> lstErrName = new List<string>();
-            ReadSavedPath(ref lstErrName);
+            ReadSavedPath();
 
             //セッティング情報の読み込み
             settingData.Read(settingDataFilePath);
@@ -95,16 +94,16 @@ namespace PrintIngredientsList
             //印刷設定をUIに設定
             SettingDataToUI(settingData);
 
-            if(lstErrName.Count>0)
-            {
-                string s="";
-                foreach( var name in lstErrName)
-                {
-                    if (!string.IsNullOrEmpty(s)) s += "\n";
-                    s += name;
-                }
-                MessageBox.Show($"保存データに登録されている以下の商品がデータベースに見つかりませんでした。\n{s}", "警告",MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            //if(lstErrName.Count>0)
+            //{
+            //    string s="";
+            //    foreach( var name in lstErrName)
+            //    {
+            //        if (!string.IsNullOrEmpty(s)) s += "\n";
+            //        s += name;
+            //    }
+            //    MessageBox.Show($"保存データに登録されている以下の商品がデータベースに見つかりませんでした。\n{s}", "警告",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
 
 
         }
@@ -121,6 +120,15 @@ namespace PrintIngredientsList
             txtLabelAreaGapLeft.Text   = data.LabelAreaGapLeft.ToString("F2");
             txtLabelAreaGapRight.Text  = data.LabelAreaGapRight.ToString("F2");
             txtLabelAreaGapBottom.Text = data.LabelAreaGapBottom.ToString("F2");
+
+
+            txtFontProductTitle.Text    = data.fontSizeProductTitle.ToString("F0");
+            txtFontMaterial.Text        = data.fontSizMaterial.ToString("F0");
+            txtFontAmount.Text          = data.fontSizAmount.ToString("F0");
+            txtFontValidDays.Text       = data.fontSizLimitDate.ToString("F0");
+            txtFontSotrage.Text         = data.fontSizStorage.ToString("F0");
+            txtFontManifucture.Text     = data.fontSizManifac.ToString("F0");
+            txtFontComment.Text         = data.fontSizeComment.ToString("F0");
 
         }
 
@@ -418,7 +426,7 @@ namespace PrintIngredientsList
         /// 保存データ読み込み
         /// </summary>
         /// <returns>0..正常</returns>
-        private int ReadSavedPath(ref List<string> errList)
+        private int ReadSavedPath()
         {
             if (!File.Exists(prevDataFilePath))
             {
@@ -433,12 +441,23 @@ namespace PrintIngredientsList
 
                     EditProductData data = new EditProductData(s);
 
+                    bool bApplyAll = false;
                     //前回保存された商品名に該当するものが、商品データベースにあるかをチェック
                     var productData = productBaseInfo.GetProductDataByName(data.name);
                     if (productData == null)
                     {
-                        errList.Add(data.name);
-                        continue;
+                        if (!bApplyAll)
+                        {
+                            FormSaveDatReferctor frm = new FormSaveDatReferctor(productBaseInfo, data);
+                            frm.ShowDialog();
+                            if (frm.result == 0)
+                            {
+                                bApplyAll = frm.bApplyAll;
+                                continue;
+                            }
+                            data.name = frm.selectName;
+                            productData = productBaseInfo.GetProductDataByName(frm.selectName);
+                        }
                     }
                     //種別名はデータベースの内容で更新
                     data.kind = productData.kind;
@@ -580,6 +599,11 @@ namespace PrintIngredientsList
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            gridList.Rows.Clear();
         }
     }
 

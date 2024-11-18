@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.gridList = new System.Windows.Forms.DataGridView();
             this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -48,12 +48,18 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.chkAll = new System.Windows.Forms.CheckBox();
+            this.button11 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.panelPreviw = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button10 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.txtPrintTopGap = new System.Windows.Forms.TextBox();
             this.txtPrintLeftGap = new System.Windows.Forms.TextBox();
@@ -63,11 +69,31 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.txtLabelAreaGapBottom = new System.Windows.Forms.TextBox();
             this.txtLabelAreaGapTop = new System.Windows.Forms.TextBox();
             this.txtLabelAreaGapLeft = new System.Windows.Forms.TextBox();
             this.txtLabelAreaGapRight = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.txtFontManifacture = new System.Windows.Forms.TabPage();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtFontComment = new System.Windows.Forms.TextBox();
+            this.txtFontManifucture = new System.Windows.Forms.TextBox();
+            this.txtFontSotrage = new System.Windows.Forms.TextBox();
+            this.txtFontValidDays = new System.Windows.Forms.TextBox();
+            this.txtFontAmount = new System.Windows.Forms.TextBox();
+            this.txtFontMaterial = new System.Windows.Forms.TextBox();
+            this.txtFontProductTitle = new System.Windows.Forms.TextBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.button9 = new System.Windows.Forms.Button();
             this.chkTestLineDraw = new System.Windows.Forms.CheckBox();
@@ -85,10 +111,6 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolBtnSave = new System.Windows.Forms.ToolStripButton();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button10 = new System.Windows.Forms.Button();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -110,6 +132,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.txtFontManifacture.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -123,14 +147,14 @@
             // 
             this.gridList.AllowUserToAddRows = false;
             this.gridList.AllowUserToResizeRows = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCheck,
@@ -180,17 +204,17 @@
             // 
             // colPrintNum
             // 
-            dataGridViewCellStyle8.NullValue = null;
-            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.NullValue = null;
+            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle2;
             this.colPrintNum.HeaderText = "枚数";
             this.colPrintNum.Name = "colPrintNum";
             this.colPrintNum.Width = 50;
             // 
             // colLImitDate
             // 
-            dataGridViewCellStyle9.Format = "d";
-            dataGridViewCellStyle9.NullValue = null;
-            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Format = "d";
+            dataGridViewCellStyle3.NullValue = null;
+            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle3;
             this.colLImitDate.HeaderText = "賞味期限";
             this.colLImitDate.Name = "colLImitDate";
             this.colLImitDate.ReadOnly = true;
@@ -270,6 +294,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.button11);
             this.splitContainer2.Panel2.Controls.Add(this.button7);
             this.splitContainer2.Panel2.Controls.Add(this.button6);
             this.splitContainer2.Size = new System.Drawing.Size(318, 294);
@@ -305,6 +330,16 @@
             this.chkAll.Text = "すべて選択";
             this.chkAll.UseVisualStyleBackColor = true;
             this.chkAll.CheckedChanged += new System.EventHandler(this.chkAll_CheckedChanged);
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(173, 2);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(79, 30);
+            this.button11.TabIndex = 1;
+            this.button11.Text = "リセット";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // button7
             // 
@@ -358,11 +393,38 @@
             this.tabPage2.Text = "印刷";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // button10
+            // 
+            this.button10.Enabled = false;
+            this.button10.Location = new System.Drawing.Point(128, 159);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(46, 19);
+            this.button10.TabIndex = 14;
+            this.button10.Text = "選択";
+            this.button10.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(101, 159);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(27, 19);
+            this.textBox1.TabIndex = 13;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(20, 162);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(83, 12);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "印刷開始位置：";
+            // 
             // tabControl2
             // 
             this.tabControl2.Controls.Add(this.tabPage3);
             this.tabControl2.Controls.Add(this.tabPage4);
-            this.tabControl2.Controls.Add(this.tabPage5);
+            this.tabControl2.Controls.Add(this.txtFontManifacture);
             this.tabControl2.Location = new System.Drawing.Point(253, 20);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
@@ -371,6 +433,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label18);
+            this.tabPage3.Controls.Add(this.label17);
             this.tabPage3.Controls.Add(this.button5);
             this.tabPage3.Controls.Add(this.txtPrintTopGap);
             this.tabPage3.Controls.Add(this.txtPrintLeftGap);
@@ -386,6 +450,24 @@
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "印刷位置の調整";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(14, 118);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(23, 12);
+            this.label18.TabIndex = 27;
+            this.label18.Text = "mm";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(153, 16);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(23, 12);
+            this.label17.TabIndex = 27;
+            this.label17.Text = "mm";
             // 
             // button5
             // 
@@ -481,6 +563,10 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label16);
+            this.tabPage4.Controls.Add(this.label15);
+            this.tabPage4.Controls.Add(this.label14);
+            this.tabPage4.Controls.Add(this.label13);
             this.tabPage4.Controls.Add(this.txtLabelAreaGapBottom);
             this.tabPage4.Controls.Add(this.txtLabelAreaGapTop);
             this.tabPage4.Controls.Add(this.txtLabelAreaGapLeft);
@@ -493,6 +579,42 @@
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "印刷微調整";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(25, 169);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(23, 12);
+            this.label16.TabIndex = 27;
+            this.label16.Text = "mm";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(23, 55);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(23, 12);
+            this.label15.TabIndex = 27;
+            this.label15.Text = "mm";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(101, 9);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(23, 12);
+            this.label14.TabIndex = 27;
+            this.label14.Text = "mm";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(196, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(23, 12);
+            this.label13.TabIndex = 26;
+            this.label13.Text = "mm";
             // 
             // txtLabelAreaGapBottom
             // 
@@ -542,6 +664,159 @@
             this.pictureBox2.Size = new System.Drawing.Size(152, 191);
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
+            // 
+            // txtFontManifacture
+            // 
+            this.txtFontManifacture.Controls.Add(this.label10);
+            this.txtFontManifacture.Controls.Add(this.label11);
+            this.txtFontManifacture.Controls.Add(this.label12);
+            this.txtFontManifacture.Controls.Add(this.label8);
+            this.txtFontManifacture.Controls.Add(this.label9);
+            this.txtFontManifacture.Controls.Add(this.label7);
+            this.txtFontManifacture.Controls.Add(this.label4);
+            this.txtFontManifacture.Controls.Add(this.txtFontComment);
+            this.txtFontManifacture.Controls.Add(this.txtFontManifucture);
+            this.txtFontManifacture.Controls.Add(this.txtFontSotrage);
+            this.txtFontManifacture.Controls.Add(this.txtFontValidDays);
+            this.txtFontManifacture.Controls.Add(this.txtFontAmount);
+            this.txtFontManifacture.Controls.Add(this.txtFontMaterial);
+            this.txtFontManifacture.Controls.Add(this.txtFontProductTitle);
+            this.txtFontManifacture.Controls.Add(this.pictureBox3);
+            this.txtFontManifacture.Location = new System.Drawing.Point(4, 22);
+            this.txtFontManifacture.Name = "txtFontManifacture";
+            this.txtFontManifacture.Padding = new System.Windows.Forms.Padding(3);
+            this.txtFontManifacture.Size = new System.Drawing.Size(373, 224);
+            this.txtFontManifacture.TabIndex = 2;
+            this.txtFontManifacture.Text = "フォントサイズ調整";
+            this.txtFontManifacture.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(244, 185);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(21, 12);
+            this.label10.TabIndex = 27;
+            this.label10.Text = "pts";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(246, 151);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(21, 12);
+            this.label11.TabIndex = 26;
+            this.label11.Text = "pts";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(244, 128);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(21, 12);
+            this.label12.TabIndex = 25;
+            this.label12.Text = "pts";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(244, 102);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(21, 12);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "pts";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(244, 81);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(21, 12);
+            this.label9.TabIndex = 23;
+            this.label9.Text = "pts";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(244, 48);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(21, 12);
+            this.label7.TabIndex = 22;
+            this.label7.Text = "pts";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(244, 12);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(21, 12);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "pts";
+            // 
+            // txtFontComment
+            // 
+            this.txtFontComment.Location = new System.Drawing.Point(207, 182);
+            this.txtFontComment.Name = "txtFontComment";
+            this.txtFontComment.Size = new System.Drawing.Size(33, 19);
+            this.txtFontComment.TabIndex = 20;
+            this.txtFontComment.TextChanged += new System.EventHandler(this.txtFontComment_TextChanged);
+            // 
+            // txtFontManifucture
+            // 
+            this.txtFontManifucture.Location = new System.Drawing.Point(207, 148);
+            this.txtFontManifucture.Name = "txtFontManifucture";
+            this.txtFontManifucture.Size = new System.Drawing.Size(33, 19);
+            this.txtFontManifucture.TabIndex = 19;
+            this.txtFontManifucture.TextAlignChanged += new System.EventHandler(this.txtFontManifucture_TextAlignChanged);
+            // 
+            // txtFontSotrage
+            // 
+            this.txtFontSotrage.Location = new System.Drawing.Point(207, 121);
+            this.txtFontSotrage.Name = "txtFontSotrage";
+            this.txtFontSotrage.Size = new System.Drawing.Size(33, 19);
+            this.txtFontSotrage.TabIndex = 18;
+            this.txtFontSotrage.TextChanged += new System.EventHandler(this.txtFontSotrage_TextChanged);
+            // 
+            // txtFontValidDays
+            // 
+            this.txtFontValidDays.Location = new System.Drawing.Point(207, 99);
+            this.txtFontValidDays.Name = "txtFontValidDays";
+            this.txtFontValidDays.Size = new System.Drawing.Size(33, 19);
+            this.txtFontValidDays.TabIndex = 17;
+            this.txtFontValidDays.TextChanged += new System.EventHandler(this.txtFontValidDays_TextChanged);
+            // 
+            // txtFontAmount
+            // 
+            this.txtFontAmount.Location = new System.Drawing.Point(207, 78);
+            this.txtFontAmount.Name = "txtFontAmount";
+            this.txtFontAmount.Size = new System.Drawing.Size(33, 19);
+            this.txtFontAmount.TabIndex = 16;
+            this.txtFontAmount.TextChanged += new System.EventHandler(this.txtFontAmount_TextChanged);
+            // 
+            // txtFontMaterial
+            // 
+            this.txtFontMaterial.Location = new System.Drawing.Point(207, 45);
+            this.txtFontMaterial.Name = "txtFontMaterial";
+            this.txtFontMaterial.Size = new System.Drawing.Size(33, 19);
+            this.txtFontMaterial.TabIndex = 15;
+            this.txtFontMaterial.TextChanged += new System.EventHandler(this.txtFontMaterial_TextChanged);
+            // 
+            // txtFontProductTitle
+            // 
+            this.txtFontProductTitle.Location = new System.Drawing.Point(207, 9);
+            this.txtFontProductTitle.Name = "txtFontProductTitle";
+            this.txtFontProductTitle.Size = new System.Drawing.Size(33, 19);
+            this.txtFontProductTitle.TabIndex = 14;
+            this.txtFontProductTitle.TextChanged += new System.EventHandler(this.txtFontProductTitle_TextChanged);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(17, 6);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(184, 215);
+            this.pictureBox3.TabIndex = 1;
+            this.pictureBox3.TabStop = false;
             // 
             // groupBox4
             // 
@@ -719,41 +994,6 @@
             this.toolBtnSave.Text = "toolStripButton1";
             this.toolBtnSave.Click += new System.EventHandler(this.toolBtnSave_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 153);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 12);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "印刷開始位置：";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(101, 153);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(27, 19);
-            this.textBox1.TabIndex = 13;
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(128, 153);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(46, 19);
-            this.button10.TabIndex = 14;
-            this.button10.Text = "選択";
-            this.button10.UseVisualStyleBackColor = true;
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(373, 224);
-            this.tabPage5.TabIndex = 2;
-            this.tabPage5.Text = "フォントサイズ調整";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -789,6 +1029,9 @@
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.txtFontManifacture.ResumeLayout(false);
+            this.txtFontManifacture.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -864,7 +1107,29 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TabPage txtFontManifacture;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtFontComment;
+        private System.Windows.Forms.TextBox txtFontManifucture;
+        private System.Windows.Forms.TextBox txtFontSotrage;
+        private System.Windows.Forms.TextBox txtFontValidDays;
+        private System.Windows.Forms.TextBox txtFontAmount;
+        private System.Windows.Forms.TextBox txtFontMaterial;
+        private System.Windows.Forms.TextBox txtFontProductTitle;
+        private System.Windows.Forms.Button button11;
     }
 }
 

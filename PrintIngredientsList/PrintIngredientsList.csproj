@@ -153,6 +153,12 @@
     <Compile Include="FormMainPrint.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FormSaveDatReferctor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSaveDatReferctor.Designer.cs">
+      <DependentUpon>FormSaveDatReferctor.cs</DependentUpon>
+    </Compile>
     <Compile Include="PrintSettingData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -162,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSaveDatReferctor.resx">
+      <DependentUpon>FormSaveDatReferctor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
