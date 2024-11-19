@@ -22,5 +22,65 @@ namespace PrintIngredientsList.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WinLocX {
+            get {
+                return ((int)(this["WinLocX"]));
+            }
+            set {
+                this["WinLocX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WinLocY {
+            get {
+                return ((int)(this["WinLocY"]));
+            }
+            set {
+                this["WinLocY"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WinSizeW {
+            get {
+                return ((int)(this["WinSizeW"]));
+            }
+            set {
+                this["WinSizeW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WinSizeH {
+            get {
+                return ((int)(this["WinSizeH"]));
+            }
+            set {
+                this["WinSizeH"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("457")]
+        public int SplitDistance {
+            get {
+                return ((int)(this["SplitDistance"]));
+            }
+            set {
+                this["SplitDistance"] = value;
+            }
+        }
     }
 }

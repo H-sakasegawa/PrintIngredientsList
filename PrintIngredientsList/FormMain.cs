@@ -43,6 +43,8 @@ namespace PrintIngredientsList
         public FormMain()
         {
             InitializeComponent();
+
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -82,6 +84,7 @@ namespace PrintIngredientsList
 
 
 
+
             //商品基本データファイル読み込み
             ReadDatabase();
 
@@ -105,7 +108,17 @@ namespace PrintIngredientsList
             //    MessageBox.Show($"保存データに登録されている以下の商品がデータベースに見つかりませんでした。\n{s}", "警告",MessageBoxButtons.OK, MessageBoxIcon.Warning);
             //}
 
+            //ユーザ固有の設定読み込み
+            LoadUserSetting();
 
+        }
+
+
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //ユーザ固有の設定保存
+            SaveUserSetting();
         }
 
         private void SettingDataToUI( PrintSettingData data)
@@ -131,7 +144,49 @@ namespace PrintIngredientsList
             txtFontComment.Text         = data.fontSizeComment.ToString("F0");
 
         }
+        private void LoadUserSetting()
+        {
+            //setting情報
+            int WinX = Properties.Settings.Default.WinLocX;
+            int WinY = Properties.Settings.Default.WinLocY;
 
+            if (WinX < 0)
+            {   //小さすぎたら補正
+                WinX = 0;
+            }
+            if (WinY < 0)
+            {   //小さすぎたら補正
+                WinY = 0;
+            }
+            this.Location = new Point(WinX, WinY);
+
+            int SizeW = Properties.Settings.Default.WinSizeW;
+            int SizeH = Properties.Settings.Default.WinSizeH;
+            if (SizeW < 200)
+            {   //小さすぎたら補正
+                SizeW = Size.Width;
+            }
+            if (SizeH < 200)
+            {   //小さすぎたら補正
+                SizeH = Size.Height;
+            }
+            this.Size = new Size(SizeW, SizeH);
+
+            int SplitDistance = Properties.Settings.Default.SplitDistance;
+            splitContainer1.SplitterDistance = SplitDistance;
+
+
+        }
+        private void SaveUserSetting()
+        {
+            Properties.Settings.Default.WinLocX = this.Location.X;
+            Properties.Settings.Default.WinLocY = this.Location.Y;
+            Properties.Settings.Default.WinSizeW = this.Size.Width;
+            Properties.Settings.Default.WinSizeH = this.Size.Height;
+            Properties.Settings.Default.SplitDistance = splitContainer1.SplitterDistance;
+
+            Properties.Settings.Default.Save();
+        }
         /// <summary>
         /// 実行フォルダパス取得
         /// </summary>
@@ -326,30 +381,20 @@ namespace PrintIngredientsList
             int areaWidth = (int)DrawUtil2.MillimetersToPixels(settingData.LabelDrawArealWidthMM, gPreview.DpiX);
             int areaHeight = (int)DrawUtil2.MillimetersToPixels(settingData.LabelDrawAreaHeightMM, gPreview.DpiY);
 
-            //Bitmap bmp = new Bitmap(panelPreviw.Width, panelPreviw.Height);
-            Bitmap bmp = new Bitmap(areaWidth + 5, areaHeight + 5);
-            Graphics gBmp = Graphics.FromImage(bmp);
-
-            DrawLabel(e.Graphics, 3, 3);
-
-            //現在のPreviewパネルサイズ
-            float rate = (float)1.0;
-            int stretchWidth = (int)(areaWidth * rate);
-            int stretchHeight = (int)(areaHeight * rate);
+            float scale = 1;
             if (panelPreviw.Width < panelPreviw.Height)
             {
-                stretchWidth = panelPreviw.Width;
-                stretchHeight = (int)(areaHeight * (stretchWidth / (float)areaWidth));
+                scale = (float) panelPreviw.Width / areaWidth;
             }
             else
             {
-                stretchHeight = panelPreviw.Height;
-                stretchWidth = (int)(areaWidth * (stretchHeight / (float)areaHeight));
+                scale = (float) panelPreviw.Height / areaHeight;
             }
+            scale *= (float)0.9;
 
-            gPreview.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            gPreview.DrawImage(bmp, 0, 0, stretchWidth, stretchHeight);
+            gPreview.ScaleTransform(scale, scale);
 
+            DrawLabel(gPreview, 0, 0);
         }
 
         /// <summary>
@@ -605,6 +650,7 @@ namespace PrintIngredientsList
         {
             gridList.Rows.Clear();
         }
+
     }
 
 }
