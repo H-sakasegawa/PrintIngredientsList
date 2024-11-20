@@ -40,13 +40,20 @@ namespace PrintIngredientsList
         //項目毎の基本フォントサイズ
         //範囲に入りきらない場合は、このフォントサイズから小さいフォントサイズに自動調整
         public float fontSizeProductTitle = 6;
-        public float fontSizMaterial = 5;
-        public float fontSizAmount = 7;
-        public float fontSizLimitDate = 7;
-        public float fontSizStorage = 7;
-        public float fontSizManifac = 6;
+        public float fontSizeMaterial = 5;
+        public float fontSizeAmount = 7;
+        public float fontSizeLimitDate = 7;
+        public float fontSizeStorage = 7;
+        public float fontSizeManifac = 6;
         public float fontSizeComment = 4;
 
+        //行高さ
+        public float hightProductTitle = 4;
+        public float hightMaterial = 20;
+        public float hightAmount = 4;
+        public float hightLimitDate = 4;
+        public float hightStorage = 6;
+        public float hightManifac = 6;
 
         /// <summary>
         /// １つのラベルシールの描画可能領域幅(mm) 左右の余白を差し引いた値
@@ -114,13 +121,19 @@ namespace PrintIngredientsList
                 Write(sw, "COPYNUM", copyNum);
 
                 Write(sw, "FONT_PRODUCT", fontSizeProductTitle);
-                Write(sw, "FONT_MATERIAL", fontSizMaterial);
-                Write(sw, "FONT_AMOUNT", fontSizAmount);
-                Write(sw, "FONT_LIMITDATE", fontSizLimitDate);
-                Write(sw, "FONT_STORAGE", fontSizStorage);
-                Write(sw, "FONT_MANIFAC", fontSizManifac);
+                Write(sw, "FONT_MATERIAL", fontSizeMaterial);
+                Write(sw, "FONT_AMOUNT", fontSizeAmount);
+                Write(sw, "FONT_LIMITDATE", fontSizeLimitDate);
+                Write(sw, "FONT_STORAGE", fontSizeStorage);
+                Write(sw, "FONT_MANIFAC", fontSizeManifac);
                 Write(sw, "FONT_COMMNETT", fontSizeComment);
 
+                Write(sw, "HIGHT_PRODUCT", hightProductTitle);
+                Write(sw, "HIGHT_MATERIAL", hightMaterial);
+                Write(sw, "HIGHT_AMOUNT", hightAmount);
+                Write(sw, "HIGHT_LIMITDATE", hightLimitDate);
+                Write(sw, "HIGHT_STORAGE", hightStorage);
+                Write(sw, "HIGHT_MANIFAC", hightManifac);
 
             }
         }
@@ -157,12 +170,20 @@ namespace PrintIngredientsList
 
 
                         case "FONT_PRODUCT":        fontSizeProductTitle = float.Parse(valueItem[1]); break;
-                        case "FONT_MATERIAL":       fontSizMaterial      = float.Parse(valueItem[1]); break;
-                        case "FONT_AMOUNT":         fontSizAmount        = float.Parse(valueItem[1]); break;
-                        case "FONT_LIMITDATE":      fontSizLimitDate     = float.Parse(valueItem[1]); break;
-                        case "FONT_STORAGE":        fontSizStorage       = float.Parse(valueItem[1]); break;
-                        case "FONT_MANIFAC":        fontSizManifac       = float.Parse(valueItem[1]); break;
-                        case "FONT_COMMNETT":       fontSizeComment      = float.Parse(valueItem[1]); break;
+                        case "FONT_MATERIAL":       fontSizeMaterial      = float.Parse(valueItem[1]); break;
+                        case "FONT_AMOUNT":         fontSizeAmount        = float.Parse(valueItem[1]); break;
+                        case "FONT_LIMITDATE":      fontSizeLimitDate     = float.Parse(valueItem[1]); break;
+                        case "FONT_STORAGE":        fontSizeStorage       = float.Parse(valueItem[1]); break;
+                        case "FONT_MANIFAC":        fontSizeManifac       = float.Parse(valueItem[1]); break;
+                        case "FONT_COMMNETT":       fontSizeComment       = float.Parse(valueItem[1]); break;
+
+
+                        case "HIGHT_PRODUCT":      hightProductTitle      = float.Parse(valueItem[1]); break;
+                        case "HIGHT_MATERIAL":     hightMaterial          = float.Parse(valueItem[1]); break;
+                        case "HIGHT_AMOUNT":       hightAmount            = float.Parse(valueItem[1]); break;
+                        case "HIGHT_LIMITDATE":    hightLimitDate         = float.Parse(valueItem[1]); break;
+                        case "HIGHT_STORAGE":      hightStorage           = float.Parse(valueItem[1]); break;
+                        case "HIGHT_MANIFAC":      hightManifac           = float.Parse(valueItem[1]); break;
 
                     }
 

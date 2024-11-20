@@ -86,11 +86,25 @@ namespace PrintIngredientsList
             //PrintPreviewDialogオブジェクトの作成
             PrintPreviewDialog ppd = new PrintPreviewDialog();
             //プレビューするPrintDocumentを設定
-            ppd.Document = pd;
 
-            ppd.Size = new Size(600, 480);
+            int x = Properties.Settings.Default.PrintPreviewDlgLocX;
+            int y = Properties.Settings.Default.PrintPreviewDlgLocY;
+            int w = Properties.Settings.Default.PrintPreviewDlgSizeW;
+            int h = Properties.Settings.Default.PrintPreviewDlgSizeH;
+            ppd.SetBounds( x, y, w, h);
+
+            ppd.PrintPreviewControl.Zoom = Properties.Settings.Default.PrintPreviewDlgZoom;
+
+            ppd.Document = pd;
             //印刷プレビューダイアログを表示する
             ppd.ShowDialog();
+
+            //現在位置とサイズを記録
+            Properties.Settings.Default.PrintPreviewDlgLocX = ppd.Bounds.Left;
+            Properties.Settings.Default.PrintPreviewDlgLocY = ppd.Bounds.Top;
+            Properties.Settings.Default.PrintPreviewDlgSizeW = ppd.Bounds.Width;
+            Properties.Settings.Default.PrintPreviewDlgSizeH = ppd.Bounds.Height;
+            Properties.Settings.Default.PrintPreviewDlgZoom = ppd.PrintPreviewControl.Zoom;
 
         }
         /// <summary>
@@ -232,9 +246,9 @@ namespace PrintIngredientsList
 #if true
             //枠描画
 
-            const float Line1Hight = 4;
-            const float Line2Hight = 6;
-            const float MaterialRowHight1 = 20;
+            //const float Line1Hight = 4;
+            //const float Line2Hight = 6;
+            //const float MaterialRowHight1 = 20;
 
 
             var commonDefStorage = commonDefInfo.GetCommonDefData("保存方法", param.storageMethod);
@@ -249,12 +263,12 @@ namespace PrintIngredientsList
 
             //ラベル描画処理
             float nextY = 0;
-            nextY = util.DrawItem("名    称", param.name,                 0,     Line1Hight,        settingData.fontSizeProductTitle);
-            nextY = util.DrawItem("原材料名", productData.rawMaterials,   nextY, MaterialRowHight1, settingData.fontSizMaterial, true);
-            nextY = util.DrawItem("内 容 量", param.amount,               nextY, Line1Hight,        settingData.fontSizAmount);
-            nextY = util.DrawItem("賞味期限", dt.ToLongDateString(),      nextY, Line1Hight,        settingData.fontSizLimitDate);
-            nextY = util.DrawItem("保存方法", commonDefStorage.printText, nextY, Line2Hight,        settingData.fontSizStorage);
-            nextY = util.DrawItem("製 造 者", commonDefManifac.printText, nextY, Line2Hight,        settingData.fontSizManifac);
+            nextY = util.DrawItem("名    称", param.name,                 0,     settingData.hightProductTitle,  settingData.fontSizeProductTitle);
+            nextY = util.DrawItem("原材料名", productData.rawMaterials,   nextY, settingData.hightMaterial,    settingData.fontSizeMaterial, true);
+            nextY = util.DrawItem("内 容 量", param.amount,               nextY, settingData.hightAmount,     settingData.fontSizeAmount);
+            nextY = util.DrawItem("賞味期限", dt.ToLongDateString(),      nextY, settingData.hightAmount,     settingData.fontSizeLimitDate);
+            nextY = util.DrawItem("保存方法", commonDefStorage.printText, nextY, settingData.hightStorage,     settingData.fontSizeStorage);
+            nextY = util.DrawItem("製 造 者", commonDefManifac.printText, nextY, settingData.hightManifac,     settingData.fontSizeManifac);
             nextY = util.DrawItemComment("", productData.comment,         nextY,                    settingData.fontSizeComment, false);
 
 
@@ -290,7 +304,7 @@ namespace PrintIngredientsList
 
         private void txtFontMaterial_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtFontMaterial.Text, out settingData.fontSizMaterial))
+            if (!float.TryParse(txtFontMaterial.Text, out settingData.fontSizeMaterial))
             {
                 ErrMsg("原材料フォントサイズ");
             }
@@ -298,7 +312,7 @@ namespace PrintIngredientsList
 
         private void txtFontAmount_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtFontAmount.Text, out settingData.fontSizAmount))
+            if (!float.TryParse(txtFontAmount.Text, out settingData.fontSizeAmount))
             {
                 ErrMsg("内容量フォントサイズ");
             }
@@ -306,7 +320,7 @@ namespace PrintIngredientsList
 
         private void txtFontValidDays_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtFontValidDays.Text, out settingData.fontSizLimitDate))
+            if (!float.TryParse(txtFontValidDays.Text, out settingData.fontSizeLimitDate))
             {
                 ErrMsg("賞味期限フォントサイズ");
             }
@@ -314,7 +328,7 @@ namespace PrintIngredientsList
 
         private void txtFontSotrage_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtFontSotrage.Text, out settingData.fontSizStorage))
+            if (!float.TryParse(txtFontSotrage.Text, out settingData.fontSizeStorage))
             {
                 ErrMsg("保存方法フォントサイズ");
             }
@@ -322,7 +336,7 @@ namespace PrintIngredientsList
 
         private void txtFontManifucture_TextAlignChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtFontManifucture.Text, out settingData.fontSizManifac))
+            if (!float.TryParse(txtFontManifucture.Text, out settingData.fontSizeManifac))
             {
                 ErrMsg("製造者フォントサイズ");
             }
@@ -336,6 +350,55 @@ namespace PrintIngredientsList
                 ErrMsg("欄外フォントサイズ");
             }
         }
+
+        private void txtHightProductTitle_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtHightProductTitle.Text, out settingData.hightProductTitle))
+            {
+                ErrMsg("名称 高さ");
+            }
+        }
+
+        private void txtHightMaterial_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtHightMaterial.Text, out settingData.hightMaterial))
+            {
+                ErrMsg("原材料 高さ");
+            }
+        }
+
+        private void txtHightAmount_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtHightAmount.Text, out settingData.hightAmount))
+            {
+                ErrMsg("内容量 高さ");
+            }
+        }
+
+        private void txtHightValidDays_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtHightValidDays.Text, out settingData.hightLimitDate))
+            {
+                ErrMsg("賞味期限 高さ");
+            }
+        }
+
+        private void txtHightSotrage_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtHightSotrage.Text, out settingData.hightStorage))
+            {
+                ErrMsg("製造者 高さ");
+            }
+        }
+
+        private void txtHightManifucture_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtHightManifucture.Text, out settingData.hightManifac))
+            {
+                ErrMsg("欄外 高さ");
+            }
+        }
+
     }
 
 }

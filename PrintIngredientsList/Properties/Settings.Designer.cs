@@ -82,5 +82,65 @@ namespace PrintIngredientsList.Properties {
                 this["SplitDistance"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PrintPreviewDlgLocX {
+            get {
+                return ((int)(this["PrintPreviewDlgLocX"]));
+            }
+            set {
+                this["PrintPreviewDlgLocX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PrintPreviewDlgLocY {
+            get {
+                return ((int)(this["PrintPreviewDlgLocY"]));
+            }
+            set {
+                this["PrintPreviewDlgLocY"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PrintPreviewDlgSizeW {
+            get {
+                return ((int)(this["PrintPreviewDlgSizeW"]));
+            }
+            set {
+                this["PrintPreviewDlgSizeW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PrintPreviewDlgSizeH {
+            get {
+                return ((int)(this["PrintPreviewDlgSizeH"]));
+            }
+            set {
+                this["PrintPreviewDlgSizeH"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double PrintPreviewDlgZoom {
+            get {
+                return ((double)(this["PrintPreviewDlgZoom"]));
+            }
+            set {
+                this["PrintPreviewDlgZoom"] = value;
+            }
+        }
     }
 }

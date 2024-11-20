@@ -22,6 +22,7 @@ using NPOI.OpenXmlFormats.Shared;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using static NPOI.HSSF.Util.HSSFColor;
 using System.Diagnostics;
+using NPOI.OpenXmlFormats.Wordprocessing;
 
 
 namespace PrintIngredientsList
@@ -36,6 +37,19 @@ namespace PrintIngredientsList
 
         string prevDataFilePath;
         string settingDataFilePath;
+
+        enum ColumnIndex
+        {
+            COL_CHECK =0,
+            COL_TYPE,
+            COL_NAME,
+            COL_NUM,
+            COL_LIMIT_DATE,
+            COL_AMOUNT,
+            COL_STORGE,
+            COL_ALLERGY,
+            COL_MANIFAC
+        }
 
 
         PrintSettingData settingData = new PrintSettingData();
@@ -136,12 +150,20 @@ namespace PrintIngredientsList
 
 
             txtFontProductTitle.Text    = data.fontSizeProductTitle.ToString("F0");
-            txtFontMaterial.Text        = data.fontSizMaterial.ToString("F0");
-            txtFontAmount.Text          = data.fontSizAmount.ToString("F0");
-            txtFontValidDays.Text       = data.fontSizLimitDate.ToString("F0");
-            txtFontSotrage.Text         = data.fontSizStorage.ToString("F0");
-            txtFontManifucture.Text     = data.fontSizManifac.ToString("F0");
+            txtFontMaterial.Text        = data.fontSizeMaterial.ToString("F0");
+            txtFontAmount.Text          = data.fontSizeAmount.ToString("F0");
+            txtFontValidDays.Text       = data.fontSizeLimitDate.ToString("F0");
+            txtFontSotrage.Text         = data.fontSizeStorage.ToString("F0");
+            txtFontManifucture.Text     = data.fontSizeManifac.ToString("F0");
             txtFontComment.Text         = data.fontSizeComment.ToString("F0");
+
+
+            txtHightProductTitle.Text   = data.hightProductTitle.ToString("F0");
+            txtHightMaterial.Text       = data.hightMaterial.ToString("F0");
+            txtHightAmount.Text         = data.hightAmount.ToString("F0");
+            txtHightValidDays.Text      = data.hightLimitDate.ToString("F0");
+            txtHightSotrage.Text        = data.hightStorage.ToString("F0");
+            txtHightManifucture.Text    = data.hightManifac.ToString("F0");
 
         }
         private void LoadUserSetting()
@@ -176,6 +198,13 @@ namespace PrintIngredientsList
             splitContainer1.SplitterDistance = SplitDistance;
 
 
+            //印刷プレビュー画面位置とサイズ補正
+            if (Properties.Settings.Default.PrintPreviewDlgLocX <0) Properties.Settings.Default.PrintPreviewDlgLocX = 0;
+            if (Properties.Settings.Default.PrintPreviewDlgLocY < 0) Properties.Settings.Default.PrintPreviewDlgLocY = 0;
+            if (Properties.Settings.Default.PrintPreviewDlgSizeW < Const.previewDlgBasicWidth) Properties.Settings.Default.PrintPreviewDlgSizeW = Const.previewDlgBasicWidth;
+            if (Properties.Settings.Default.PrintPreviewDlgSizeH < Const.previewDlgBasicHeight) Properties.Settings.Default.PrintPreviewDlgSizeH = Const.previewDlgBasicHeight;
+
+
         }
         private void SaveUserSetting()
         {
@@ -197,7 +226,7 @@ namespace PrintIngredientsList
         /// <summary>
         /// 商品基本データファイル読み込み
         /// </summary>
-        private void ReadDatabase()
+        private int ReadDatabase()
         {
             string dirPath = System.IO.Path.Combine(exePath, Const.dataBaseFolder);
 
@@ -205,7 +234,7 @@ namespace PrintIngredientsList
             productBaseInfo.ReadExcel(path);
 
             path = System.IO.Path.Combine(dirPath, Const.CommonDefFileName);
-            commonDefInfo.ReadExcel(path);
+             return commonDefInfo.ReadExcel(path);
 
         }
 
@@ -408,7 +437,7 @@ namespace PrintIngredientsList
 
             var row = gridList.Rows[e.RowIndex];
             //枚数
-            if (e.ColumnIndex == 2)
+            if (e.ColumnIndex == (int)ColumnIndex.COL_NUM)
             {
                 var editParam = (EditProductData)row.Tag;
                 string sValue = row.Cells[e.ColumnIndex].Value.ToString();
@@ -649,6 +678,20 @@ namespace PrintIngredientsList
         private void button11_Click(object sender, EventArgs e)
         {
             gridList.Rows.Clear();
+        }
+
+        //商品データ再読み込み
+        private void toolBtnReload_Click(object sender, EventArgs e)
+        {
+            if(ReadDatabase()!=0)
+            {
+                MessageBox.Show("読み込みに失敗しました。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }else
+            {
+                MessageBox.Show("商品データを再読み込みしました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            UpdatePreview();
         }
 
     }

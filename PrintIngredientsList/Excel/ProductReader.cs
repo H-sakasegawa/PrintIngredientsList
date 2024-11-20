@@ -91,6 +91,7 @@ namespace ExcelReaderUtility
                 return -1;
             }
 
+
             string exePath = FormMain.GetExePath();
 
             var workbook = ExcelReader.GetWorkbook(excelFilePath, "xlsx");
@@ -99,6 +100,11 @@ namespace ExcelReaderUtility
                 MessageBox.Show($"{excelFilePath}\nを開けません");
                 return -1;
             }
+
+            //データクリア
+            lstProduct.Clear();
+    
+
             XSSFSheet sheet = (XSSFSheet)((XSSFWorkbook)workbook).GetSheetAt(0);
 
             bool bReadTitle = false;

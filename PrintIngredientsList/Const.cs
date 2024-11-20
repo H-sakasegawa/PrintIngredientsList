@@ -28,6 +28,9 @@ namespace PrintIngredientsList
 
         public const string defaultFontName = "Meiryo UI";
 
+        public const int previewDlgBasicWidth = 400;
+        public const int previewDlgBasicHeight = 600;
+
 
     }
 }

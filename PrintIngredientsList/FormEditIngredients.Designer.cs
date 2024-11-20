@@ -129,6 +129,7 @@
             this.txtMaterial.Location = new System.Drawing.Point(69, 63);
             this.txtMaterial.Multiline = true;
             this.txtMaterial.Name = "txtMaterial";
+            this.txtMaterial.ReadOnly = true;
             this.txtMaterial.Size = new System.Drawing.Size(317, 82);
             this.txtMaterial.TabIndex = 5;
             // 
