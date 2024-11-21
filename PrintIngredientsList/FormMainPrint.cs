@@ -211,18 +211,22 @@ namespace PrintIngredientsList
                 DrawLabel(data, e.Graphics, drawX, drawY);
                 printDataIndex++;//次のラベル
 
-                drawX += LabelBlockWidth;
-                if (drawX + LabelBlockWidth >= A4WidthMM)
+                if( printDataIndex< lstPrintData.Count)
                 {
-                    drawY += LabelBlockHeiht;
-                    drawX = startX;
-
-                    if( drawY + LabelBlockHeiht > A4HeightMM)
+                    
+                    drawX += LabelBlockWidth;
+                    if (drawX + LabelBlockWidth >= A4WidthMM)
                     {
-                        //改ページ
-                        e.HasMorePages = true;
-                        return;
-                    }
+                        drawY += LabelBlockHeiht;
+                        drawX = startX;
+
+                        if( drawY + LabelBlockHeiht > A4HeightMM)
+                        {
+                            //改ページ
+                            e.HasMorePages = true;
+                            return;
+                        }
+                  }
                 }
             }
             e.HasMorePages = false;

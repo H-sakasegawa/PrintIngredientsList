@@ -1,5 +1,6 @@
 ﻿using ExcelReaderUtility;
 using MathNet.Numerics.Distributions;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using static ExcelReaderUtility.ProductReader;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace PrintIngredientsList
 {
