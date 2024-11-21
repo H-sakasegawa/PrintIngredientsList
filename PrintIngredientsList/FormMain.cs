@@ -38,6 +38,9 @@ namespace PrintIngredientsList
         string prevDataFilePath;
         string settingDataFilePath;
 
+        /// <summary>
+        /// グリッド列インデックス
+        /// </summary>
         enum ColumnIndex
         {
             COL_CHECK =0,
@@ -48,7 +51,6 @@ namespace PrintIngredientsList
             COL_LIMIT_DATE,
             COL_AMOUNT,
             COL_STORGE,
-            COL_ALLERGY,
             COL_MANIFAC
         }
 
@@ -525,7 +527,6 @@ namespace PrintIngredientsList
                         return -1;
                     }
 
-                    bool bApplyAll = false;
                     //前回保存されたIDに該当するものが、商品データベースにあるかをチェック
                     var productData = productBaseInfo.GetProductDataByID(data.id);
                     if (productData == null)
@@ -545,6 +546,8 @@ namespace PrintIngredientsList
                         bExistUnknownData = true;
                         continue;
                     }
+                    //商品名はデータベースの内容で更新
+                    data.name = productData.name;
                     //種別名はデータベースの内容で更新
                     data.kind = productData.kind;
 
