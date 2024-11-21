@@ -28,20 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gridList = new System.Windows.Forms.DataGridView();
-            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.種別 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPrintNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLImitDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStorage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAllergy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colManufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -114,6 +105,15 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolBtnSave = new System.Windows.Forms.ToolStripButton();
             this.toolBtnReload = new System.Windows.Forms.ToolStripButton();
+            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.種別 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrintNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLImitDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStorage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colManufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -150,24 +150,24 @@
             // 
             this.gridList.AllowUserToAddRows = false;
             this.gridList.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCheck,
+            this.Column1,
             this.種別,
             this.colName,
             this.colPrintNum,
             this.colLImitDate,
             this.colAmount,
             this.colStorage,
-            this.colAllergy,
             this.colManufacturer});
             this.gridList.Location = new System.Drawing.Point(13, 16);
             this.gridList.MultiSelect = false;
@@ -182,69 +182,6 @@
             this.gridList.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.gridList_CellValidating);
             this.gridList.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridList_CellValueChanged);
             this.gridList.SelectionChanged += new System.EventHandler(this.gridList_SelectionChanged);
-            // 
-            // colCheck
-            // 
-            this.colCheck.HeaderText = "選択";
-            this.colCheck.Name = "colCheck";
-            this.colCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colCheck.Width = 40;
-            // 
-            // 種別
-            // 
-            this.種別.HeaderText = "種別";
-            this.種別.Name = "種別";
-            this.種別.ReadOnly = true;
-            this.種別.Width = 45;
-            // 
-            // colName
-            // 
-            this.colName.HeaderText = "名称";
-            this.colName.Name = "colName";
-            this.colName.ReadOnly = true;
-            this.colName.Width = 150;
-            // 
-            // colPrintNum
-            // 
-            dataGridViewCellStyle5.NullValue = null;
-            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle5;
-            this.colPrintNum.HeaderText = "枚数";
-            this.colPrintNum.Name = "colPrintNum";
-            this.colPrintNum.Width = 50;
-            // 
-            // colLImitDate
-            // 
-            dataGridViewCellStyle6.Format = "d";
-            dataGridViewCellStyle6.NullValue = null;
-            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle6;
-            this.colLImitDate.HeaderText = "賞味期限";
-            this.colLImitDate.Name = "colLImitDate";
-            this.colLImitDate.ReadOnly = true;
-            // 
-            // colAmount
-            // 
-            this.colAmount.HeaderText = "内容量";
-            this.colAmount.Name = "colAmount";
-            this.colAmount.ReadOnly = true;
-            // 
-            // colStorage
-            // 
-            this.colStorage.HeaderText = "保存方法";
-            this.colStorage.Name = "colStorage";
-            this.colStorage.ReadOnly = true;
-            // 
-            // colAllergy
-            // 
-            this.colAllergy.HeaderText = "アレルギー";
-            this.colAllergy.Name = "colAllergy";
-            this.colAllergy.ReadOnly = true;
-            // 
-            // colManufacturer
-            // 
-            this.colManufacturer.HeaderText = "製造者";
-            this.colManufacturer.Name = "colManufacturer";
-            this.colManufacturer.ReadOnly = true;
             // 
             // tabControl1
             // 
@@ -1022,6 +959,72 @@
             this.toolBtnReload.Text = "toolStripButton1";
             this.toolBtnReload.Click += new System.EventHandler(this.toolBtnReload_Click);
             // 
+            // colCheck
+            // 
+            this.colCheck.HeaderText = "選択";
+            this.colCheck.Name = "colCheck";
+            this.colCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colCheck.Width = 40;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "ID";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 50;
+            // 
+            // 種別
+            // 
+            this.種別.HeaderText = "種別";
+            this.種別.Name = "種別";
+            this.種別.ReadOnly = true;
+            this.種別.Width = 60;
+            // 
+            // colName
+            // 
+            this.colName.HeaderText = "名称";
+            this.colName.Name = "colName";
+            this.colName.ReadOnly = true;
+            this.colName.Width = 150;
+            // 
+            // colPrintNum
+            // 
+            dataGridViewCellStyle2.NullValue = null;
+            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colPrintNum.HeaderText = "枚数";
+            this.colPrintNum.Name = "colPrintNum";
+            this.colPrintNum.Width = 50;
+            // 
+            // colLImitDate
+            // 
+            dataGridViewCellStyle3.Format = "d";
+            dataGridViewCellStyle3.NullValue = null;
+            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colLImitDate.HeaderText = "賞味期限";
+            this.colLImitDate.Name = "colLImitDate";
+            this.colLImitDate.ReadOnly = true;
+            // 
+            // colAmount
+            // 
+            this.colAmount.HeaderText = "内容量";
+            this.colAmount.Name = "colAmount";
+            this.colAmount.ReadOnly = true;
+            this.colAmount.Width = 50;
+            // 
+            // colStorage
+            // 
+            this.colStorage.HeaderText = "保存方法";
+            this.colStorage.Name = "colStorage";
+            this.colStorage.ReadOnly = true;
+            this.colStorage.Width = 70;
+            // 
+            // colManufacturer
+            // 
+            this.colManufacturer.HeaderText = "製造者";
+            this.colManufacturer.Name = "colManufacturer";
+            this.colManufacturer.ReadOnly = true;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1124,15 +1127,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TextBox txtPrintTopGap;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colCheck;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 種別;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPrintNum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colLImitDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStorage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAllergy;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colManufacturer;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button10;
@@ -1162,6 +1156,15 @@
         private System.Windows.Forms.TextBox txtHightMaterial;
         private System.Windows.Forms.TextBox txtHightProductTitle;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colCheck;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 種別;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPrintNum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLImitDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStorage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colManufacturer;
     }
 }
 

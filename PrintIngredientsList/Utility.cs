@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static ExcelReaderUtility.ProductReader;
 
 namespace PrintIngredientsList
@@ -20,6 +21,19 @@ namespace PrintIngredientsList
             
             return today.Add(TimeSpan.FromDays(days - 1));
 
+        }
+
+        public static void MessageError(string msg)
+        {
+            MessageBox.Show(msg, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public static void MessageInfo(string msg, string title="情報")
+        {
+            MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        public static DialogResult MessageConfirm(string msg, string title)
+        {
+            return MessageBox.Show(msg, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
         }
     }
 }

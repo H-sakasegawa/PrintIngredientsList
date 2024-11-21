@@ -16,6 +16,7 @@ using NPOI.HSSF.UserModel;
 //拡張xlsxバージョン
 using NPOI.XSSF;
 using NPOI.XSSF.UserModel;
+using PrintIngredientsList;
 
 namespace ExcelReaderUtility
 {
@@ -142,7 +143,7 @@ namespace ExcelReaderUtility
             }
             catch
             {
-                MessageBox.Show(string.Format("データの書き込みに失敗しました。\nファイルが書き込み不可となっています\n{0}", filepath));
+                Utility.MessageError(string.Format("データの書き込みに失敗しました。\nファイルが書き込み不可となっています\n{0}", filepath));
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using ExcelReaderUtility;
+using ExtendedNumerics.Helpers;
 using MathNet.Numerics.Distributions;
 using NPOI.SS.Formula.Functions;
 using System;
@@ -73,7 +74,7 @@ namespace PrintIngredientsList
 
             if (editData != null)
             {
-                var productData = productBaseInfo.GetProductDataByName(editData.name);
+                var productData = productBaseInfo.GetProductDataByID(editData.id);
 
 
                 cmbProduct.SelectedItem = editData.name;
@@ -104,9 +105,9 @@ namespace PrintIngredientsList
             cmbProduct.Items.Clear();
             //商品名コンボボックス
             var lstProduct = productBaseInfo.GetProductList(cmbKind.Text);
-            foreach (var s in lstProduct)
+            foreach (var product in lstProduct)
             {
-                cmbProduct.Items.Add(s);
+                cmbProduct.Items.Add(product);
             }
             if (cmbProduct.Items.Count > 0) cmbProduct.SelectedIndex = 0;
 
@@ -120,7 +121,7 @@ namespace PrintIngredientsList
         {
             if (cmbProduct.SelectedIndex < 0) return;
 
-            var productData = productBaseInfo.GetProductDataByName(cmbProduct.Text);
+            var productData = (ProductData)cmbProduct.Items[cmbProduct.SelectedIndex];
 
             //成分
             txtMaterial.Text = productData.rawMaterials;
@@ -195,7 +196,7 @@ namespace PrintIngredientsList
             int value = 0;
             if (int.TryParse(txtNumOfSheets.Text, out value) == false)
             {
-                MessageBox.Show("枚数の値が不正な値です", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Utility.MessageError("枚数の値が不正な値です");
                 return;
             }
 
@@ -210,20 +211,17 @@ namespace PrintIngredientsList
         public EditProductData GetEditParam()
         {
 
-            var productData = productBaseInfo.GetProductDataByName(cmbProduct.Text);
+            var productData = (ProductData)cmbProduct.Items[cmbProduct.SelectedIndex];
 
             EditProductData editParam = new EditProductData();
 
+            editParam.id = productData.id;
             editParam.kind = productData.kind;
-            editParam.name = cmbProduct.Text;
-            //editParam.rawMaterials = txtMaterial.Text;
+            editParam.name = productData.name;
             editParam.amount = txtAmount.Text;
             editParam.validDays = (int)txtValidDays.Value;
-            //editParam.dtExpirationDate = timePicker.Value;
             editParam.storageMethod = cmbStorage.Text;
-            //editParam.allergy = txtAllergy.Text;
             editParam.manufacturer = cmbManufacture.Text;
-            //editParam.comment = txtComment.Text;
 
             editParam.numOfSheets = int.Parse(txtNumOfSheets.Text);
 

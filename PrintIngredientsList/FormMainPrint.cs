@@ -258,7 +258,7 @@ namespace PrintIngredientsList
             var commonDefStorage = commonDefInfo.GetCommonDefData("保存方法", param.storageMethod);
             var commonDefManifac = commonDefInfo.GetCommonDefData("製造者", param.manufacturer);
 
-            var productData = productBaseInfo.GetProductDataByName(param.name);
+            var productData = productBaseInfo.GetProductDataByID(param.id);
             DateTime dt = Utility.GetValidDate(param.validDays);
 
             //DrawUtil2 util = new DrawUtil2(gPreview, 2, 2);

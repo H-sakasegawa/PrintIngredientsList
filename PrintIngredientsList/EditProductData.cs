@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExcelReaderUtility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,10 @@ namespace PrintIngredientsList
 {
     public class EditProductData
     {
+        /// <summary>
+        /// ID
+        /// </summary>
+        public string id;
          /// <summary>
         /// 分類
         /// </summary>
@@ -62,18 +67,25 @@ namespace PrintIngredientsList
         }
         public EditProductData(string parameter)
         {
-            Parse(parameter);
+            if(Parse(parameter)!=0)
+            {
+                throw new Exception();
+            }
         }
 
 
-        public object[] GetParams()
+        public object[] GetParams(ProductReader productReader)
         {
+
+            var product = productReader.GetProductDataByID(id);
+
             //グリッドに表示する文字の一覧
             DateTime dt = Utility.GetValidDate(validDays);
             return new object[]
             {
-                kind,
-                name,
+                id,
+                product.kind,
+                product.name,
                 numOfSheets,
                 dt.ToShortDateString(), //日数ではなく、日付文字列
                 amount,
@@ -87,7 +99,8 @@ namespace PrintIngredientsList
 
         public override string ToString()
         {
-            return $"kind:{kind}" +
+            return $"id:{id}" +
+                   $",kind:{kind}" +
                    $",name:{name}" +
                    $",numOfSheets:{numOfSheets}" +
                    $",amount:{amount}" +
@@ -97,10 +110,15 @@ namespace PrintIngredientsList
                    ;
 
         }
-        public void Parse(string s)
+        public int Parse(string s)
         {
             var ary = s.Split(',');
 
+            id = GetValue(ary, "id", "");
+            if(string.IsNullOrEmpty(id))
+            {
+                return -1;
+            }
             kind = GetValue(ary, "kind", "");
             name = GetValue(ary, "name", "");
             numOfSheets = int.Parse(GetValue(ary, "numOfSheets", "1"));
@@ -109,7 +127,7 @@ namespace PrintIngredientsList
             storageMethod = GetValue(ary, "storageMethod", "");
             manufacturer = GetValue(ary, "manufacturer", "");
 
-
+            return 0;
         }
 
         private string GetValue(string[] ary, string key, string sDefault=null)

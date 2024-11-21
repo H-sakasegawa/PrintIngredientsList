@@ -41,6 +41,7 @@ namespace PrintIngredientsList
         enum ColumnIndex
         {
             COL_CHECK =0,
+            COL_ID,
             COL_TYPE,
             COL_NAME,
             COL_NUM,
@@ -100,7 +101,10 @@ namespace PrintIngredientsList
 
 
             //商品基本データファイル読み込み
-            ReadDatabase();
+            if(ReadDatabase()!=0)
+            {
+                Utility.MessageError("読み込みに失敗しました。");
+            }
 
             //前回の編集データの読み込み
             ReadSavedPath();
@@ -111,16 +115,6 @@ namespace PrintIngredientsList
             //印刷設定をUIに設定
             SettingDataToUI(settingData);
 
-            //if(lstErrName.Count>0)
-            //{
-            //    string s="";
-            //    foreach( var name in lstErrName)
-            //    {
-            //        if (!string.IsNullOrEmpty(s)) s += "\n";
-            //        s += name;
-            //    }
-            //    MessageBox.Show($"保存データに登録されている以下の商品がデータベースに見つかりませんでした。\n{s}", "警告",MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
 
             //ユーザ固有の設定読み込み
             LoadUserSetting();
@@ -229,12 +223,18 @@ namespace PrintIngredientsList
         private int ReadDatabase()
         {
             string dirPath = System.IO.Path.Combine(exePath, Const.dataBaseFolder);
+            string path = System.IO.Path.Combine(dirPath, Const.CommonDefFileName);
+            
+            commonDefInfo.ReadExcel(path);
 
-            string path = System.IO.Path.Combine(dirPath, Const.ProductFileName);
-            productBaseInfo.ReadExcel(path);
 
-            path = System.IO.Path.Combine(dirPath, Const.CommonDefFileName);
-             return commonDefInfo.ReadExcel(path);
+            path = System.IO.Path.Combine(dirPath, Const.ProductFileName);
+            if(productBaseInfo.ReadExcel(path)!=0)
+            {
+                return -1;
+            }
+
+            return 0;
 
         }
 
@@ -294,7 +294,7 @@ namespace PrintIngredientsList
             }
             if (lstCheckedRow.Count > 0)
             {
-                if (MessageBox.Show("選択されている項目を削除します。\nよろしいですか？", "削除", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
+                if (Utility.MessageConfirm("選択されている項目を削除します。\nよろしいですか？", "削除") != DialogResult.OK)
                 {
                     return;
                 }
@@ -325,7 +325,7 @@ namespace PrintIngredientsList
                 false //印刷チェックボックス
             };
 
-            var paramItems = data.GetParams();
+            var paramItems = data.GetParams(productBaseInfo);
 
             int index = 1;
             foreach (var p in paramItems)
@@ -352,7 +352,7 @@ namespace PrintIngredientsList
                 false //印刷チェックボックス
             };
 
-            var paramItems = data.GetParams();
+            var paramItems = data.GetParams(productBaseInfo);
 
             foreach (var p in paramItems)
             {
@@ -462,7 +462,7 @@ namespace PrintIngredientsList
                 if (!int.TryParse(sValue, out value))
                 {
 
-                    MessageBox.Show("不正な値です", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Utility.MessageError("不正な値です");
                     e.Cancel = true;
                 }
             }
@@ -506,6 +506,8 @@ namespace PrintIngredientsList
             {
                 return 0;
             }
+            bool bExistUnknownData = false;
+
             using (var sr = new StreamReader(prevDataFilePath))
             {
                 while (true)
@@ -513,31 +515,46 @@ namespace PrintIngredientsList
                     string s = sr.ReadLine();
                     if (s == null) break;
 
-                    EditProductData data = new EditProductData(s);
+                    EditProductData data = null;
+                    try
+                    {
+                        data = new EditProductData(s);
+                    }catch
+                    {
+                        Utility.MessageError($"保存データが正しくありません。\n保存データの読み込みをSKIPします。");
+                        return -1;
+                    }
 
                     bool bApplyAll = false;
-                    //前回保存された商品名に該当するものが、商品データベースにあるかをチェック
-                    var productData = productBaseInfo.GetProductDataByName(data.name);
+                    //前回保存されたIDに該当するものが、商品データベースにあるかをチェック
+                    var productData = productBaseInfo.GetProductDataByID(data.id);
                     if (productData == null)
                     {
-                        if (!bApplyAll)
-                        {
-                            FormSaveDatReferctor frm = new FormSaveDatReferctor(productBaseInfo, data);
-                            frm.ShowDialog();
-                            if (frm.result == 0)
-                            {
-                                bApplyAll = frm.bApplyAll;
-                                continue;
-                            }
-                            data.name = frm.selectName;
-                            productData = productBaseInfo.GetProductDataByName(frm.selectName);
-                        }
+                        //if (!bApplyAll)
+                        //{
+                        //    FormSaveDatReferctor frm = new FormSaveDatReferctor(productBaseInfo, data);
+                        //    frm.ShowDialog();
+                        //    if (frm.result == 0)
+                        //    {
+                        //        bApplyAll = frm.bApplyAll;
+                        //        continue;
+                        //    }
+                        //    data.name = frm.selectName;
+                        //    productData = productBaseInfo.GetProductDataByID(frm.selectName);
+                        //}
+                        bExistUnknownData = true;
+                        continue;
                     }
                     //種別名はデータベースの内容で更新
                     data.kind = productData.kind;
 
                     EditParamToGridAdd(data, false);
                 }
+            }
+
+            if(bExistUnknownData)
+            {
+                Utility.MessageInfo("前回編集データに商品データベースに登録されていない商品がありました。");
             }
 
             if (gridList.Rows.Count > 0)
@@ -654,7 +671,7 @@ namespace PrintIngredientsList
         }
         void ErrMsg(string itemName)
         {
-            MessageBox.Show($"{itemName}に不正な文字が入力されました", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Utility.MessageError($"{itemName}に不正な文字が入力されました");
 
         }
 
@@ -677,6 +694,11 @@ namespace PrintIngredientsList
 
         private void button11_Click(object sender, EventArgs e)
         {
+            if (Utility.MessageConfirm("編集データをリセとします。\nよろしいですか？", "リセット") != DialogResult.OK)
+            {
+                return;
+            }
+
             gridList.Rows.Clear();
         }
 
@@ -685,10 +707,10 @@ namespace PrintIngredientsList
         {
             if(ReadDatabase()!=0)
             {
-                MessageBox.Show("読み込みに失敗しました。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Utility.MessageError("読み込みに失敗しました。");
             }else
             {
-                MessageBox.Show("商品データを再読み込みしました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Utility.MessageInfo("商品データを再読み込みしました。");
             }
 
             UpdatePreview();

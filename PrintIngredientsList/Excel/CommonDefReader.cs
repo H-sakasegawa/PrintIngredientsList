@@ -55,7 +55,7 @@ namespace ExcelReaderUtility
             var workbook = ExcelReader.GetWorkbook(excelFilePath, "xlsx");
             if( workbook==null)
             {
-                MessageBox.Show($"{excelFilePath}\nを開けません");
+                Utility.MessageError($"{excelFilePath}\nを開けません");
                 return -1;
             }
             XSSFSheet sheet = (XSSFSheet)((XSSFWorkbook)workbook).GetSheetAt(0);

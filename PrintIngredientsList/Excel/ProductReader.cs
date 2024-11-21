@@ -22,7 +22,10 @@ namespace ExcelReaderUtility
 
         public class ProductData
         {
-  
+            /// <summary>
+            /// ID(JANコード）
+            /// </summary>
+            public string id;
             /// <summary>
             /// 分類
             /// </summary>
@@ -59,8 +62,14 @@ namespace ExcelReaderUtility
             /// 欄外
             /// </summary>
             public string comment;
+
+            public override string ToString()
+            {
+                return $"({id}) {name}";
+            }
         }
 
+        const string id = "ID";
         const string kind = "分類";
         const string name = "名称";
         const string rawMaterials = "原材料";
@@ -74,7 +83,7 @@ namespace ExcelReaderUtility
         //Exel 列データフォーマット
         string[] colDataNames = new string[]
         {
-            kind,name,rawMaterials,amount,validDays,storageMethod,allergy,manufacturer,comment
+            id,kind,name,rawMaterials,amount,validDays,storageMethod,allergy,manufacturer,comment
         };
 
         private Dictionary<string, int> dicColmunIndex = new Dictionary<string, int>();
@@ -97,7 +106,7 @@ namespace ExcelReaderUtility
             var workbook = ExcelReader.GetWorkbook(excelFilePath, "xlsx");
             if( workbook==null)
             {
-                MessageBox.Show($"{excelFilePath}\nを開けません");
+                Utility.MessageError($"{excelFilePath}\nを開けません");
                 return -1;
             }
 
@@ -132,7 +141,7 @@ namespace ExcelReaderUtility
                             int index = lstRowData.FindIndex(x => string.Compare(x.Text, name, true) == 0);
                             if( index<0)
                             {
-                                MessageBox.Show($"商品データベースに「{name}」項目が見つかりません。");
+                                Utility.MessageError($"商品データベースに「{name}」項目が見つかりません。");
                                 return -1;
                             }
 
@@ -148,6 +157,7 @@ namespace ExcelReaderUtility
 
                         ProductData data = new ProductData();
 
+                        data.id             = lstRowData[dicColmunIndex[id]].Text;
                         data.kind           = lstRowData[dicColmunIndex[kind]].Text;
                         data.name           = lstRowData[dicColmunIndex[name]].Text;
                         data.rawMaterials   = lstRowData[dicColmunIndex[rawMaterials]].Text;
@@ -158,6 +168,15 @@ namespace ExcelReaderUtility
                         data.manufacturer   = lstRowData[dicColmunIndex[manufacturer]].Text;
                         data.comment        = lstRowData[dicColmunIndex[comment]].Text;
 
+
+                        var wk = lstProduct.Find(x => x.id == data.id);
+
+                        if (wk != null)
+                        {
+                            //IDの重複
+                            Utility.MessageError($"商品データベースに重複したIDがあります。\n({wk.id}) {wk.name}\n({data.id}) {data.name}\n\n重複しないIDを設定してください");
+                            return -1;
+                        }
                         lstProduct.Add(data);
 
                     }
@@ -212,7 +231,7 @@ namespace ExcelReaderUtility
         /// 商品名一覧取得
         /// </summary>
         /// <returns></returns>
-        public string[] GetProductList(string kind)
+        public List<ProductData> GetProductList(string kind)
         {
             List<ProductData> lst;
             if (kind == Const.SelectAll)
@@ -223,17 +242,17 @@ namespace ExcelReaderUtility
             {
                 lst = lstProduct.FindAll(x => x.kind == kind);
             }
-            return lst.Select(x => x.name).Distinct().ToArray();
+            return lst;
         }
         /// <summary>
-        /// 商品名称からその登録データを取得
+        /// 商品IDからその登録データを取得
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public ProductData GetProductDataByName( string name)
+        public ProductData GetProductDataByID( string id)
         {
-            if( string.IsNullOrEmpty(name)) return null;    
-            return lstProduct.FirstOrDefault(x => x.name == name);
+            if( string.IsNullOrEmpty(id)) return null;    
+            return lstProduct.FirstOrDefault(x => x.id == id);
         }
 
     }
