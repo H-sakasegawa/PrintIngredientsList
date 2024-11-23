@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using NPOI.SS.Formula.Functions;
+using ExcelReaderUtility;
 
 namespace PrintIngredientsList
 {
@@ -29,15 +30,10 @@ namespace PrintIngredientsList
             public PrintType printType;
         }
 
+        List<EditProductData> lstPrintData = new List<EditProductData>();
+        int printDataIndex = 0;
+        bool bPrintStartPositionning = false;
 
-        private int MILLI2POINT(float milli)
-        {
-            return (int)(milli / 0.352777);
-        }
-        private float POINT2MILLI(int point)
-        {
-            return (float)(point * 0.352777);
-        }
 
         /// <summary>
         /// 印刷ドキュメント情報作成
@@ -64,12 +60,10 @@ namespace PrintIngredientsList
             pd.PrintPage +=
                 new System.Drawing.Printing.PrintPageEventHandler(pd_PrintPage);
 
+            //印刷開始位置調整済みフラグをリセット
+            bPrintStartPositionning = false;
             return pd;
         }
-
-
-        List<EditProductData> lstPrintData = new List<EditProductData>();
-        int printDataIndex = 0;
 
         /// <summary>
         /// プレビュー
@@ -179,7 +173,7 @@ namespace PrintIngredientsList
             {
                 DrawUtil2 util = new DrawUtil2(e.Graphics, settingData);
                 System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.Black, (float)0.1);
-                pen.DashStyle =  DashStyle.Dash;
+                pen.DashStyle = DashStyle.Dash;
 
                 PointF pnt1, pnt2;
 
@@ -203,7 +197,24 @@ namespace PrintIngredientsList
 
             float drawX = startX;
             float drawY = startY;
-            while(printDataIndex< lstPrintData.Count)
+
+            if (bPrintStartPositionning == false)
+            {
+                //印刷開始位置の1つ手前まで座標を進める（１ページ目のみ）
+                for (int iPos = 0; iPos < settingData.printStartPos - 1; iPos++)
+                {
+                    drawX += LabelBlockWidth;
+                    if (drawX + LabelBlockWidth >= A4WidthMM)
+                    {
+                        drawY += LabelBlockHeiht;
+                        drawX = startX;
+                    }
+
+                }
+                //印刷開始位置調整済みフラグセット
+                bPrintStartPositionning = true;
+            }
+            while (printDataIndex< lstPrintData.Count)
             {
                 EditProductData data = lstPrintData[printDataIndex];
 
@@ -226,7 +237,7 @@ namespace PrintIngredientsList
                             e.HasMorePages = true;
                             return;
                         }
-                  }
+                    }
                 }
             }
             e.HasMorePages = false;
@@ -247,16 +258,9 @@ namespace PrintIngredientsList
         {
 
             Pen pen = new Pen(Color.Black, (float)0.1);
-#if true
-            //枠描画
 
-            //const float Line1Hight = 4;
-            //const float Line2Hight = 6;
-            //const float MaterialRowHight1 = 20;
-
-
-            var commonDefStorage = commonDefInfo.GetCommonDefData("保存方法", param.storageMethod);
-            var commonDefManifac = commonDefInfo.GetCommonDefData("製造者", param.manufacturer);
+            var commonDefStorage = commonDefInfo.GetCommonDefData(CommonDeftReader.keyStorage, param.storageMethod);
+            var commonDefManifac = commonDefInfo.GetCommonDefData(CommonDeftReader.keyManifacture, param.manufacturer);
 
             var productData = productBaseInfo.GetProductDataByID(param.id);
             DateTime dt = Utility.GetValidDate(param.validDays);
@@ -268,26 +272,12 @@ namespace PrintIngredientsList
             //ラベル描画処理
             float nextY = 0;
             nextY = util.DrawItem("名    称", param.name,                 0,     settingData.hightProductTitle,  settingData.fontSizeProductTitle);
-            nextY = util.DrawItem("原材料名", productData.rawMaterials,   nextY, settingData.hightMaterial,    settingData.fontSizeMaterial, true);
-            nextY = util.DrawItem("内 容 量", param.amount,               nextY, settingData.hightAmount,     settingData.fontSizeAmount);
-            nextY = util.DrawItem("賞味期限", dt.ToLongDateString(),      nextY, settingData.hightAmount,     settingData.fontSizeLimitDate);
-            nextY = util.DrawItem("保存方法", commonDefStorage.printText, nextY, settingData.hightStorage,     settingData.fontSizeStorage);
-            nextY = util.DrawItem("製 造 者", commonDefManifac.printText, nextY, settingData.hightManifac,     settingData.fontSizeManifac);
-            nextY = util.DrawItemComment("", productData.comment,         nextY,                    settingData.fontSizeComment, false);
-
-
-#else
-            DrawUtil util = new DrawUtil(g, 2, 2);
-
-            //名称
-            int nextY = util.DrawItem("名   称", param.name, 0);
-            nextY = util.DrawItem("原材料名", param.rawMaterials, nextY);
-            nextY = util.DrawItem("内 容 量", param.amount, nextY);
-            nextY = util.DrawItem("賞味期限", param.dtExpirationDate.ToLongDateString(), nextY);
-            nextY = util.DrawItem("保存方法", param.storageMethod, nextY);
-            nextY = util.DrawItem("製 造 者", param.manufacturer, nextY);
-            nextY = util.DrawItemComment("欄   外", param.comment, nextY, false);
-#endif
+            nextY = util.DrawItem("原材料名", productData.rawMaterials,   nextY, settingData.hightMaterial,      settingData.fontSizeMaterial, true);
+            nextY = util.DrawItem("内 容 量", param.amount,               nextY, settingData.hightAmount,        settingData.fontSizeAmount);
+            nextY = util.DrawItem("賞味期限", dt.ToLongDateString(),      nextY, settingData.hightAmount,        settingData.fontSizeLimitDate);
+            nextY = util.DrawItem("保存方法", commonDefStorage.printText, nextY, settingData.hightStorage,       settingData.fontSizeStorage);
+            nextY = util.DrawItem("製 造 者", commonDefManifac.printText, nextY, settingData.hightManifac,       settingData.fontSizeManifac);
+            nextY = util.DrawItemComment("", productData.comment,         nextY,                                 settingData.fontSizeComment, false);
 
         }
 

@@ -61,7 +61,11 @@ namespace PrintIngredientsList
         {
             InitializeComponent();
 
+            var assembly = Assembly.GetExecutingAssembly().GetName();
+            var ver = assembly.Version;
 
+            // アセンブリ名 1.0.0.0
+            this.Text =  $"{assembly.Name} - {ver.Major}.{ver.Minor}.{ver.Build}.{ver.Revision}";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -121,6 +125,18 @@ namespace PrintIngredientsList
             //ユーザ固有の設定読み込み
             LoadUserSetting();
 
+            tabPage2.Enabled = false;
+#if DEBUG
+            mnuLicense.Visible = true;
+
+            mnuUpdateLicense.Enabled = true;
+#else
+            mnuLicense.Visible=false;
+            mnuUpdateLicense.Enabled = false;
+#endif
+
+
+            Network.GetMacAddress();
         }
 
 
@@ -130,6 +146,9 @@ namespace PrintIngredientsList
             //ユーザ固有の設定保存
             SaveUserSetting();
         }
+
+
+
 
         private void SettingDataToUI( PrintSettingData data)
         {
@@ -160,6 +179,8 @@ namespace PrintIngredientsList
             txtHightValidDays.Text      = data.hightLimitDate.ToString("F0");
             txtHightSotrage.Text        = data.hightStorage.ToString("F0");
             txtHightManifucture.Text    = data.hightManifac.ToString("F0");
+
+            txtPrintStartPos.Text       = data.printStartPos.ToString();
 
         }
         private void LoadUserSetting()
@@ -227,6 +248,7 @@ namespace PrintIngredientsList
             string dirPath = System.IO.Path.Combine(exePath, Const.dataBaseFolder);
             string path = System.IO.Path.Combine(dirPath, Const.CommonDefFileName);
             
+            //共通データベース読み込み
             commonDefInfo.ReadExcel(path);
 
 
@@ -236,6 +258,21 @@ namespace PrintIngredientsList
                 return -1;
             }
 
+            foreach (var info in productBaseInfo.GetProductList(Const.SelectAll))
+            {
+                //製造者が共通データベースに登録されているものかをチェック
+                if(commonDefInfo.GetCommonDefData(CommonDeftReader.keyManifacture, info.manufacturer) == null)
+                {
+                    Utility.MessageError($"{Const.ProductFileName}の{CommonDeftReader.keyManifacture}「{info.manufacturer}」は\n{Const.CommonDefFileName}に登録されていません。");
+                    return -1;
+                }
+                if (commonDefInfo.GetCommonDefData(CommonDeftReader.keyStorage, info.storageMethod) == null)
+                {
+                    Utility.MessageError($"{Const.ProductFileName}の{CommonDeftReader.keyStorage}「{info.storageMethod}」は\n{Const.CommonDefFileName}に登録されていません。");
+                    return -1;
+                }
+
+            }
             return 0;
 
         }
@@ -690,10 +727,6 @@ namespace PrintIngredientsList
             SettingDataToUI(settingData);
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button11_Click(object sender, EventArgs e)
         {
@@ -719,6 +752,37 @@ namespace PrintIngredientsList
             UpdatePreview();
         }
 
+        private void button10_Click(object sender, EventArgs e)
+        {
+            FormEditPrintStartPos frm = new FormEditPrintStartPos(settingData);
+            frm.printStartPos = settingData.printStartPos;
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                settingData.printStartPos = frm.printStartPos;
+                txtPrintStartPos.Text = settingData.printStartPos.ToString();
+            }
+        }
+
+        private void menuSave_Click(object sender, EventArgs e)
+        {
+            toolBtnSave_Click(null, null);
+        }
+
+        private void menuReload_Click(object sender, EventArgs e)
+        {
+            toolBtnReload_Click(null, null);
+        }
+        /// <summary>
+        /// ライセンス更新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mnuUpdateLicense_Click(object sender, EventArgs e)
+        {
+            FormUpdateLicense frm = new FormUpdateLicense();
+            frm.ShowDialog();
+        }
     }
 
 }

@@ -8,10 +8,12 @@ using System.Windows.Forms;
 
 namespace PrintIngredientsList
 {
-    internal class PrintSettingData
+    public class PrintSettingData
     {
         public string fontName = Const.defaultFontName; //フォント
         public int copyNum      = 1;      //セット枚数
+
+        public int printStartPos = 1;       //印刷開始位置
 
         public float PrintTopGap = (float)18.5;
         public float PrintLeftGap = (float)19.0;

@@ -35,5 +35,13 @@ namespace PrintIngredientsList
         {
             return MessageBox.Show(msg, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
         }
+        public static int MILLI2POINT(float milli)
+        {
+            return (int)(milli / 0.352777);
+        }
+        public static float POINT2MILLI(int point)
+        {
+            return (float)(point * 0.352777);
+        }
     }
 }

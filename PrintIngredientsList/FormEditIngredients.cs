@@ -37,8 +37,8 @@ namespace PrintIngredientsList
 
             var lstKind = productBaseInfo.GetKindList();
 
-            var lstStorage = commonDefData.GetSelectText("保存方法");
-            var lstManufacuture = commonDefData.GetSelectText("製造者");
+            var lstStorage = commonDefData.GetSelectText(CommonDeftReader.keyStorage);
+            var lstManufacuture = commonDefData.GetSelectText(CommonDeftReader.keyManifacture);
 
             //-------------------------------------------
             // コンボボックスアイテム設定
@@ -148,7 +148,7 @@ namespace PrintIngredientsList
         private void cmbStorage_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            var data = commonDefData.GetCommonDefData("保存方法", cmbStorage.Text);
+            var data = commonDefData.GetCommonDefData(CommonDeftReader.keyStorage, cmbStorage.Text);
             txtStoragePrintText.Text = data.printText;
         }
         /// <summary>
@@ -158,7 +158,7 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void cmbManufacture_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var data = commonDefData.GetCommonDefData("製造者", cmbManufacture.Text);
+            var data = commonDefData.GetCommonDefData(CommonDeftReader.keyManifacture, cmbManufacture.Text);
             txtAddress.Text = data.printText;
 
         }

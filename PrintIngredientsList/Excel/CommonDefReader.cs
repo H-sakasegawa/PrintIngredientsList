@@ -16,6 +16,8 @@ namespace ExcelReaderUtility
     /// </summary>
     public class CommonDeftReader
     {
+        public const string keyManifacture = "製造者";
+        public const string keyStorage = "保存方法";
 
         public class CommonDefDataItem
         {

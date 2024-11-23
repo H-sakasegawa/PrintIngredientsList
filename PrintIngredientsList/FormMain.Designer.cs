@@ -28,11 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gridList = new System.Windows.Forms.DataGridView();
+            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.種別 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrintNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLImitDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStorage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colManufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -45,7 +54,7 @@
             this.panelPreviw = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button10 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtPrintStartPos = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -105,15 +114,12 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolBtnSave = new System.Windows.Forms.ToolStripButton();
             this.toolBtnReload = new System.Windows.Forms.ToolStripButton();
-            this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.種別 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPrintNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLImitDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStorage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colManufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuReload = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLicense = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuUpdateLicense = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -144,20 +150,21 @@
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // gridList
             // 
             this.gridList.AllowUserToAddRows = false;
             this.gridList.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.gridList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCheck,
@@ -182,6 +189,72 @@
             this.gridList.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.gridList_CellValidating);
             this.gridList.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridList_CellValueChanged);
             this.gridList.SelectionChanged += new System.EventHandler(this.gridList_SelectionChanged);
+            // 
+            // colCheck
+            // 
+            this.colCheck.HeaderText = "選択";
+            this.colCheck.Name = "colCheck";
+            this.colCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colCheck.Width = 40;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "ID";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 50;
+            // 
+            // 種別
+            // 
+            this.種別.HeaderText = "種別";
+            this.種別.Name = "種別";
+            this.種別.ReadOnly = true;
+            this.種別.Width = 60;
+            // 
+            // colName
+            // 
+            this.colName.HeaderText = "名称";
+            this.colName.Name = "colName";
+            this.colName.ReadOnly = true;
+            this.colName.Width = 150;
+            // 
+            // colPrintNum
+            // 
+            dataGridViewCellStyle5.NullValue = null;
+            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colPrintNum.HeaderText = "枚数";
+            this.colPrintNum.Name = "colPrintNum";
+            this.colPrintNum.Width = 50;
+            // 
+            // colLImitDate
+            // 
+            dataGridViewCellStyle6.Format = "d";
+            dataGridViewCellStyle6.NullValue = null;
+            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle6;
+            this.colLImitDate.HeaderText = "賞味期限";
+            this.colLImitDate.Name = "colLImitDate";
+            this.colLImitDate.ReadOnly = true;
+            // 
+            // colAmount
+            // 
+            this.colAmount.HeaderText = "内容量";
+            this.colAmount.Name = "colAmount";
+            this.colAmount.ReadOnly = true;
+            this.colAmount.Width = 50;
+            // 
+            // colStorage
+            // 
+            this.colStorage.HeaderText = "保存方法";
+            this.colStorage.Name = "colStorage";
+            this.colStorage.ReadOnly = true;
+            this.colStorage.Width = 70;
+            // 
+            // colManufacturer
+            // 
+            this.colManufacturer.HeaderText = "製造者";
+            this.colManufacturer.Name = "colManufacturer";
+            this.colManufacturer.ReadOnly = true;
             // 
             // tabControl1
             // 
@@ -314,7 +387,7 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.button10);
-            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.txtPrintStartPos);
             this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.tabControl2);
             this.tabPage2.Controls.Add(this.groupBox4);
@@ -335,21 +408,21 @@
             // 
             // button10
             // 
-            this.button10.Enabled = false;
             this.button10.Location = new System.Drawing.Point(128, 159);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(46, 19);
             this.button10.TabIndex = 14;
             this.button10.Text = "選択";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
-            // textBox1
+            // txtPrintStartPos
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(101, 159);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(27, 19);
-            this.textBox1.TabIndex = 13;
+            this.txtPrintStartPos.Location = new System.Drawing.Point(101, 159);
+            this.txtPrintStartPos.Name = "txtPrintStartPos";
+            this.txtPrintStartPos.ReadOnly = true;
+            this.txtPrintStartPos.Size = new System.Drawing.Size(27, 19);
+            this.txtPrintStartPos.TabIndex = 13;
             // 
             // label3
             // 
@@ -821,7 +894,6 @@
             this.label2.Size = new System.Drawing.Size(30, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "セット";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // txtCopyNum
             // 
@@ -959,71 +1031,54 @@
             this.toolBtnReload.Text = "toolStripButton1";
             this.toolBtnReload.Click += new System.EventHandler(this.toolBtnReload_Click);
             // 
-            // colCheck
+            // menuStrip1
             // 
-            this.colCheck.HeaderText = "選択";
-            this.colCheck.Name = "colCheck";
-            this.colCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colCheck.Width = 40;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ファイルToolStripMenuItem,
+            this.mnuLicense});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(752, 24);
+            this.menuStrip1.TabIndex = 3;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // Column1
+            // ファイルToolStripMenuItem
             // 
-            this.Column1.HeaderText = "ID";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 50;
+            this.ファイルToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuSave,
+            this.menuReload});
+            this.ファイルToolStripMenuItem.Name = "ファイルToolStripMenuItem";
+            this.ファイルToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.ファイルToolStripMenuItem.Text = "ファイル";
             // 
-            // 種別
+            // menuSave
             // 
-            this.種別.HeaderText = "種別";
-            this.種別.Name = "種別";
-            this.種別.ReadOnly = true;
-            this.種別.Width = 60;
+            this.menuSave.Name = "menuSave";
+            this.menuSave.Size = new System.Drawing.Size(209, 22);
+            this.menuSave.Text = "保存";
+            this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
             // 
-            // colName
+            // menuReload
             // 
-            this.colName.HeaderText = "名称";
-            this.colName.Name = "colName";
-            this.colName.ReadOnly = true;
-            this.colName.Width = 150;
+            this.menuReload.Name = "menuReload";
+            this.menuReload.Size = new System.Drawing.Size(209, 22);
+            this.menuReload.Text = "商品データベース再読み込み";
+            this.menuReload.Click += new System.EventHandler(this.menuReload_Click);
             // 
-            // colPrintNum
+            // mnuLicense
             // 
-            dataGridViewCellStyle2.NullValue = null;
-            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colPrintNum.HeaderText = "枚数";
-            this.colPrintNum.Name = "colPrintNum";
-            this.colPrintNum.Width = 50;
+            this.mnuLicense.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuUpdateLicense});
+            this.mnuLicense.Name = "mnuLicense";
+            this.mnuLicense.Size = new System.Drawing.Size(64, 20);
+            this.mnuLicense.Text = "ライセンス";
             // 
-            // colLImitDate
+            // mnuUpdateLicense
             // 
-            dataGridViewCellStyle3.Format = "d";
-            dataGridViewCellStyle3.NullValue = null;
-            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colLImitDate.HeaderText = "賞味期限";
-            this.colLImitDate.Name = "colLImitDate";
-            this.colLImitDate.ReadOnly = true;
-            // 
-            // colAmount
-            // 
-            this.colAmount.HeaderText = "内容量";
-            this.colAmount.Name = "colAmount";
-            this.colAmount.ReadOnly = true;
-            this.colAmount.Width = 50;
-            // 
-            // colStorage
-            // 
-            this.colStorage.HeaderText = "保存方法";
-            this.colStorage.Name = "colStorage";
-            this.colStorage.ReadOnly = true;
-            this.colStorage.Width = 70;
-            // 
-            // colManufacturer
-            // 
-            this.colManufacturer.HeaderText = "製造者";
-            this.colManufacturer.Name = "colManufacturer";
-            this.colManufacturer.ReadOnly = true;
+            this.mnuUpdateLicense.Name = "mnuUpdateLicense";
+            this.mnuUpdateLicense.Size = new System.Drawing.Size(180, 22);
+            this.mnuUpdateLicense.Text = "ライセンスを更新";
+            this.mnuUpdateLicense.Click += new System.EventHandler(this.mnuUpdateLicense_Click);
             // 
             // FormMain
             // 
@@ -1031,7 +1086,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(752, 516);
             this.Controls.Add(this.toolStripContainer1);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.Text = "成分表印刷";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
@@ -1077,7 +1134,10 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1127,7 +1187,7 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TextBox txtPrintTopGap;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtPrintStartPos;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.TabPage txtFontManifacture;
@@ -1165,6 +1225,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStorage;
         private System.Windows.Forms.DataGridViewTextBoxColumn colManufacturer;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem ファイルToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuSave;
+        private System.Windows.Forms.ToolStripMenuItem menuReload;
+        private System.Windows.Forms.ToolStripMenuItem mnuLicense;
+        private System.Windows.Forms.ToolStripMenuItem mnuUpdateLicense;
     }
 }
 
