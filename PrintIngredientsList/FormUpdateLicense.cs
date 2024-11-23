@@ -15,6 +15,13 @@ namespace PrintIngredientsList
         public FormUpdateLicense()
         {
             InitializeComponent();
+            tabControl1.Visible = false;
+            panel1.Parent = this;
+            panel2.Parent = this;
+            panel2.Visible = false;
+
+            label7.Text = "";
+            // this.tabControl1.TabPages.Remove(this.tabPage2);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -26,10 +33,16 @@ namespace PrintIngredientsList
             }
         }
 
+        /// <summary>
+        /// ライセンス更新へ進むボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
-            Close();
+            panel1.Visible = false;
+            panel2.Visible = true;
+
         }
 
         private void button3_Click(object sender, EventArgs e)

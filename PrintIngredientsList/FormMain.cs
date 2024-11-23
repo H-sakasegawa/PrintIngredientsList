@@ -125,8 +125,8 @@ namespace PrintIngredientsList
             //ユーザ固有の設定読み込み
             LoadUserSetting();
 
-            tabPage2.Enabled = false;
 #if DEBUG
+//            tabPage2.Enabled = false;
             mnuLicense.Visible = true;
 
             mnuUpdateLicense.Enabled = true;
