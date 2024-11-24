@@ -165,12 +165,13 @@
     <Compile Include="FormSaveDatReferctor.Designer.cs">
       <DependentUpon>FormSaveDatReferctor.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormUpdateLicense.cs">
+    <Compile Include="FormLicenseMng.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormUpdateLicense.Designer.cs">
-      <DependentUpon>FormUpdateLicense.cs</DependentUpon>
+    <Compile Include="FormLicenseMng.Designer.cs">
+      <DependentUpon>FormLicenseMng.cs</DependentUpon>
     </Compile>
+    <Compile Include="License\License.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="PrintSettingData.cs" />
     <Compile Include="Program.cs" />
@@ -188,8 +189,8 @@
     <EmbeddedResource Include="FormSaveDatReferctor.resx">
       <DependentUpon>FormSaveDatReferctor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormUpdateLicense.resx">
-      <DependentUpon>FormUpdateLicense.cs</DependentUpon>
+    <EmbeddedResource Include="FormLicenseMng.resx">
+      <DependentUpon>FormLicenseMng.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

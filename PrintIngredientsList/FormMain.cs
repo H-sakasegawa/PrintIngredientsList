@@ -35,6 +35,9 @@ namespace PrintIngredientsList
         ProductReader productBaseInfo = new ProductReader();
         CommonDeftReader commonDefInfo = new CommonDeftReader();
 
+        LicenseManager licenseMng = LicenseManager.GetLicenseManager();
+
+
         string prevDataFilePath;
         string settingDataFilePath;
 
@@ -70,6 +73,7 @@ namespace PrintIngredientsList
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
             exePath = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
 
             prevDataFilePath = System.IO.Path.Combine(exePath, "save.dat");
@@ -126,7 +130,12 @@ namespace PrintIngredientsList
             LoadUserSetting();
 
 #if DEBUG
-//            tabPage2.Enabled = false;
+            if (!licenseMng.CheckLicense())
+            {
+                var info = licenseMng.ReadLicenseFile();
+                SetApplicationLimit(false);
+                Utility.MessageError($"ライセンス期限切れです。\n現在のライセンスは{info.LimitDate.Value.ToShortDateString()}までとなっています。\n「ライセンス」メニューからライセンス申請手続きをしてください。");
+            }
             mnuLicense.Visible = true;
 
             mnuUpdateLicense.Enabled = true;
@@ -139,7 +148,11 @@ namespace PrintIngredientsList
             Network.GetMacAddress();
         }
 
+        void SetApplicationLimit(bool nFlg)
+        {
+            tabPage2.Enabled = nFlg;
 
+        }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -780,8 +793,29 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void mnuUpdateLicense_Click(object sender, EventArgs e)
         {
-            FormUpdateLicense frm = new FormUpdateLicense();
-            frm.ShowDialog();
+            FormLicenseMng frm = new FormLicenseMng();
+            if(frm.ShowDialog() == DialogResult.OK)
+            {
+                //制限解除
+                SetApplicationLimit(true);
+            }else
+            {
+                SetApplicationLimit(false);
+
+            }
+        }
+
+        /// <summary>
+        /// 有効期限について
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mnuLimitDate_Click(object sender, EventArgs e)
+        {
+            LicenseManager lm = LicenseManager.GetLicenseManager();
+            var info = lm.ReadLicenseFile();
+
+            Utility.MessageInfo($"現在取得されているライセンスの期限は、\n{info.LimitDate.Value.ToShortDateString()}\nとなっています。");
         }
     }
 
