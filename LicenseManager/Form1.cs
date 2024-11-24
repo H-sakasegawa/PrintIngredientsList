@@ -44,10 +44,9 @@ namespace LicenseManager
             AddComboItem(-1);
 
             cmbSelectRange.SelectedIndex = 0;
-
-            txtUserName.Text = "TestUser";
+#if DEBUG
             txtMacAddr.Text = "30-85-A9-EE-1B-B0";
-
+#endif
         }
 
 
@@ -90,11 +89,15 @@ namespace LicenseManager
                 return;
             }
 
-            string maxAddr = txtMacAddr.Text.Replace("-", "");
+            string maxAddr = null;
+            if (chkMacAddr.Checked)
+            {
+                maxAddr = txtMacAddr.Text.Replace("-", "");
+            }
 
             PrintIngredientsList.LicenseManager lm = PrintIngredientsList.LicenseManager.GetLicenseManager();
 
-            if(lm.WriteLicenseFile(dlg.FileName, txtUserName.Text, maxAddr, dateTimePicker1.Value)!=0)
+            if(lm.WriteLicenseFile(dlg.FileName, maxAddr, dateTimePicker1.Value)!=0)
             {
                 MessageBox.Show("ライセンスファイル作成失敗");
             }else
@@ -103,6 +106,11 @@ namespace LicenseManager
 
             }
 
+        }
+
+        private void chkMacAddr_CheckedChanged(object sender, EventArgs e)
+        {
+            txtMacAddr.Enabled = chkMacAddr.Checked;
         }
     }
 }
