@@ -106,10 +106,6 @@ namespace PrintIngredientsList
             {
                 cmbFont.Items.Add(ff.Name);
             }
-
-
-
-
             //商品基本データファイル読み込み
             if(ReadDatabase()!=0)
             {
@@ -129,12 +125,27 @@ namespace PrintIngredientsList
             //ユーザ固有の設定読み込み
             LoadUserSetting();
 
-#if DEBUG
-            if (!licenseMng.CheckLicense())
+#if LICENSE
+            int chkResult = licenseMng.CheckLicense();
+            if (chkResult != 0)
             {
-                var info = licenseMng.ReadLicenseFile();
                 SetApplicationLimit(false);
-                Utility.MessageError($"ライセンス期限切れです。\n現在のライセンスは{info.LimitDate.Value.ToShortDateString()}までとなっています。\n「ライセンス」メニューからライセンス申請手続きをしてください。");
+
+                switch (licenseMng.CheckLicense())
+                {
+                    case -1:
+                        Utility.MessageError($"ライセンスファイルが読み込めません");
+                        break;
+                    case -2:
+                        Utility.MessageError($"このPCで使用できないライセンスファイルが設定されています。");
+                        break;
+                    case -3:
+                        {
+                            var info = licenseMng.ReadLicenseFile();
+                            Utility.MessageError($"ライセンス期限切れです。\n現在のライセンスは{info.LimitDate.Value.ToShortDateString()}までとなっています。\n「ライセンス」メニューからライセンス申請手続きをしてください。");
+                        }
+                        break;
+                }
             }
             mnuLicense.Visible = true;
 
@@ -159,9 +170,6 @@ namespace PrintIngredientsList
             //ユーザ固有の設定保存
             SaveUserSetting();
         }
-
-
-
 
         private void SettingDataToUI( PrintSettingData data)
         {
@@ -421,7 +429,9 @@ namespace PrintIngredientsList
             }
         }
 
-
+        /// <summary>
+        /// プレビューウィンドウ更新
+        /// </summary>
         void UpdatePreview()
         {
             panelPreviw.Invalidate();
@@ -507,7 +517,7 @@ namespace PrintIngredientsList
 
             var row = gridList.Rows[e.RowIndex];
             //枚数
-            if (e.ColumnIndex == 2)
+            if (e.ColumnIndex == (int)ColumnIndex.COL_NUM)
             {
                 string sValue = (string)e.FormattedValue;
                 int value;

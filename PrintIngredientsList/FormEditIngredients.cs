@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -179,11 +180,11 @@ namespace PrintIngredientsList
         private void timePicker_ValueChanged(object sender, EventArgs e)
         {
             //指定された日付から今日までの日数
-            int days = (int)(timePicker.Value - DateTime.Now).TotalDays;
-            if (days < 0) days = 0;
+            var daysSpan = (timePicker.Value.Date - DateTime.Now.Date).Days + 1;
+            if (daysSpan < 0) daysSpan = 0;
 
             txtValidDays.ValueChanged -= txtValidDays_ValueChanged;
-            txtValidDays.Value = days;
+            txtValidDays.Value = daysSpan;
             txtValidDays.ValueChanged += txtValidDays_ValueChanged;
         }
         /// <summary>

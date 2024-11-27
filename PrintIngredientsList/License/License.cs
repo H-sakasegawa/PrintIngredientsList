@@ -72,38 +72,48 @@ namespace PrintIngredientsList
         public void Dispose()
         {
         }
-        public bool CheckLicense()
+
+        /// <summary>
+        /// ライセンスチェック
+        /// </summary>
+        /// <returns>
+        /// 0.. 正常
+        /// -1..ライセンスファイルなし
+        /// -2..MACアドレスチェックNG
+        /// -3..有効期限切れ
+        ///     </returns>
+        public int CheckLicense()
         {
             var info = ReadLicenseFile();
             if (info == null)
             {
                 //ライセンスファイルなしなど...
-                return false;
+                return -1;
             }
 
-            return CheckPermission(info);
+            return CheckLicense(info);
         }
-        public bool CheckPermission(LicenseInfo info)
+        public int CheckLicense(LicenseInfo info)
         {
             //MACアドレス情報がある場合はチェック
             if (!string.IsNullOrEmpty(info.MacAddr))
             {
-                //MACアドレスチェック
-                //現在のPCｎＭＡＣアドレスを取得
+                //現在のPCのＭＡＣアドレスを取得
                 string phisycalMacAddr = Network.GetMacAddress();
+                //MACアドレスチェック
                 if (!info.MacAddr.Equals(phisycalMacAddr))
                 {
-                    return false;
+                    return -2;
                 }
             }
             //有効期限チェック
             if(info.LimitDate < DateTime.Today)
             {
-                return false;
+                return -3;
             }
 
             //ライセンス情報合格！！
-            return true;
+            return 0;
         }
 
 
