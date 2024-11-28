@@ -68,8 +68,17 @@ namespace PrintIngredientsList
             }
 
             //ライセンスファイルをExeのフォルダにコピー
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            string filePath = Path.Combine(path, LicenseManager.licenseFileName);
+            string exePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+            string SettingsFolderPath = System.IO.Path.Combine(exePath, Const.SettingFolderName);
+            if (!Directory.Exists(SettingsFolderPath))
+            {
+                Directory.CreateDirectory(SettingsFolderPath);
+            }
+
+
+
+            string filePath = Path.Combine(SettingsFolderPath, LicenseManager.licenseFileName);
             File.Copy(txtLicenseFile.Text, filePath, true);
 
             //ライセンス解除
