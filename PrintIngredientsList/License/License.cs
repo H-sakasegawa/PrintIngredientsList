@@ -28,7 +28,7 @@ namespace PrintIngredientsList
         const string KEY_MAC_ADDR = "MAC_ADDR";
         const string KEY_LIMIT_DATE = "LIMIT_DATE";
 
-        public static string licenseFileName = "licence.dat";
+        public static string licenseFileName = "license.dat";
 
 
         public class LicenseInfo
@@ -82,17 +82,7 @@ namespace PrintIngredientsList
         /// -2..MACアドレスチェックNG
         /// -3..有効期限切れ
         ///     </returns>
-        public int CheckLicense()
-        {
-            var info = ReadLicenseFile();
-            if (info == null)
-            {
-                //ライセンスファイルなしなど...
-                return -1;
-            }
 
-            return CheckLicense(info);
-        }
         public int CheckLicense(LicenseInfo info)
         {
             //MACアドレス情報がある場合はチェック
@@ -157,14 +147,7 @@ namespace PrintIngredientsList
             return 0;
 
         }
-        public LicenseInfo ReadLicenseFile()
-        {
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-            string filePath = Path.Combine(path, licenseFileName);
-
-            return ReadLicenseFile(filePath);
-        }
 
         public LicenseInfo ReadLicenseFile(string filePath)
         {

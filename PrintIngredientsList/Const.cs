@@ -31,6 +31,11 @@ namespace PrintIngredientsList
         public const int previewDlgBasicWidth = 400;
         public const int previewDlgBasicHeight = 600;
 
+        public const string SettingFolderName = "Settings";
+        public const string SaveDataFileName = "save.dat";
+        public const string SettingDataFineName = "setting.dat";
+        public const string LicenseFileName = "license.dat";
+
 
     }
 }

@@ -36,7 +36,7 @@ namespace PrintIngredientsList
         CommonDeftReader commonDefInfo = new CommonDeftReader();
 
         LicenseManager licenseMng = LicenseManager.GetLicenseManager();
-
+        public static string SettingsFolderPath = "";
 
         string prevDataFilePath;
         string settingDataFilePath;
@@ -76,8 +76,14 @@ namespace PrintIngredientsList
 
             exePath = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
 
-            prevDataFilePath = System.IO.Path.Combine(exePath, "save.dat");
-            settingDataFilePath = System.IO.Path.Combine(exePath, "setting.dat");
+            SettingsFolderPath = System.IO.Path.Combine(exePath, Const.SettingFolderName);
+            if( !Directory.Exists(SettingsFolderPath))
+            {
+                Directory.CreateDirectory(SettingsFolderPath);
+            }
+
+            prevDataFilePath = System.IO.Path.Combine(SettingsFolderPath, Const.SaveDataFileName);
+            settingDataFilePath = System.IO.Path.Combine(SettingsFolderPath, Const.SettingDataFineName);
 
 
             //最小サイズをレイアウト時のサイズで固定
@@ -126,12 +132,12 @@ namespace PrintIngredientsList
             LoadUserSetting();
 
 #if LICENSE
-            int chkResult = licenseMng.CheckLicense();
+            int chkResult = CheckLicense();
             if (chkResult != 0)
             {
                 SetApplicationLimit(false);
 
-                switch (licenseMng.CheckLicense())
+                switch (chkResult)
                 {
                     case -1:
                         Utility.MessageError($"ライセンスファイルが読み込めません");
@@ -141,7 +147,7 @@ namespace PrintIngredientsList
                         break;
                     case -3:
                         {
-                            var info = licenseMng.ReadLicenseFile();
+                            var info = ReadLicenseFileFromSettingDir();
                             Utility.MessageError($"ライセンス期限切れです。\n現在のライセンスは{info.LimitDate.Value.ToShortDateString()}までとなっています。\n「ライセンス」メニューからライセンス申請手続きをしてください。");
                         }
                         break;
@@ -157,6 +163,18 @@ namespace PrintIngredientsList
 
 
             Network.GetMacAddress();
+        }
+
+        public int CheckLicense()
+        {
+            var info = ReadLicenseFileFromSettingDir();
+            if (info == null)
+            {
+                //ライセンスファイルなしなど...
+                return -1;
+            }
+
+            return LicenseManager.GetLicenseManager().CheckLicense(info);
         }
 
         void SetApplicationLimit(bool nFlg)
@@ -298,7 +316,11 @@ namespace PrintIngredientsList
 
         }
 
-
+        /// <summary>
+        /// ダブルクリックによる商品編集
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void gridList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
 
@@ -823,9 +845,17 @@ namespace PrintIngredientsList
         private void mnuLimitDate_Click(object sender, EventArgs e)
         {
             LicenseManager lm = LicenseManager.GetLicenseManager();
-            var info = lm.ReadLicenseFile();
+
+            var info = ReadLicenseFileFromSettingDir();
 
             Utility.MessageInfo($"現在取得されているライセンスの期限は、\n{info.LimitDate.Value.ToShortDateString()}\nとなっています。");
+        }
+
+        private LicenseManager.LicenseInfo ReadLicenseFileFromSettingDir()
+        {
+            string filePath = System.IO.Path.Combine(SettingsFolderPath, Const.LicenseFileName);
+
+            return LicenseManager.GetLicenseManager().ReadLicenseFile(filePath);
         }
     }
 

@@ -78,7 +78,7 @@ namespace PrintIngredientsList
                 var productData = productBaseInfo.GetProductDataByID(editData.id);
 
 
-                cmbProduct.SelectedItem = editData.name;
+                cmbProduct.SelectedItem = productData;
                 txtMaterial.Text = productData.rawMaterials;
                 txtAmount.Text = editData.amount;
                 txtValidDays.Value = editData.validDays;
