@@ -344,6 +344,13 @@ namespace PrintIngredientsList
                 ErrMsg("欄外フォントサイズ");
             }
         }
+        private void txtFontTitle_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtFontTitle.Text, out settingData.fontSizeTitle))
+            {
+                ErrMsg("タイトル列フォントサイズ");
+            }
+        }
 
         private void txtHightProductTitle_TextChanged(object sender, EventArgs e)
         {
@@ -390,6 +397,13 @@ namespace PrintIngredientsList
             if (!float.TryParse(txtHightManifucture.Text, out settingData.hightManifac))
             {
                 ErrMsg("欄外 高さ");
+            }
+        }
+        private void txtWidthTitle_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtWidthTitle.Text, out settingData.TitleAreWidthMM))
+            {
+                ErrMsg("タイトル列 幅");
             }
         }
 

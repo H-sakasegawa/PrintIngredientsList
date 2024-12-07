@@ -69,6 +69,7 @@ namespace PrintIngredientsList
         {
             this.graphics = g;
             this.settingData = settingData;
+            fontSizeItemTitle = settingData.fontSizeTitle;
             this.graphics.PageUnit = GraphicsUnit.Millimeter;
 
             Init();
@@ -78,6 +79,7 @@ namespace PrintIngredientsList
         {
             this.graphics = g;
             this.settingData = settingData;
+            fontSizeItemTitle = settingData.fontSizeTitle;
             this.graphics.PageUnit = GraphicsUnit.Millimeter;
             this.PageGapTopMM = PageGapTopMM;
             this.PageGapLeftMM = PageGapLeftMM;

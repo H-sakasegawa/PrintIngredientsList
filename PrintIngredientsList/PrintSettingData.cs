@@ -49,6 +49,8 @@ namespace PrintIngredientsList
         public float fontSizeManifac = 6;
         public float fontSizeComment = 4;
 
+        public float fontSizeTitle = 6.5f;
+
         //行高さ
         public float hightProductTitle = 4;
         public float hightMaterial = 20;
@@ -56,6 +58,7 @@ namespace PrintIngredientsList
         public float hightLimitDate = 4;
         public float hightStorage = 6;
         public float hightManifac = 6;
+
 
         /// <summary>
         /// １つのラベルシールの描画可能領域幅(mm) 左右の余白を差し引いた値
@@ -129,13 +132,15 @@ namespace PrintIngredientsList
                 Write(sw, "FONT_STORAGE", fontSizeStorage);
                 Write(sw, "FONT_MANIFAC", fontSizeManifac);
                 Write(sw, "FONT_COMMNETT", fontSizeComment);
-
+                Write(sw, "FONT_TITLE", fontSizeTitle);
+                
                 Write(sw, "HIGHT_PRODUCT", hightProductTitle);
                 Write(sw, "HIGHT_MATERIAL", hightMaterial);
                 Write(sw, "HIGHT_AMOUNT", hightAmount);
                 Write(sw, "HIGHT_LIMITDATE", hightLimitDate);
                 Write(sw, "HIGHT_STORAGE", hightStorage);
                 Write(sw, "HIGHT_MANIFAC", hightManifac);
+                Write(sw, "WIDTH_TITLE", TitleAreWidthMM);
 
             }
         }
@@ -178,6 +183,7 @@ namespace PrintIngredientsList
                         case "FONT_STORAGE":        fontSizeStorage       = float.Parse(valueItem[1]); break;
                         case "FONT_MANIFAC":        fontSizeManifac       = float.Parse(valueItem[1]); break;
                         case "FONT_COMMNETT":       fontSizeComment       = float.Parse(valueItem[1]); break;
+                        case "FONT_TITLE":           fontSizeTitle        = float.Parse(valueItem[1]); break;
 
 
                         case "HIGHT_PRODUCT":      hightProductTitle      = float.Parse(valueItem[1]); break;
@@ -187,6 +193,7 @@ namespace PrintIngredientsList
                         case "HIGHT_STORAGE":      hightStorage           = float.Parse(valueItem[1]); break;
                         case "HIGHT_MANIFAC":      hightManifac           = float.Parse(valueItem[1]); break;
 
+                        case "WIDTH_TITLE":        TitleAreWidthMM        = float.Parse(valueItem[1]); break;
                     }
 
                 }

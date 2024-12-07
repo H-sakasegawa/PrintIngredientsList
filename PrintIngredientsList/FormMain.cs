@@ -194,7 +194,7 @@ namespace PrintIngredientsList
             cmbFont.Text = data.fontName;
 
             txtCopyNum.Text            = data.copyNum.ToString();
-            txtPrintLeftGap.Text       = data.PrintTopGap.ToString("F2");
+            txtPrintLeftGap.Text       = data.PrintLeftGap.ToString("F2");
             txtPrintTopGap.Text        = data.PrintTopGap.ToString("F2");
 
             txtLabelAreaGapTop.Text    = data.LabelAreaGapTop.ToString("F2");
@@ -203,23 +203,27 @@ namespace PrintIngredientsList
             txtLabelAreaGapBottom.Text = data.LabelAreaGapBottom.ToString("F2");
 
 
-            txtFontProductTitle.Text    = data.fontSizeProductTitle.ToString("F0");
-            txtFontMaterial.Text        = data.fontSizeMaterial.ToString("F0");
-            txtFontAmount.Text          = data.fontSizeAmount.ToString("F0");
-            txtFontValidDays.Text       = data.fontSizeLimitDate.ToString("F0");
-            txtFontSotrage.Text         = data.fontSizeStorage.ToString("F0");
-            txtFontManifucture.Text     = data.fontSizeManifac.ToString("F0");
-            txtFontComment.Text         = data.fontSizeComment.ToString("F0");
+            txtFontProductTitle.Text    = data.fontSizeProductTitle.ToString("F1");
+            txtFontMaterial.Text        = data.fontSizeMaterial.ToString("F1");
+            txtFontAmount.Text          = data.fontSizeAmount.ToString("F1");
+            txtFontValidDays.Text       = data.fontSizeLimitDate.ToString("F1");
+            txtFontSotrage.Text         = data.fontSizeStorage.ToString("F1");
+            txtFontManifucture.Text     = data.fontSizeManifac.ToString("F1");
+            txtFontComment.Text         = data.fontSizeComment.ToString("F1");
+            txtFontTitle.Text           = data.fontSizeTitle.ToString("F1");
 
+            txtHightProductTitle.Text   = data.hightProductTitle.ToString("F2");
+            txtHightMaterial.Text       = data.hightMaterial.ToString("F2");
+            txtHightAmount.Text         = data.hightAmount.ToString("F2");
+            txtHightValidDays.Text      = data.hightLimitDate.ToString("F2");
+            txtHightSotrage.Text        = data.hightStorage.ToString("F2");
+            txtHightManifucture.Text    = data.hightManifac.ToString("F2");
 
-            txtHightProductTitle.Text   = data.hightProductTitle.ToString("F0");
-            txtHightMaterial.Text       = data.hightMaterial.ToString("F0");
-            txtHightAmount.Text         = data.hightAmount.ToString("F0");
-            txtHightValidDays.Text      = data.hightLimitDate.ToString("F0");
-            txtHightSotrage.Text        = data.hightStorage.ToString("F0");
-            txtHightManifucture.Text    = data.hightManifac.ToString("F0");
+            txtWidthTitle.Text          = data.TitleAreWidthMM.ToString("F2");
 
             txtPrintStartPos.Text       = data.printStartPos.ToString();
+
+
 
         }
         private void LoadUserSetting()
@@ -857,6 +861,8 @@ namespace PrintIngredientsList
 
             return LicenseManager.GetLicenseManager().ReadLicenseFile(filePath);
         }
+
+
     }
 
 }

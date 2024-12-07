@@ -53,9 +53,8 @@
             this.button6 = new System.Windows.Forms.Button();
             this.panelPreviw = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button10 = new System.Windows.Forms.Button();
-            this.txtPrintStartPos = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cmpPrintLayout = new System.Windows.Forms.ComboBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label18 = new System.Windows.Forms.Label();
@@ -79,7 +78,11 @@
             this.txtLabelAreaGapRight = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.txtFontManifacture = new System.Windows.Forms.TabPage();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtWidthTitle = new System.Windows.Forms.TextBox();
+            this.txtFontTitle = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.txtHightManifucture = new System.Windows.Forms.TextBox();
             this.txtHightSotrage = new System.Windows.Forms.TextBox();
@@ -96,6 +99,9 @@
             this.txtFontMaterial = new System.Windows.Forms.TextBox();
             this.txtFontProductTitle = new System.Windows.Forms.TextBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.button10 = new System.Windows.Forms.Button();
+            this.txtPrintStartPos = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.button9 = new System.Windows.Forms.Button();
             this.chkTestLineDraw = new System.Windows.Forms.CheckBox();
@@ -117,12 +123,12 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuReload = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLicense = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUpdateLicense = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLimitDate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuLimitDate = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -139,6 +145,7 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -266,7 +273,7 @@
             this.tabControl1.Location = new System.Drawing.Point(13, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(695, 400);
+            this.tabControl1.Size = new System.Drawing.Size(695, 457);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -275,7 +282,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(687, 374);
+            this.tabPage1.Size = new System.Drawing.Size(687, 431);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "成分表一覧";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -389,10 +396,10 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.button10);
             this.tabPage2.Controls.Add(this.txtPrintStartPos);
             this.tabPage2.Controls.Add(this.label3);
-            this.tabPage2.Controls.Add(this.tabControl2);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Controls.Add(this.button8);
             this.tabPage2.Controls.Add(this.label2);
@@ -404,47 +411,39 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(687, 374);
+            this.tabPage2.Size = new System.Drawing.Size(687, 431);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "印刷";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // button10
+            // groupBox2
             // 
-            this.button10.Location = new System.Drawing.Point(128, 159);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(46, 19);
-            this.button10.TabIndex = 14;
-            this.button10.Text = "選択";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.groupBox2.Controls.Add(this.cmpPrintLayout);
+            this.groupBox2.Controls.Add(this.tabControl2);
+            this.groupBox2.Location = new System.Drawing.Point(265, 21);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(387, 382);
+            this.groupBox2.TabIndex = 15;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "印刷レイアウト";
             // 
-            // txtPrintStartPos
+            // cmpPrintLayout
             // 
-            this.txtPrintStartPos.Location = new System.Drawing.Point(101, 159);
-            this.txtPrintStartPos.Name = "txtPrintStartPos";
-            this.txtPrintStartPos.ReadOnly = true;
-            this.txtPrintStartPos.Size = new System.Drawing.Size(27, 19);
-            this.txtPrintStartPos.TabIndex = 13;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 162);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 12);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "印刷開始位置：";
+            this.cmpPrintLayout.FormattingEnabled = true;
+            this.cmpPrintLayout.Location = new System.Drawing.Point(12, 21);
+            this.cmpPrintLayout.Name = "cmpPrintLayout";
+            this.cmpPrintLayout.Size = new System.Drawing.Size(147, 20);
+            this.cmpPrintLayout.TabIndex = 12;
             // 
             // tabControl2
             // 
             this.tabControl2.Controls.Add(this.tabPage3);
             this.tabControl2.Controls.Add(this.tabPage4);
             this.tabControl2.Controls.Add(this.txtFontManifacture);
-            this.tabControl2.Location = new System.Drawing.Point(253, 6);
+            this.tabControl2.Location = new System.Drawing.Point(6, 50);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(381, 273);
+            this.tabControl2.Size = new System.Drawing.Size(381, 297);
             this.tabControl2.TabIndex = 11;
             // 
             // tabPage3
@@ -462,7 +461,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(373, 247);
+            this.tabPage3.Size = new System.Drawing.Size(373, 271);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "印刷位置の調整";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -591,7 +590,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(373, 247);
+            this.tabPage4.Size = new System.Drawing.Size(373, 271);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "印刷微調整";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -683,7 +682,11 @@
             // 
             // txtFontManifacture
             // 
+            this.txtFontManifacture.Controls.Add(this.label7);
+            this.txtFontManifacture.Controls.Add(this.txtWidthTitle);
+            this.txtFontManifacture.Controls.Add(this.txtFontTitle);
             this.txtFontManifacture.Controls.Add(this.label20);
+            this.txtFontManifacture.Controls.Add(this.label4);
             this.txtFontManifacture.Controls.Add(this.label19);
             this.txtFontManifacture.Controls.Add(this.txtHightManifucture);
             this.txtFontManifacture.Controls.Add(this.txtHightSotrage);
@@ -703,24 +706,58 @@
             this.txtFontManifacture.Location = new System.Drawing.Point(4, 22);
             this.txtFontManifacture.Name = "txtFontManifacture";
             this.txtFontManifacture.Padding = new System.Windows.Forms.Padding(3);
-            this.txtFontManifacture.Size = new System.Drawing.Size(373, 247);
+            this.txtFontManifacture.Size = new System.Drawing.Size(373, 271);
             this.txtFontManifacture.TabIndex = 2;
             this.txtFontManifacture.Text = "行高さとフォントサイズ調整";
             this.txtFontManifacture.UseVisualStyleBackColor = true;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(129, 247);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(38, 12);
+            this.label7.TabIndex = 37;
+            this.label7.Text = "フォント";
+            // 
+            // txtWidthTitle
+            // 
+            this.txtWidthTitle.Location = new System.Drawing.Point(90, 244);
+            this.txtWidthTitle.Name = "txtWidthTitle";
+            this.txtWidthTitle.Size = new System.Drawing.Size(33, 19);
+            this.txtWidthTitle.TabIndex = 36;
+            this.txtWidthTitle.TextChanged += new System.EventHandler(this.txtWidthTitle_TextChanged);
+            // 
+            // txtFontTitle
+            // 
+            this.txtFontTitle.Location = new System.Drawing.Point(170, 244);
+            this.txtFontTitle.Name = "txtFontTitle";
+            this.txtFontTitle.Size = new System.Drawing.Size(33, 19);
+            this.txtFontTitle.TabIndex = 36;
+            this.txtFontTitle.TextChanged += new System.EventHandler(this.txtFontTitle_TextChanged);
+            // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(290, 5);
+            this.label20.Location = new System.Drawing.Point(290, 6);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(62, 12);
             this.label20.TabIndex = 35;
             this.label20.Text = "フォント(pts)";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(16, 246);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(68, 12);
+            this.label4.TabIndex = 34;
+            this.label4.Text = "タイトル列 幅";
+            // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(230, 7);
+            this.label19.Location = new System.Drawing.Point(230, 8);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(51, 12);
             this.label19.TabIndex = 34;
@@ -728,7 +765,7 @@
             // 
             // txtHightManifucture
             // 
-            this.txtHightManifucture.Location = new System.Drawing.Point(232, 163);
+            this.txtHightManifucture.Location = new System.Drawing.Point(232, 164);
             this.txtHightManifucture.Name = "txtHightManifucture";
             this.txtHightManifucture.Size = new System.Drawing.Size(33, 19);
             this.txtHightManifucture.TabIndex = 33;
@@ -736,7 +773,7 @@
             // 
             // txtHightSotrage
             // 
-            this.txtHightSotrage.Location = new System.Drawing.Point(232, 134);
+            this.txtHightSotrage.Location = new System.Drawing.Point(232, 135);
             this.txtHightSotrage.Name = "txtHightSotrage";
             this.txtHightSotrage.Size = new System.Drawing.Size(33, 19);
             this.txtHightSotrage.TabIndex = 32;
@@ -744,7 +781,7 @@
             // 
             // txtHightValidDays
             // 
-            this.txtHightValidDays.Location = new System.Drawing.Point(232, 112);
+            this.txtHightValidDays.Location = new System.Drawing.Point(232, 113);
             this.txtHightValidDays.Name = "txtHightValidDays";
             this.txtHightValidDays.Size = new System.Drawing.Size(33, 19);
             this.txtHightValidDays.TabIndex = 31;
@@ -752,7 +789,7 @@
             // 
             // txtHightAmount
             // 
-            this.txtHightAmount.Location = new System.Drawing.Point(232, 91);
+            this.txtHightAmount.Location = new System.Drawing.Point(232, 92);
             this.txtHightAmount.Name = "txtHightAmount";
             this.txtHightAmount.Size = new System.Drawing.Size(33, 19);
             this.txtHightAmount.TabIndex = 30;
@@ -760,7 +797,7 @@
             // 
             // txtHightMaterial
             // 
-            this.txtHightMaterial.Location = new System.Drawing.Point(232, 58);
+            this.txtHightMaterial.Location = new System.Drawing.Point(232, 59);
             this.txtHightMaterial.Name = "txtHightMaterial";
             this.txtHightMaterial.Size = new System.Drawing.Size(33, 19);
             this.txtHightMaterial.TabIndex = 29;
@@ -768,7 +805,7 @@
             // 
             // txtHightProductTitle
             // 
-            this.txtHightProductTitle.Location = new System.Drawing.Point(232, 22);
+            this.txtHightProductTitle.Location = new System.Drawing.Point(232, 23);
             this.txtHightProductTitle.Name = "txtHightProductTitle";
             this.txtHightProductTitle.Size = new System.Drawing.Size(33, 19);
             this.txtHightProductTitle.TabIndex = 28;
@@ -777,7 +814,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(203, 63);
+            this.label22.Location = new System.Drawing.Point(203, 64);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(29, 12);
             this.label22.TabIndex = 21;
@@ -785,7 +822,7 @@
             // 
             // txtFontComment
             // 
-            this.txtFontComment.Location = new System.Drawing.Point(290, 195);
+            this.txtFontComment.Location = new System.Drawing.Point(290, 196);
             this.txtFontComment.Name = "txtFontComment";
             this.txtFontComment.Size = new System.Drawing.Size(33, 19);
             this.txtFontComment.TabIndex = 20;
@@ -793,7 +830,7 @@
             // 
             // txtFontManifucture
             // 
-            this.txtFontManifucture.Location = new System.Drawing.Point(290, 164);
+            this.txtFontManifucture.Location = new System.Drawing.Point(290, 165);
             this.txtFontManifucture.Name = "txtFontManifucture";
             this.txtFontManifucture.Size = new System.Drawing.Size(33, 19);
             this.txtFontManifucture.TabIndex = 19;
@@ -801,7 +838,7 @@
             // 
             // txtFontSotrage
             // 
-            this.txtFontSotrage.Location = new System.Drawing.Point(290, 134);
+            this.txtFontSotrage.Location = new System.Drawing.Point(290, 135);
             this.txtFontSotrage.Name = "txtFontSotrage";
             this.txtFontSotrage.Size = new System.Drawing.Size(33, 19);
             this.txtFontSotrage.TabIndex = 18;
@@ -809,7 +846,7 @@
             // 
             // txtFontValidDays
             // 
-            this.txtFontValidDays.Location = new System.Drawing.Point(290, 112);
+            this.txtFontValidDays.Location = new System.Drawing.Point(290, 113);
             this.txtFontValidDays.Name = "txtFontValidDays";
             this.txtFontValidDays.Size = new System.Drawing.Size(33, 19);
             this.txtFontValidDays.TabIndex = 17;
@@ -817,7 +854,7 @@
             // 
             // txtFontAmount
             // 
-            this.txtFontAmount.Location = new System.Drawing.Point(290, 91);
+            this.txtFontAmount.Location = new System.Drawing.Point(290, 92);
             this.txtFontAmount.Name = "txtFontAmount";
             this.txtFontAmount.Size = new System.Drawing.Size(33, 19);
             this.txtFontAmount.TabIndex = 16;
@@ -825,7 +862,7 @@
             // 
             // txtFontMaterial
             // 
-            this.txtFontMaterial.Location = new System.Drawing.Point(290, 58);
+            this.txtFontMaterial.Location = new System.Drawing.Point(290, 59);
             this.txtFontMaterial.Name = "txtFontMaterial";
             this.txtFontMaterial.Size = new System.Drawing.Size(33, 19);
             this.txtFontMaterial.TabIndex = 15;
@@ -833,7 +870,7 @@
             // 
             // txtFontProductTitle
             // 
-            this.txtFontProductTitle.Location = new System.Drawing.Point(290, 22);
+            this.txtFontProductTitle.Location = new System.Drawing.Point(290, 23);
             this.txtFontProductTitle.Name = "txtFontProductTitle";
             this.txtFontProductTitle.Size = new System.Drawing.Size(33, 19);
             this.txtFontProductTitle.TabIndex = 14;
@@ -842,17 +879,44 @@
             // pictureBox3
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(18, 22);
+            this.pictureBox3.Location = new System.Drawing.Point(18, 23);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(184, 215);
             this.pictureBox3.TabIndex = 1;
             this.pictureBox3.TabStop = false;
             // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(128, 159);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(46, 19);
+            this.button10.TabIndex = 14;
+            this.button10.Text = "選択";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // txtPrintStartPos
+            // 
+            this.txtPrintStartPos.Location = new System.Drawing.Point(101, 159);
+            this.txtPrintStartPos.Name = "txtPrintStartPos";
+            this.txtPrintStartPos.ReadOnly = true;
+            this.txtPrintStartPos.Size = new System.Drawing.Size(27, 19);
+            this.txtPrintStartPos.TabIndex = 13;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(20, 162);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(83, 12);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "印刷開始位置：";
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.button9);
             this.groupBox4.Controls.Add(this.chkTestLineDraw);
-            this.groupBox4.Location = new System.Drawing.Point(6, 265);
+            this.groupBox4.Location = new System.Drawing.Point(6, 214);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(158, 103);
             this.groupBox4.TabIndex = 10;
@@ -881,7 +945,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(170, 285);
+            this.button8.Location = new System.Drawing.Point(0, 323);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(146, 45);
             this.button8.TabIndex = 7;
@@ -908,7 +972,7 @@
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(168, 339);
+            this.label6.Location = new System.Drawing.Point(-2, 377);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(222, 45);
             this.label6.TabIndex = 1;
@@ -992,10 +1056,10 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tabControl1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(707, 451);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(707, 497);
             this.toolStripContainer1.Location = new System.Drawing.Point(12, 28);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(707, 476);
+            this.toolStripContainer1.Size = new System.Drawing.Size(707, 522);
             this.toolStripContainer1.TabIndex = 2;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -1062,6 +1126,11 @@
             this.menuSave.Text = "保存";
             this.menuSave.Click += new System.EventHandler(this.menuSave_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(206, 6);
+            // 
             // menuReload
             // 
             this.menuReload.Name = "menuReload";
@@ -1086,6 +1155,11 @@
             this.mnuUpdateLicense.Text = "ライセンスを更新";
             this.mnuUpdateLicense.Click += new System.EventHandler(this.mnuUpdateLicense_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(201, 6);
+            // 
             // mnuLimitDate
             // 
             this.mnuLimitDate.Name = "mnuLimitDate";
@@ -1093,21 +1167,11 @@
             this.mnuLimitDate.Text = "ライセンス有効期限について";
             this.mnuLimitDate.Click += new System.EventHandler(this.mnuLimitDate_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(201, 6);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(206, 6);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(752, 516);
+            this.ClientSize = new System.Drawing.Size(752, 575);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1134,6 +1198,7 @@
             this.splitContainer3.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
@@ -1257,6 +1322,12 @@
         private System.Windows.Forms.ToolStripMenuItem mnuLimitDate;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox cmpPrintLayout;
+        private System.Windows.Forms.TextBox txtFontTitle;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtWidthTitle;
     }
 }
 
