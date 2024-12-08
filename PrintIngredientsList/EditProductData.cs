@@ -73,6 +73,24 @@ namespace PrintIngredientsList
             }
         }
 
+        //public static EditProductData DummypProductData
+        //{
+        //    get
+        //    {
+        //        EditProductData dymmy = new EditProductData();
+        //        dymmy.id = "123456789";
+        //        dymmy.kind = "分類";
+        //        dymmy.name = "テストお菓子";
+        //        dymmy.amount = "99枚";
+        //        dymmy.validDays = 30;
+        //        dymmy.storageMethod = "冷凍";
+        //        dymmy.manufacturer = "本店";
+
+        //        return dymmy;
+
+        //    }
+        //}
+
 
         public object[] GetParams(ProductReader productReader)
         {

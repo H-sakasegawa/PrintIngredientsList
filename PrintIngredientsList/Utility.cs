@@ -43,5 +43,10 @@ namespace PrintIngredientsList
         {
             return (float)(point * 0.352777);
         }
+
+        public static float ToFloat(string value)
+        {
+            return float.Parse(value);
+        }
     }
 }
