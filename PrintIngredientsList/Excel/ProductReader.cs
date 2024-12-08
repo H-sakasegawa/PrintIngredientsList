@@ -62,6 +62,28 @@ namespace ExcelReaderUtility
             /// 欄外
             /// </summary>
             public string comment;
+            /// <summary>
+            /// 熱量
+            /// </summary>
+            public string Calorie;
+            /// <summary>
+            /// たんぱく質
+            /// </summary>
+            public string Protein;
+            /// <summary>
+            /// 脂質
+            /// </summary>
+            public string Lipids;
+            /// <summary>
+            /// 炭水化物
+            /// </summary>
+            public string Carbohydrates;
+            /// <summary>
+            /// 食塩相当量
+            /// </summary>
+            public string Salt;
+
+
 
             public override string ToString()
             {
@@ -69,21 +91,26 @@ namespace ExcelReaderUtility
             }
         }
 
-        const string id = "ID";
-        const string kind = "分類";
-        const string name = "名称";
-        const string rawMaterials = "原材料";
-        const string amount = "内容量";
-        const string validDays = "賞味期限";
-        const string storageMethod = "保存方法";
-        const string allergy = "アレルギー";
-        const string manufacturer = "製造者";
-        const string comment = "欄外";
-
         //Exel 列データフォーマット
         string[] colDataNames = new string[]
         {
-            id,kind,name,rawMaterials,amount,validDays,storageMethod,allergy,manufacturer,comment
+            ItemName.ID,
+            ItemName.Kind,
+            ItemName.Name,
+            ItemName.Material,
+            ItemName.Amount,
+            ItemName.ValidDate,
+            ItemName.Storage,
+            ItemName.Allergy,
+            ItemName.Manifacture,
+            ItemName.Comment,
+            //-----------------------------
+            ItemName.Calorie,
+            ItemName.Protein,
+            ItemName.Lipids,
+            ItemName.Carbohydrates,
+            ItemName.Salt,
+
         };
 
         private Dictionary<string, int> dicColmunIndex = new Dictionary<string, int>();
@@ -141,8 +168,10 @@ namespace ExcelReaderUtility
                             int index = lstRowData.FindIndex(x => string.Compare(x.Text, name, true) == 0);
                             if( index<0)
                             {
-                                Utility.MessageError($"商品データベースに「{name}」項目が見つかりません。");
-                                return -1;
+                                dicColmunIndex[name] = -1;
+                                continue;
+                                //Utility.MessageError($"商品データベースに「{name}」項目が見つかりません。");
+                                //return -1;
                             }
 
                             dicColmunIndex[name] = index;
@@ -157,17 +186,22 @@ namespace ExcelReaderUtility
 
                         ProductData data = new ProductData();
 
-                        data.id             = lstRowData[dicColmunIndex[id]].Text;
-                        data.kind           = lstRowData[dicColmunIndex[kind]].Text;
-                        data.name           = lstRowData[dicColmunIndex[name]].Text;
-                        data.rawMaterials   = lstRowData[dicColmunIndex[rawMaterials]].Text;
-                        data.amount         = lstRowData[dicColmunIndex[amount]].Text;
-                        data.validDays      = int.Parse(lstRowData[dicColmunIndex[validDays]].Text);
-                        data.storageMethod  = lstRowData[dicColmunIndex[storageMethod]].Text;
-                        data.allergy        = lstRowData[dicColmunIndex[allergy]].Text;
-                        data.manufacturer   = lstRowData[dicColmunIndex[manufacturer]].Text;
-                        data.comment        = lstRowData[dicColmunIndex[comment]].Text;
+                        GetExcelRowData(lstRowData, ItemName.ID, ref data.id);
+                        GetExcelRowData(lstRowData, ItemName.Kind, ref data.kind);
+                        GetExcelRowData(lstRowData, ItemName.Name, ref data.name);
+                        GetExcelRowData(lstRowData, ItemName.Material, ref data.rawMaterials);
+                        GetExcelRowData(lstRowData, ItemName.Amount, ref data.amount);
+                        GetExcelRowData(lstRowData, ItemName.ValidDate, ref data.validDays);
+                        GetExcelRowData(lstRowData, ItemName.Storage, ref data.storageMethod);
+                        GetExcelRowData(lstRowData, ItemName.Allergy, ref data.allergy);
+                        GetExcelRowData(lstRowData, ItemName.Manifacture, ref data.manufacturer);
+                        GetExcelRowData(lstRowData, ItemName.Comment, ref data.comment);
 
+                        GetExcelRowData(lstRowData, ItemName.Calorie, ref data.Calorie);
+                        GetExcelRowData(lstRowData, ItemName.Protein, ref data.Protein);
+                        GetExcelRowData(lstRowData, ItemName.Lipids, ref data.Lipids);
+                        GetExcelRowData(lstRowData, ItemName.Carbohydrates, ref data.Carbohydrates);
+                        GetExcelRowData(lstRowData, ItemName.Salt, ref data.Salt);
 
                         var wk = lstProduct.Find(x => x.id == data.id);
 
@@ -189,7 +223,32 @@ namespace ExcelReaderUtility
 
         }
 
- 
+        private int GetExcelRowData(List<ExcelReader.TextInfo> rowData, string itemKeyName, ref string value)
+        {
+            value = "";
+            if (dicColmunIndex[itemKeyName] >= 0)
+            {
+                value = rowData[dicColmunIndex[itemKeyName]].Text;
+            }
+            return 0;
+        }
+
+        private int GetExcelRowData(List<ExcelReader.TextInfo> rowData, string itemKeyName, ref int value)
+        {
+            value = 0;
+            if (dicColmunIndex[itemKeyName] >= 0)
+            {
+                if (int.TryParse(rowData[dicColmunIndex[itemKeyName]].Text, out value) == false)
+                {
+                    return -1;
+                }
+            }
+
+            return 0;
+        }
+
+
+
         private int ReadRowData(XSSFSheet sheet, int iRow, out List<ExcelReader.TextInfo> lstRowITems)
         {
             lstRowITems = null;

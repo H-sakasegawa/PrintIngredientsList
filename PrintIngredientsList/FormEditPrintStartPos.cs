@@ -20,12 +20,14 @@ namespace PrintIngredientsList
         public int printStartPos = 1;
 
         private PrintSettingData settingData;
+        private LabelType labelType;
 
-        public FormEditPrintStartPos(PrintSettingData settingData)
+        public FormEditPrintStartPos(LabelType labelType, PrintSettingData settingData)
         {
             InitializeComponent();
 
             this.settingData = settingData;
+            this.labelType = labelType;
         }
 
         private void FormEditPrintStartPos_Load(object sender, EventArgs e)
@@ -34,8 +36,8 @@ namespace PrintIngredientsList
             int colNum = 4;
             int rowNum = 4;
 
-            int btnWidth  = (int)(Utility.MILLI2POINT(settingData.LabelAreaWidth) * 0.4);
-            int btnHeight = (int)(Utility.MILLI2POINT(settingData.LabelAreaHeight) * 0.4);
+            int btnWidth  = (int)(Utility.MILLI2POINT(labelType.width) * 0.4);
+            int btnHeight = (int)(Utility.MILLI2POINT(labelType.height) * 0.4);
 
             int gapTop = 10;
             int gapLeft =10;
