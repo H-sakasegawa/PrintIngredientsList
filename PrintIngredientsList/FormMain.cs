@@ -666,10 +666,6 @@ namespace PrintIngredientsList
                         bExistUnknownData = true;
                         continue;
                     }
-                    //商品名はデータベースの内容で更新
-                    data.name = productData.name;
-                    //種別名はデータベースの内容で更新
-                    data.kind = productData.kind;
 
                     EditParamToGridAdd(data, false);
                 }
@@ -896,10 +892,334 @@ namespace PrintIngredientsList
             return LicenseManager.GetLicenseManager().ReadLicenseFile(filePath);
         }
 
-        private void txtPosX_TextChanged(object sender, EventArgs e)
+        //=========================================================
+        //  印刷タブの各種イベント
+        //=========================================================
+        #region 印刷タブの各種イベント
+
+
+        //フォント選択
+        private void cmbFont_SelectedIndexChanged(object sender, EventArgs e)
         {
+            curLabelType.fontName = cmbFont.Text;
+            panelPreviw.Invalidate();
+        }
+        /// <summary>
+        /// 用紙選択
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbLayout_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            curLayout = (Layout)cmbLayout.SelectedItem;
+
+            lblSize.Text = $"{curLayout.paperWidth} × {curLayout.paperHeight}";
+            txtPrintLeftGap.Text = curLayout.printGapLeft.ToString("F2");
+            txtPrintTopGap.Text = curLayout.printGapTop.ToString("F2");
 
         }
+
+        /// <summary>
+        /// ラベルタイプ選択
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbLabelType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            curLabelType = (LabelType)cmbLabelType.SelectedItem;
+
+            txtLabelAreaGapLeft.Text = curLabelType.gapLeft.ToString("F2");
+            txtLabelAreaGapTop.Text = curLabelType.gapTop.ToString("F2");
+            txtLabelAreaGapRight.Text = curLabelType.gapRight.ToString("F2");
+            txtLabelAreaGapBottom.Text = curLabelType.gapBottom.ToString("F2");
+
+            cmbLabelBlock.Items.Clear();
+            foreach (var ItemBlock in curLabelType.lstLabelBlocks)
+            {
+                cmbLabelBlock.Items.Add(ItemBlock);
+            }
+            if (cmbLabelBlock.Items.Count > 0)
+            {
+                cmbLabelBlock.SelectedIndex = 0;
+            }
+            UpdateLabelTypePreview();
+        }
+
+        //ラベルブロック選択
+        private void cmbLabelBlock_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+
+
+            grdLabelBlockItems.CellValueChanged -= grdLabelBlockItems_CellValueChanged;
+            {
+                grdLabelBlockItems.Rows.Clear();
+
+                LabelTypeBlock labelBlock = (LabelTypeBlock)cmbLabelBlock.SelectedItem;
+                if (labelBlock == null) return;
+
+                txtPosX.Text = labelBlock.posX.ToString();
+                txtPosY.Text = labelBlock.posY.ToString();
+
+                //データグリッドビューのヘッダを更新
+                grdLabelBlockItems.Columns.Clear();
+                if (labelBlock.labelTypeBlockType == LabelTypeBlockBase.LabelTypeBlockType.GRID)
+                {
+                    DataGridViewCheckBoxColumn chkColumn = new DataGridViewCheckBoxColumn();
+                    chkColumn.HeaderText = "表示";
+                    var colIndex = grdLabelBlockItems.Columns.Add(chkColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 37;
+
+                    DataGridViewTextBoxColumn txtColumn = new DataGridViewTextBoxColumn();
+                    txtColumn.HeaderText = "項目名";
+                    colIndex = grdLabelBlockItems.Columns.Add(txtColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 70;
+
+                    txtColumn = new DataGridViewTextBoxColumn();
+                    txtColumn.HeaderText = "高さ";
+                    colIndex = grdLabelBlockItems.Columns.Add(txtColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 40;
+
+                    txtColumn = new DataGridViewTextBoxColumn();
+                    txtColumn.HeaderText = "フォント";
+                    colIndex = grdLabelBlockItems.Columns.Add(txtColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 50;
+
+                    DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
+                    btnColumn.HeaderText = "詳細";
+                    colIndex = grdLabelBlockItems.Columns.Add(btnColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 40;
+                }
+                else
+                {
+                    DataGridViewCheckBoxColumn chkColumn = new DataGridViewCheckBoxColumn();
+                    chkColumn.HeaderText = "表示";
+                    var colIndex = grdLabelBlockItems.Columns.Add(chkColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 37;
+
+                    DataGridViewTextBoxColumn txtColumn = new DataGridViewTextBoxColumn();
+                    txtColumn.HeaderText = "項目名";
+                    colIndex = grdLabelBlockItems.Columns.Add(txtColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 70;
+
+                    txtColumn = new DataGridViewTextBoxColumn();
+                    txtColumn.HeaderText = "X";
+                    colIndex = grdLabelBlockItems.Columns.Add(txtColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 35;
+
+                    txtColumn = new DataGridViewTextBoxColumn();
+                    txtColumn.HeaderText = "Y";
+                    colIndex = grdLabelBlockItems.Columns.Add(txtColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 35;
+
+                    txtColumn = new DataGridViewTextBoxColumn();
+                    txtColumn.HeaderText = "Width";
+                    colIndex = grdLabelBlockItems.Columns.Add(txtColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 40;
+
+                    txtColumn = new DataGridViewTextBoxColumn();
+                    txtColumn.HeaderText = "Height";
+                    colIndex = grdLabelBlockItems.Columns.Add(txtColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 40;
+
+                    DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
+                    btnColumn.HeaderText = "詳細";
+                    colIndex = grdLabelBlockItems.Columns.Add(btnColumn);
+                    grdLabelBlockItems.Columns[colIndex].Width = 40;
+
+                }
+
+                foreach (var item in labelBlock.lstLabelTypeBlocklItems)
+                {
+                    int index = grdLabelBlockItems.Rows.Add();
+                    var row = grdLabelBlockItems.Rows[index];
+
+                    UpdateRow(row, item);
+                }
+            }
+            grdLabelBlockItems.CellValueChanged += grdLabelBlockItems_CellValueChanged;
+
+            // UpdateLabelTypePreview();
+
+        }
+        private void grdLabelBlockItems_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+
+            if (grdLabelBlockItems.CurrentCellAddress.X == 0 &&
+                   grdLabelBlockItems.IsCurrentCellDirty)
+            {
+                //コミットする
+                grdLabelBlockItems.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void grdLabelBlockItems_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var row = grdLabelBlockItems.Rows[e.RowIndex];
+
+            if (IsLabelTypeBlockType(LabelTypeBlockBase.LabelTypeBlockType.GRID))
+            {
+                LabelItem item = (LabelItem)row.Tag;
+
+                switch (e.ColumnIndex)
+                {
+                    case (int)LabelItemColumnIndex.COL_CHECK:
+                        item.Visible = (bool)row.Cells[e.ColumnIndex].Value;
+                        break;
+                    case (int)LabelItemColumnIndex.COL_HEIGHT:
+                        item.Height = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                        break;
+                    case (int)LabelItemColumnIndex.COL_FONT:
+                        item.FontSize = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                        break;
+
+                }
+            }
+            else
+            {
+                PictureItem item = (PictureItem)row.Tag;
+
+                switch (e.ColumnIndex)
+                {
+                    case (int)PictureItemColumnIndex.COL_CHECK:
+                        item.Visible = (bool)row.Cells[e.ColumnIndex].Value;
+                        break;
+                    case (int)PictureItemColumnIndex.COL_POSX:
+                        item.PosX = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                        break;
+                    case (int)PictureItemColumnIndex.COL_POSY:
+                        item.PosY = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                        break;
+                    case (int)PictureItemColumnIndex.COL_WIDTH:
+                        item.Width = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                        break;
+                    case (int)PictureItemColumnIndex.COL_HEIGHT:
+                        item.Height = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                        break;
+
+                }
+                UpdateLabelTypePreview();
+            }
+
+        }
+        private void grdLabelBlockItems_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (!grdLabelBlockItems.IsCurrentCellDirty)
+                return;
+
+            float fValue;
+            var row = grdLabelBlockItems.Rows[e.RowIndex];
+
+            if (IsLabelTypeBlockType(LabelTypeBlockBase.LabelTypeBlockType.GRID))
+            {
+                switch (e.ColumnIndex)
+                {
+                    case (int)LabelItemColumnIndex.COL_HEIGHT:
+                    case (int)LabelItemColumnIndex.COL_FONT:
+                        string sValue = (string)e.FormattedValue;
+                        if (!float.TryParse(sValue, out fValue))
+                        {
+                            Utility.MessageError("不正な値です");
+                            e.Cancel = true;
+                        }
+                        break;
+
+                }
+            }
+            else
+            {
+                switch (e.ColumnIndex)
+                {
+                    case (int)PictureItemColumnIndex.COL_POSX:
+                    case (int)PictureItemColumnIndex.COL_POSY:
+                    case (int)PictureItemColumnIndex.COL_WIDTH:
+                    case (int)PictureItemColumnIndex.COL_HEIGHT:
+                        string sValue = (string)e.FormattedValue;
+                        if (!float.TryParse(sValue, out fValue))
+                        {
+                            Utility.MessageError("不正な値です");
+                            e.Cancel = true;
+                        }
+                        break;
+
+                }
+
+            }
+        }
+        private void grdLabelBlockItems_CellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            // grdLabelBlockItems.Rows[e.RowIndex].ErrorText = null;
+
+        }
+        private void txtPosX_TextChanged(object sender, EventArgs e)
+        {
+            LabelTypeBlock labelBlock = (LabelTypeBlock)cmbLabelBlock.SelectedItem;
+            if (labelBlock == null) return;
+            float value;
+            if (!float.TryParse(txtPosX.Text, out value))
+            {
+                Utility.MessageError("不正な値です");
+                return;
+            }
+            labelBlock.posX = value;
+            UpdateLabelTypePreview();
+
+        }
+
+        private void txtPosY_TextChanged(object sender, EventArgs e)
+        {
+            LabelTypeBlock labelBlock = (LabelTypeBlock)cmbLabelBlock.SelectedItem;
+            if (labelBlock == null) return;
+            float value;
+            if (!float.TryParse(txtPosY.Text, out value))
+            {
+                Utility.MessageError("不正な値です");
+                return;
+            }
+            labelBlock.posY = value;
+            UpdateLabelTypePreview();
+
+        }
+        /// <summary>
+        /// データグリッドセルクリック
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void grdLabelBlockItems_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var row = grdLabelBlockItems.Rows[e.RowIndex];
+
+            var labeItemBlock = (LabelTypeBlockItemBase)row.Tag;
+
+            DataGridView dgv = (DataGridView)sender;
+            //"Button"列ならば、ボタンがクリックされた
+            bool bButtonCellClicked = false;
+
+            if (IsLabelTypeBlockType(LabelTypeBlockBase.LabelTypeBlockType.GRID))
+            {
+                if (e.ColumnIndex == (int)LabelItemColumnIndex.COL_DETAIL) bButtonCellClicked = true;
+            }
+            else
+            {
+                if (e.ColumnIndex == (int)PictureItemColumnIndex.COL_DETAIL) bButtonCellClicked = true;
+            }
+
+            if (bButtonCellClicked)
+            {
+                FormLabelTypeBlockIItemDetail frm = new FormLabelTypeBlockIItemDetail(labeItemBlock);
+                frm.ShowDialog();
+                UpdateRow(row, labeItemBlock);
+
+
+            }
+        }
+        #endregion
+
+
     }
 
 }

@@ -78,7 +78,6 @@ namespace PrintIngredientsList
         public DrawUtil2(Graphics g, LabelType labelType,  bool bDrawLabelBackground)
         {
             this.graphics = g;
-            fontSizeItemTitle = settingData.fontSizeTitle;
             this.graphics.PageUnit = GraphicsUnit.Millimeter;
 
             this.labelType = labelType;
@@ -90,7 +89,6 @@ namespace PrintIngredientsList
         {
 
             this.graphics = g;
-            fontSizeItemTitle = settingData.fontSizeTitle;
             this.graphics.PageUnit = GraphicsUnit.Millimeter;
 
             this.labelType = labelType;
@@ -131,6 +129,8 @@ namespace PrintIngredientsList
         public  void SetTargetLabelBlock(LabelTypeBlock labelBlock)
         {
             this.labelBlock = labelBlock;
+
+            fontSizeItemTitle = labelBlock.titleFontSize;
 
             labelBlockWidthMM = labelBlock.LabelBlockWidth;
             titleAreWidthMM = labelBlock.TitleAreWidthMM;
