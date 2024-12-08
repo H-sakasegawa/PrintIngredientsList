@@ -632,10 +632,10 @@ namespace PrintIngredientsList
                         bExistUnknownData = true;
                         continue;
                     }
-                    //商品名はデータベースの内容で更新
-                    data.name = productData.name;
-                    //種別名はデータベースの内容で更新
-                    data.kind = productData.kind;
+                    ////商品名はデータベースの内容で更新
+                    //data.name = productData.name;
+                    ////種別名はデータベースの内容で更新
+                    //data.kind = productData.kind;
 
                     EditParamToGridAdd(data, false);
                 }

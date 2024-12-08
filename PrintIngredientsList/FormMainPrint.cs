@@ -271,7 +271,7 @@ namespace PrintIngredientsList
 
             //ラベル描画処理
             float nextY = 0;
-            nextY = util.DrawItem("名    称", param.name,                 0,     settingData.hightProductTitle,  settingData.fontSizeProductTitle);
+            nextY = util.DrawItem("名    称", productData.name,           0,     settingData.hightProductTitle,  settingData.fontSizeProductTitle);
             nextY = util.DrawItem("原材料名", productData.rawMaterials,   nextY, settingData.hightMaterial,      settingData.fontSizeMaterial, true);
             nextY = util.DrawItem("内 容 量", param.amount,               nextY, settingData.hightAmount,        settingData.fontSizeAmount);
             nextY = util.DrawItem("賞味期限", dt.ToLongDateString(),      nextY, settingData.hightAmount,        settingData.fontSizeLimitDate);

@@ -217,8 +217,8 @@ namespace PrintIngredientsList
             EditProductData editParam = new EditProductData();
 
             editParam.id = productData.id;
-            editParam.kind = productData.kind;
-            editParam.name = productData.name;
+            //editParam.kind = productData.kind;
+            //editParam.name = productData.name;
             editParam.amount = txtAmount.Text;
             editParam.validDays = (int)txtValidDays.Value;
             editParam.storageMethod = cmbStorage.Text;

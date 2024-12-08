@@ -177,12 +177,6 @@
     <Compile Include="FormMainPrint.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSaveDatReferctor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormSaveDatReferctor.Designer.cs">
-      <DependentUpon>FormSaveDatReferctor.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormLicenseMng.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,9 +197,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormSaveDatReferctor.resx">
-      <DependentUpon>FormSaveDatReferctor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLicenseMng.resx">
       <DependentUpon>FormLicenseMng.cs</DependentUpon>

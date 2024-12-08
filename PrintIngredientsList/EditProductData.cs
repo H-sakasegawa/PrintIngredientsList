@@ -15,14 +15,14 @@ namespace PrintIngredientsList
         /// ID
         /// </summary>
         public string id;
-         /// <summary>
-        /// 分類
-        /// </summary>
-        public string kind;
-        /// <summary>
-        /// 名称
-        /// </summary>
-        public string name;
+        // /// <summary>
+        ///// 分類
+        ///// </summary>
+        //public string kind;
+        ///// <summary>
+        ///// 名称
+        ///// </summary>
+        //public string name;
         /// <summary>
         /// 印刷枚数
         /// </summary>
@@ -100,8 +100,8 @@ namespace PrintIngredientsList
         public override string ToString()
         {
             return $"id:{id}" +
-                   $",kind:{kind}" +
-                   $",name:{name}" +
+                   //$",kind:{kind}" +
+                   //$",name:{name}" +
                    $",numOfSheets:{numOfSheets}" +
                    $",amount:{amount}" +
                    $",validDays:{validDays}" +
@@ -119,8 +119,8 @@ namespace PrintIngredientsList
             {
                 return -1;
             }
-            kind = GetValue(ary, "kind", "");
-            name = GetValue(ary, "name", "");
+            //kind = GetValue(ary, "kind", "");
+            //name = GetValue(ary, "name", "");
             numOfSheets = int.Parse(GetValue(ary, "numOfSheets", "1"));
             amount = GetValue(ary, "amount", "");
             validDays =int.Parse( GetValue(ary, "validDays", "0"));
