@@ -511,7 +511,7 @@ namespace PrintIngredientsList
 
             gPreview.ScaleTransform(scale, scale);
 
-            DrawLabel(gPreview, 0, 0);
+            DrawLabel(gPreview, false,0, 0);
         }
 
         /// <summary>

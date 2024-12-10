@@ -9,6 +9,11 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using NPOI.SS.Formula.Functions;
 using ExcelReaderUtility;
+using NPOI.Util;
+using static ExcelReaderUtility.ProductReader;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.AxHost;
 
 namespace PrintIngredientsList
 {
@@ -34,6 +39,9 @@ namespace PrintIngredientsList
         int printDataIndex = 0;
         bool bPrintStartPositionning = false;
 
+        //プレビュー画面拡大率最大／最小
+        double PreviewZoomMax = 3.0;
+        double PreviewZoomMin = 0.1;
 
         /// <summary>
         /// 印刷ドキュメント情報作成
@@ -79,8 +87,11 @@ namespace PrintIngredientsList
 
             //PrintPreviewDialogオブジェクトの作成
             PrintPreviewDialog ppd = new PrintPreviewDialog();
-            //プレビューするPrintDocumentを設定
 
+            //印刷プレビュー画面のホイール拡大縮小処理イベント
+            ppd.MouseWheel += OnPrintPreviewDialog_MouseWheel;
+
+            //プレビューするPrintDocumentを設定
             int x = Properties.Settings.Default.PrintPreviewDlgLocX;
             int y = Properties.Settings.Default.PrintPreviewDlgLocY;
             int w = Properties.Settings.Default.PrintPreviewDlgSizeW;
@@ -100,6 +111,19 @@ namespace PrintIngredientsList
             Properties.Settings.Default.PrintPreviewDlgSizeH = ppd.Bounds.Height;
             Properties.Settings.Default.PrintPreviewDlgZoom = ppd.PrintPreviewControl.Zoom;
 
+        }
+        private void OnPrintPreviewDialog_MouseWheel(object sender, MouseEventArgs e)
+        {
+            PrintPreviewDialog ppd = (PrintPreviewDialog)sender;
+
+            double delta = (e.Delta / 120) / 100.0 * 10;
+
+            double nowZoom = ppd.PrintPreviewControl.Zoom;
+            if (nowZoom + delta > PreviewZoomMax) return;
+            if (nowZoom + delta < PreviewZoomMin) return;
+
+
+            ppd.PrintPreviewControl.Zoom += delta;
         }
         /// <summary>
         /// 印刷
@@ -123,10 +147,14 @@ namespace PrintIngredientsList
             }
 
         }
+
+        int curPrintPageNo = 0;
+        
         private void CreatePrintData()
         {
             lstPrintData.Clear();
             printDataIndex = 0; //印刷ラベルIndex初期化
+            curPrintPageNo = 0;
 
             //セット枚数
             for (int iCopy = 0; iCopy < settingData.copyNum; iCopy++)
@@ -151,10 +179,20 @@ namespace PrintIngredientsList
             }
         }
 
+        class PrintedProducts
+        {
+            public PrintedProducts(string name)
+            {
+                this.name = name;
+            }
+            public string name;
+            public int printNum;
+        }
 
 
         private void pd_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
+            curPrintPageNo++;
 
             PrintDocumentEx pd = (PrintDocumentEx)sender;
 
@@ -198,6 +236,8 @@ namespace PrintIngredientsList
             float drawX = startX;
             float drawY = startY;
 
+            int pageNum = GetPageNum();
+
             if (bPrintStartPositionning == false)
             {
                 //印刷開始位置の1つ手前まで座標を進める（１ページ目のみ）
@@ -214,35 +254,118 @@ namespace PrintIngredientsList
                 //印刷開始位置調整済みフラグセット
                 bPrintStartPositionning = true;
             }
-            while (printDataIndex< lstPrintData.Count)
+
+            List<PrintedProducts> printHeaderProductNames = new List<PrintedProducts>();
+            try
             {
-                EditProductData data = lstPrintData[printDataIndex];
-
-                //印刷枚数
-                DrawLabel(data, e.Graphics, drawX, drawY);
-                printDataIndex++;//次のラベル
-
-                if( printDataIndex< lstPrintData.Count)
+                PrintedProducts curPrintProduct = null;
+                while (printDataIndex < lstPrintData.Count)
                 {
-                    
-                    drawX += LabelBlockWidth;
-                    if (drawX + LabelBlockWidth >= A4WidthMM)
-                    {
-                        drawY += LabelBlockHeiht;
-                        drawX = startX;
+                    EditProductData data = lstPrintData[printDataIndex];
+                    var productData = productBaseInfo.GetProductDataByID(data.id);
 
-                        if( drawY + LabelBlockHeiht > A4HeightMM)
+                    if (curPrintProduct == null || string.Compare(curPrintProduct.name, productData.name, true) != 0)
+                    {
+                        curPrintProduct = new PrintedProducts(productData.name);
+                        printHeaderProductNames.Add(curPrintProduct);
+                    }
+                    //現在の製品のの印刷ラベル枚数カウント
+                    curPrintProduct.printNum++;
+                    //印刷される製品の切り替わり位置ライン描画フラグ
+                    bool bDrawProductSepLine = false;
+                    if(curPrintProduct.printNum==1)
+                    {
+                       bDrawProductSepLine = true;
+                    }
+
+                    //印刷枚数
+                    DrawLabel(data, e.Graphics, bDrawProductSepLine, drawX, drawY);
+                    printDataIndex++;//次のラベル
+
+                    if (printDataIndex < lstPrintData.Count)
+                    {
+
+                        drawX += LabelBlockWidth;
+                        if (drawX + LabelBlockWidth >= A4WidthMM)
                         {
-                            //改ページ
-                            e.HasMorePages = true;
-                            return;
+                            drawY += LabelBlockHeiht;
+                            drawX = startX;
+
+                            if (drawY + LabelBlockHeiht > A4HeightMM)
+                            {
+                                //改ページ
+                                e.HasMorePages = true;
+                                return;
+                            }
                         }
                     }
                 }
+
+                e.HasMorePages = false;
+            }finally
+            {
+                //ヘッダにこのページに印刷されている商品名とラベル枚数を表示
+                DrawHeader(printHeaderProductNames, e.Graphics, settingData.PrintLeftGap, settingData.PrintTopGap);
+                DrawFooter(curPrintPageNo, pageNum, e.Graphics, A4WidthMM, A4HeightMM);
             }
-            e.HasMorePages = false;
         }
-        private void DrawLabel(Graphics gPreview, float gapLeft, float gapTop)
+        /// <summary>
+        /// 印刷ページ数カウント
+        /// </summary>
+        /// <returns></returns>
+        private int GetPageNum()
+        {
+            float A4HeightMM = 297; //mm
+            float A4WidthMM = 210; //mm
+
+            float startX = settingData.PrintLeftGap;
+            float startY = settingData.PrintTopGap;
+
+            float LabelBlockWidth = settingData.LabelAreaWidth;
+            float LabelBlockHeiht = settingData.LabelAreaHeight;
+
+            float drawX = startX;
+            float drawY = startY;
+
+
+            //印刷開始位置の1つ手前まで座標を進める（１ページ目のみ）
+            for (int iPos = 0; iPos < settingData.printStartPos - 1; iPos++)
+            {
+                drawX += LabelBlockWidth;
+                if (drawX + LabelBlockWidth >= A4WidthMM)
+                {
+                    drawY += LabelBlockHeiht;
+                    drawX = startX;
+                }
+
+            }
+
+
+            int pageCount = 1;
+            int index = 0;
+            while (index < lstPrintData.Count)
+            {
+                index++;
+                drawX += LabelBlockWidth;
+                if (drawX + LabelBlockWidth >= A4WidthMM)
+                {
+                    drawY += LabelBlockHeiht;
+                    drawX = startX;
+
+                    if (drawY + LabelBlockHeiht > A4HeightMM)
+                    {
+                        //改ページ
+                        pageCount++;
+                        drawX = startX;
+                        drawY = startY;
+                    }
+                }
+            }
+            return pageCount;
+
+        }
+
+        private void DrawLabel(Graphics gPreview, bool bDrawProductSepLine,float gapLeft, float gapTop)
         {
 
             if (gridList.SelectedRows.Count <= 0) return;
@@ -251,13 +374,11 @@ namespace PrintIngredientsList
             var curRow = gridList.SelectedRows[0];
             EditProductData param = (EditProductData)curRow.Tag;
 
-            DrawLabel(param, gPreview, gapTop, gapLeft);
+            DrawLabel(param, gPreview, false, gapTop, gapLeft);
         }
 
-        private void DrawLabel(EditProductData param, Graphics gPreview, float gapLeft, float gapTop, bool bTestLineDraw = false)
+        private void DrawLabel(EditProductData param, Graphics gPreview, bool bDrawProductSepLine, float gapLeft, float gapTop, bool bTestLineDraw = false)
         {
-
-            Pen pen = new Pen(Color.Black, (float)0.1);
 
             var commonDefStorage = commonDefInfo.GetCommonDefData(CommonDeftReader.keyStorage, param.storageMethod);
             var commonDefManifac = commonDefInfo.GetCommonDefData(CommonDeftReader.keyManifacture, param.manufacturer);
@@ -279,7 +400,51 @@ namespace PrintIngredientsList
             nextY = util.DrawItem("製 造 者", commonDefManifac.printText, nextY, settingData.hightManifac,       settingData.fontSizeManifac);
             nextY = util.DrawItemComment("", productData.comment,         nextY,                                 settingData.fontSizeComment, false);
 
+            if(bDrawProductSepLine)
+            {
+                float x = gapLeft;
+                Pen pen = new Pen(Color.Black, (float)0.3);
+                PointF pnt1 = new PointF(x, gapTop);
+                PointF pnt2 = new PointF(x, gapTop +1);
+                util.DrawLine(pen, pnt1, pnt2);
+            }
         }
+
+        void DrawHeader(List<PrintedProducts> printHeaderProductNames, Graphics gPreview, float gapLeft, float gapTop)
+        {
+            DrawUtil2 util = new DrawUtil2(gPreview, settingData, gapTop, gapLeft);
+
+            float maxWidth = 0;
+            float nextY = 0;
+            float x = settingData.HeaderPrintLeftGap;
+            float y = settingData.HeaderPrintTopGap;
+            float width = 0;
+
+            foreach (var prd in printHeaderProductNames)
+            {
+                int rc = 0;
+                do
+                {
+                    rc = util.DrawHeader(prd.name, prd.printNum, x, y, gapTop, ref nextY, ref width);
+                    if (rc != 0)
+                    {
+                        //ヘッダ領域オーバー
+                        x += maxWidth+2;
+                        y = settingData.HeaderPrintTopGap;
+                    }
+                } while (rc != 0);
+
+                maxWidth = Math.Max(maxWidth, width);
+                y = nextY;
+            }
+        }
+
+        void DrawFooter(int curPageNo, int pageNum, Graphics gPreview, float pageWidth, float pageHeight)
+        {
+            DrawUtil2 util = new DrawUtil2(gPreview, settingData, 0, 0);
+            util.DrawFooter(curPageNo, pageNum, pageWidth, pageHeight);
+        }
+
 
         //フォント選択
         private void cmbFont_SelectedIndexChanged(object sender, EventArgs e)

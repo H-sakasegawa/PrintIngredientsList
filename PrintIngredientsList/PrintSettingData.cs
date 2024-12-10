@@ -59,6 +59,9 @@ namespace PrintIngredientsList
         public float hightStorage = 6;
         public float hightManifac = 6;
 
+        //ヘッダ領域左上余白
+        public float HeaderPrintTopGap = (float)4;
+        public float HeaderPrintLeftGap = (float)4;
 
         /// <summary>
         /// １つのラベルシールの描画可能領域幅(mm) 左右の余白を差し引いた値

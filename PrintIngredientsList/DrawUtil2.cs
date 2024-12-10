@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
 using System.Windows.Media.Media3D;
+using System.Windows.Media.TextFormatting;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.AxHost;
 
 namespace PrintIngredientsList
@@ -20,6 +22,7 @@ namespace PrintIngredientsList
         Graphics graphics = null;
 
         float fontSizeItemTitle = 6;
+        float fontSizeItemHeader = 6;
 
         //印刷ページの左上の余白（コンストラクタで確定）
         float PageGapTopMM = 0;
@@ -291,6 +294,46 @@ namespace PrintIngredientsList
         public void DrawLine(Pen pen, PointF p1, PointF p2)
         {
             graphics.DrawLine(pen, p1, p2);
+        }
+        public int DrawHeader(string name, int num, float startX, float startY, float maxY, ref float nextY, ref float width)
+        {
+            Font font = new Font(settingData.fontName, fontSizeItemHeader, FontStyle.Regular);
+            Brush brs = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
+            PointF point = new PointF(startX, startY);
+
+            //改行コードを削除
+            name = name.Replace("\n", "");
+            name = name.Replace("\r", "");
+            name = name + $" ({num}枚)";
+
+            SizeF size = graphics.MeasureString(name, font);
+            if (startY + size.Height > maxY)
+            {
+                //ヘッダ領域オーバー
+                return -1;
+            }
+            width = size.Width;
+
+            graphics.DrawString(name, font, brs, startX, startY);
+
+            nextY = startY + size.Height;
+
+            return 0;
+        }
+
+        public int DrawFooter(int curPageNo, int pageNum, float pageWidth, float pageHeight)
+        {
+            Font font = new Font(settingData.fontName, fontSizeItemHeader, FontStyle.Regular);
+            Brush brs = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
+
+            string pageStr = $"{curPageNo} / {pageNum}";
+            SizeF size = graphics.MeasureString(pageStr, font);
+
+
+            float x = (pageWidth - size.Width)/ 2;
+            float y = pageHeight - 10;
+            graphics.DrawString(pageStr, font, brs, x, y);
+            return 0;
         }
 
     }
