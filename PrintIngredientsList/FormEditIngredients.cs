@@ -2,6 +2,7 @@
 using ExtendedNumerics.Helpers;
 using MathNet.Numerics.Distributions;
 using NPOI.SS.Formula.Functions;
+using NPOI.XSSF.Streaming.Values;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +35,8 @@ namespace PrintIngredientsList
 
         private void FormEditIngredients_Load(object sender, EventArgs e)
         {
-            this.MinimumSize = this.Size;
+            MinimumSize = this.Size;
+
 
             var lstKind = productBaseInfo.GetKindList();
 
@@ -78,14 +80,14 @@ namespace PrintIngredientsList
                 var productData = productBaseInfo.GetProductDataByID(editData.id);
 
 
-                cmbProduct.SelectedItem = productData;
-                txtMaterial.Text = productData.rawMaterials;
+                //cmbProduct.SelectedItem = productData;
+                //txtMaterial.Text = productData.rawMaterials;
                 txtAmount.Text = editData.amount;
                 txtValidDays.Value = editData.validDays;
                 cmbStorage.Text = editData.storageMethod;
-                txtAllergy.Text = productData.allergy;
+                //txtAllergy.Text = productData.allergy;
                 cmbManufacture.Text = editData.manufacturer;
-                txtComment.Text = productData.comment;
+                //txtComment.Text = productData.comment;
 
                 txtNumOfSheets.Text = editData.numOfSheets.ToString();
 
@@ -94,6 +96,7 @@ namespace PrintIngredientsList
 
 
         }
+
 
         /// <summary>
         /// 種別選択
@@ -140,7 +143,22 @@ namespace PrintIngredientsList
             cmbManufacture.Text = productData.manufacturer;
             //欄外
             txtComment.Text = productData.comment;
+
+            //栄養成分
+            AddLvNutritional(ItemName.Calorie, productData.Calorie);
+            AddLvNutritional(ItemName.Protein, productData.Protein);
+            AddLvNutritional(ItemName.Lipids, productData.Lipids);
+            AddLvNutritional(ItemName.Carbohydrates, productData.Carbohydrates);
+            AddLvNutritional(ItemName.Salt, productData.Salt);
+
         }
+
+        void AddLvNutritional(string title, string value)
+        {
+            var lvItem = lvNutritional.Items.Add(title);
+            lvItem.SubItems.Add(value);
+        }
+
         /// <summary>
         /// 保存方法
         /// </summary>
@@ -230,6 +248,16 @@ namespace PrintIngredientsList
             return editParam;
         }
 
+        private void FormEditIngredients_SizeChanged(object sender, EventArgs e)
+        {
+        }
 
+        private void FormEditIngredients_Resize(object sender, EventArgs e)
+        {
+            if(this.Height> MinimumSize.Height)
+            {
+                Height = MinimumSize.Height;
+            }
+        }
     }
 }

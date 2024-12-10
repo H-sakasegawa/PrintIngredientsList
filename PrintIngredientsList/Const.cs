@@ -37,8 +37,10 @@ namespace PrintIngredientsList
         public const int previewDlgBasicHeight = 600;
 
         public const string SettingFolderName = "Settings";
+        public const string BarcodeDataFolderName = "Barcode";
         public const string SaveDataFileName = "save.dat";
         public const string SettingDataFineName = "setting.dat";
+
         public const string printLayoutDataFineName = "PrintLayout.dat";
 
 
@@ -56,7 +58,7 @@ namespace PrintIngredientsList
         public const string Storage = "保存方法";
         public const string Manifacture = "製造者";
         public const string Allergy = "アレルギー";
-        public const string Comment = "欄外";
+        public const string Supplementary = "欄外";
 
         public const string NutritionalInformation = "栄養成分表示";
         public const string Calorie = "熱量";
@@ -64,6 +66,9 @@ namespace PrintIngredientsList
         public const string Lipids = "脂質";
         public const string Carbohydrates = "炭水化物";
         public const string Salt = "食塩相当量";
+
+        public const string Comment = "コメント";
+
 
         public const string Barcode = "BARCODE";
         public const string Icon = "ICON";

@@ -12,6 +12,7 @@ namespace PrintIngredientsList
     {
         public int copyNum      = 1;      //セット枚数
         public int printStartPos = 1;       //印刷開始位置
+        public string fontName = Const.defaultFontName;
 
         //項目毎の基本フォントサイズ
         //範囲に入りきらない場合は、このフォントサイズから小さいフォントサイズに自動調整
@@ -37,6 +38,7 @@ namespace PrintIngredientsList
             using (var sw = new StreamWriter(filePath))
             {
                 Write(sw, "COPYNUM", copyNum);
+                Write(sw, "FONTNAME", fontName);
 
             }
         }
@@ -58,7 +60,12 @@ namespace PrintIngredientsList
                     var valueItem = s.Split(':');
                     switch(valueItem[0])
                     {
-                        case "COPYNUM":             copyNum             = int.Parse(valueItem[1]); break;
+                        case "COPYNUM":
+                            copyNum = int.Parse(valueItem[1]);
+                            break;
+                        case "FONTNAME":
+                            fontName = valueItem[1];
+                            break;
 
                     }
 

@@ -16,7 +16,7 @@ using System.Windows.Forms;
 using System.Windows.Shapes;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using System.Windows.Controls;
+//using System.Windows.Controls;
 using System.Reflection;
 using NPOI.OpenXmlFormats.Shared;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
@@ -213,6 +213,8 @@ namespace PrintIngredientsList
             var printLayout = printLayoutMng.printLayout;
             var labelLayout = printLayoutMng.labelLayout;
 
+            cmbLayout.Items.Clear();
+            cmbLabelType.Items.Clear();
             for (int i = 0; i < printLayout.GetLayoutCnt(); i++)
             {
                 cmbLayout.Items.Add(printLayout[i]);
@@ -226,7 +228,7 @@ namespace PrintIngredientsList
             if (cmbLabelType.Items.Count > 0) { cmbLabelType.SelectedIndex = 0; }
 
 
-            cmbFont.Text = curLabelType.fontName;
+            cmbFont.Text = data.fontName;
 
             txtCopyNum.Text            = data.copyNum.ToString();
             txtPrintLeftGap.Text       = curLayout.printGapLeft.ToString("F2");
@@ -276,6 +278,10 @@ namespace PrintIngredientsList
             int SplitDistance = Properties.Settings.Default.SplitDistance;
             splitContainer1.SplitterDistance = SplitDistance;
 
+            //印刷設定のラベルレイアウトスプリット位置
+            SplitDistance = Properties.Settings.Default.LabelLayoutPreviewSlpitDistance;
+            splitContainer4.SplitterDistance = SplitDistance;
+
 
             //印刷プレビュー画面位置とサイズ補正
             if (Properties.Settings.Default.PrintPreviewDlgLocX <0) Properties.Settings.Default.PrintPreviewDlgLocX = 0;
@@ -292,6 +298,8 @@ namespace PrintIngredientsList
             Properties.Settings.Default.WinSizeW = this.Size.Width;
             Properties.Settings.Default.WinSizeH = this.Size.Height;
             Properties.Settings.Default.SplitDistance = splitContainer1.SplitterDistance;
+            Properties.Settings.Default.LabelLayoutPreviewSlpitDistance = splitContainer4.SplitterDistance;
+
 
             Properties.Settings.Default.Save();
         }
@@ -343,6 +351,195 @@ namespace PrintIngredientsList
         {
             return printLayoutMng.ReadLayout(filePath);
         }
+
+ 
+        /// <summary>
+        /// 行の表示更新
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="data"></param>
+        /// <param name="redfawPreview"></param>
+        private void EditParamToGridUpdate(DataGridViewRow row, EditProductData data, bool redfawPreview = true)
+        {
+            List<object> lstObject = new List<object>()
+            {
+                false //印刷チェックボックス
+            };
+
+            var paramItems = data.GetParams(productBaseInfo);
+
+            int index = 1;
+            foreach (var p in paramItems)
+            {
+                row.Cells[index].Value = p;
+                index++;
+            }
+            row.Tag = data;
+
+            if (redfawPreview)
+            {
+                UpdatePreview();
+            }
+        }
+        /// <summary>
+        /// 行追加
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="redfawPreview"></param>
+        private void EditParamToGridAdd(EditProductData data, bool redfawPreview = true)
+        {
+            List<object> lstObject = new List<object>()
+            {
+                false //印刷チェックボックス
+            };
+
+            var paramItems = data.GetParams(productBaseInfo);
+
+            foreach (var p in paramItems)
+            {
+                lstObject.Add(p);
+            }
+
+            var rowIndex = gridList.Rows.Add(lstObject.ToArray());
+
+            gridList.Rows[rowIndex].Tag = data;
+
+            if (redfawPreview)
+            {
+                UpdatePreview();
+            }
+        }
+
+        /// <summary>
+        /// プレビューウィンドウ更新
+        /// </summary>
+        void UpdatePreview()
+        {
+            panelPreviw.Invalidate();
+        }
+
+        /// <summary>
+        /// プレビューパネル描画
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void panelPreviw_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics gPreview = e.Graphics;
+
+            //選択されているラベルタイプ
+            var labelType = (LabelType)cmbLabelType.SelectedItem;
+
+            Preview(gPreview, panelPreviw, labelType, (float)1);
+
+        }
+        private void Preview(Graphics gPreview,System.Windows.Forms.Panel panel, LabelType labelType, float rate)
+        {
+            int areaWidth = (int)DrawUtil2.MillimetersToPixels(labelType.width, gPreview.DpiX);
+            int areaHeight = (int)DrawUtil2.MillimetersToPixels(labelType.height, gPreview.DpiY);
+
+            float scaleW = (float)panel.Width / areaWidth;
+            float scaleH = (float)panel.Height / areaHeight;
+            float scale = Math.Min(scaleW, scaleH);
+            
+
+            scale *= rate;
+
+            gPreview.ScaleTransform(scale, scale);
+
+            DrawLabel(gPreview, labelType, 0, 0);
+
+        }
+
+        //=========================================================
+        //  データの保存と読み込み
+        //=========================================================
+        #region データの保存と読み込み
+        /// <summary>
+        /// 保存ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolBtnSave_Click(object sender, EventArgs e)
+        {
+            //編集グリッド情報の出力
+            using (var sw = new StreamWriter(prevDataFilePath))
+            {
+
+                foreach (DataGridViewRow row in gridList.Rows)
+                {
+                    EditProductData data = (EditProductData)row.Tag;
+
+                    sw.WriteLine(data.ToString());
+                }
+            }
+            //セッティング情報の出力
+            settingData.Write(settingDataFilePath);
+
+            //印刷レイアウト情報の保存
+            printLayoutMng.SaveLayout(printLayoutDataFilePath + "_");
+
+        }
+        /// <summary>
+        /// 保存データ読み込み
+        /// </summary>
+        /// <returns>0..正常</returns>
+        private int ReadSavedPath()
+        {
+            if (!File.Exists(prevDataFilePath))
+            {
+                return 0;
+            }
+            bool bExistUnknownData = false;
+
+            using (var sr = new StreamReader(prevDataFilePath))
+            {
+                while (true)
+                {
+                    string s = sr.ReadLine();
+                    if (s == null) break;
+
+                    EditProductData data = null;
+                    try
+                    {
+                        data = new EditProductData(s);
+                    }catch
+                    {
+                        Utility.MessageError($"保存データが正しくありません。\n保存データの読み込みをSKIPします。");
+                        return -1;
+                    }
+
+                    //前回保存されたIDに該当するものが、商品データベースにあるかをチェック
+                    var productData = productBaseInfo.GetProductDataByID(data.id);
+                    if (productData == null)
+                    {
+                        bExistUnknownData = true;
+                        continue;
+                    }
+
+                    EditParamToGridAdd(data, false);
+                }
+            }
+
+            if(bExistUnknownData)
+            {
+                Utility.MessageInfo("前回編集データに商品データベースに登録されていない商品がありました。");
+            }
+
+            if (gridList.Rows.Count > 0)
+            {
+                gridList.Rows[0].Selected = true;
+                UpdatePreview();
+            }
+
+            return 0;
+        }
+        #endregion
+
+        //=========================================================
+        //  成分表一覧タブの各種イベント
+        //=========================================================
+        #region 成分表一覧タブの各種イベント
 
         /// <summary>
         /// ダブルクリックによる商品編集
@@ -423,71 +620,6 @@ namespace PrintIngredientsList
             }
         }
         /// <summary>
-        /// 行の表示更新
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="data"></param>
-        /// <param name="redfawPreview"></param>
-        private void EditParamToGridUpdate(DataGridViewRow row, EditProductData data, bool redfawPreview = true)
-        {
-            List<object> lstObject = new List<object>()
-            {
-                false //印刷チェックボックス
-            };
-
-            var paramItems = data.GetParams(productBaseInfo);
-
-            int index = 1;
-            foreach (var p in paramItems)
-            {
-                row.Cells[index].Value = p;
-                index++;
-            }
-            row.Tag = data;
-
-            if (redfawPreview)
-            {
-                UpdatePreview();
-            }
-        }
-        /// <summary>
-        /// 行追加
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="redfawPreview"></param>
-        private void EditParamToGridAdd(EditProductData data, bool redfawPreview = true)
-        {
-            List<object> lstObject = new List<object>()
-            {
-                false //印刷チェックボックス
-            };
-
-            var paramItems = data.GetParams(productBaseInfo);
-
-            foreach (var p in paramItems)
-            {
-                lstObject.Add(p);
-            }
-
-            var rowIndex = gridList.Rows.Add(lstObject.ToArray());
-
-            gridList.Rows[rowIndex].Tag = data;
-
-            if (redfawPreview)
-            {
-                UpdatePreview();
-            }
-        }
-
-        /// <summary>
-        /// プレビューウィンドウ更新
-        /// </summary>
-        void UpdatePreview()
-        {
-            panelPreviw.Invalidate();
-        }
-
-        /// <summary>
         /// 全てチェックボックス
         /// </summary>
         /// <param name="sender"></param>
@@ -510,39 +642,6 @@ namespace PrintIngredientsList
         {
             UpdatePreview();
         }
-        /// <summary>
-        /// プレビューパネル描画
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void panelPreviw_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics gPreview = e.Graphics;
-
-            //選択されているラベルタイプ
-            var labelType = (LabelType)cmbLabelType.SelectedItem;
-
-            Preview(gPreview, panelPreviw, labelType, (float)1);
-
-        }
-        private void Preview(Graphics gPreview,System.Windows.Forms.Panel panel, LabelType labelType, float rate)
-        {
-            int areaWidth = (int)DrawUtil2.MillimetersToPixels(labelType.width, gPreview.DpiX);
-            int areaHeight = (int)DrawUtil2.MillimetersToPixels(labelType.height, gPreview.DpiY);
-
-            float scaleW = (float)panel.Width / areaWidth;
-            float scaleH = (float)panel.Height / areaHeight;
-            float scale = Math.Min(scaleW, scaleH);
-            
-
-            scale *= rate;
-
-            gPreview.ScaleTransform(scale, scale);
-
-            DrawLabel(gPreview, labelType, 0, 0);
-
-        }
-
 
         /// <summary>
         /// グリッドセルの編集
@@ -577,10 +676,8 @@ namespace PrintIngredientsList
             {
                 string sValue = (string)e.FormattedValue;
                 int value;
-                if (!int.TryParse(sValue, out value))
+                if (!CnvIntValue(sValue, out value))
                 {
-
-                    Utility.MessageError("不正な値です");
                     e.Cancel = true;
                 }
             }
@@ -591,100 +688,11 @@ namespace PrintIngredientsList
             gridList.Rows[e.RowIndex].ErrorText = null;
 
         }
-
-
         /// <summary>
-        /// 保存ボタン
+        /// ▶ボタン
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void toolBtnSave_Click(object sender, EventArgs e)
-        {
-            //編集グリッド情報の出力
-            using (var sw = new StreamWriter(prevDataFilePath))
-            {
-
-                foreach (DataGridViewRow row in gridList.Rows)
-                {
-                    EditProductData data = (EditProductData)row.Tag;
-
-                    sw.WriteLine(data.ToString());
-                }
-            }
-            //セッティング情報の出力
-            settingData.Write(settingDataFilePath);
-
-            //印刷レイアウト情報の保存
-            printLayoutMng.SaveLayout(printLayoutDataFilePath + "_");
-
-        }
-        /// <summary>
-        /// 保存データ読み込み
-        /// </summary>
-        /// <returns>0..正常</returns>
-        private int ReadSavedPath()
-        {
-            if (!File.Exists(prevDataFilePath))
-            {
-                return 0;
-            }
-            bool bExistUnknownData = false;
-
-            using (var sr = new StreamReader(prevDataFilePath))
-            {
-                while (true)
-                {
-                    string s = sr.ReadLine();
-                    if (s == null) break;
-
-                    EditProductData data = null;
-                    try
-                    {
-                        data = new EditProductData(s);
-                    }catch
-                    {
-                        Utility.MessageError($"保存データが正しくありません。\n保存データの読み込みをSKIPします。");
-                        return -1;
-                    }
-
-                    //前回保存されたIDに該当するものが、商品データベースにあるかをチェック
-                    var productData = productBaseInfo.GetProductDataByID(data.id);
-                    if (productData == null)
-                    {
-                        //if (!bApplyAll)
-                        //{
-                        //    FormSaveDatReferctor frm = new FormSaveDatReferctor(productBaseInfo, data);
-                        //    frm.ShowDialog();
-                        //    if (frm.result == 0)
-                        //    {
-                        //        bApplyAll = frm.bApplyAll;
-                        //        continue;
-                        //    }
-                        //    data.name = frm.selectName;
-                        //    productData = productBaseInfo.GetProductDataByID(frm.selectName);
-                        //}
-                        bExistUnknownData = true;
-                        continue;
-                    }
-
-                    EditParamToGridAdd(data, false);
-                }
-            }
-
-            if(bExistUnknownData)
-            {
-                Utility.MessageInfo("前回編集データに商品データベースに登録されていない商品がありました。");
-            }
-
-            if (gridList.Rows.Count > 0)
-            {
-                gridList.Rows[0].Selected = true;
-                UpdatePreview();
-            }
-
-            return 0;
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -693,7 +701,11 @@ namespace PrintIngredientsList
             txtPrintLeftGap.Text = value.ToString("F1");
 
         }
-
+        /// <summary>
+        /// ◀　ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             float value = float.Parse(txtPrintLeftGap.Text);
@@ -702,7 +714,11 @@ namespace PrintIngredientsList
 
             txtPrintLeftGap.Text = value.ToString("F1");
         }
-
+        /// <summary>
+        /// ▲ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button4_Click(object sender, EventArgs e)
         {
             float value = float.Parse(txtPrintTopGap.Text);
@@ -710,7 +726,11 @@ namespace PrintIngredientsList
             if (value < 0) value = 0;
             txtPrintTopGap.Text = value.ToString("F1");
         }
-
+        /// <summary>
+        /// ▼　ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
             float value = float.Parse(txtPrintTopGap.Text);
@@ -718,7 +738,11 @@ namespace PrintIngredientsList
             txtPrintTopGap.Text = value.ToString("F1");
 
         }
-
+        /// <summary>
+        /// 印刷用紙左余白
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtPrintLeftGap_TextChanged(object sender, EventArgs e)
         {
             if (!float.TryParse(txtPrintLeftGap.Text, out curLayout.printGapLeft))
@@ -729,7 +753,11 @@ namespace PrintIngredientsList
             UpdatePreview();
 
         }
-
+        /// <summary>
+        /// 印刷用紙上余白
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtPrintTopGap_TextChanged(object sender, EventArgs e)
         {
             if (!float.TryParse(txtPrintTopGap.Text, out curLayout.printGapTop))
@@ -739,7 +767,11 @@ namespace PrintIngredientsList
             }
             UpdatePreview();
         }
-
+        /// <summary>
+        /// ラベル領域の左余白
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtLabelAreaGapLeft_TextChanged(object sender, EventArgs e)
         {
             if (!float.TryParse(txtLabelAreaGapLeft.Text, out curLabelType.gapLeft))
@@ -749,7 +781,11 @@ namespace PrintIngredientsList
             }
             UpdatePreview();
         }
-
+        /// <summary>
+        /// ラベル領域の右余白
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtLabelAreaGapRight_TextChanged(object sender, EventArgs e)
         {
 
@@ -760,7 +796,11 @@ namespace PrintIngredientsList
             }
             UpdatePreview();
         }
-
+        /// <summary>
+        /// ラベル領域の上余白
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtLabelAreaGapTop_TextChanged(object sender, EventArgs e)
         {
             if (!float.TryParse(txtLabelAreaGapTop.Text, out curLabelType.gapTop))
@@ -770,7 +810,11 @@ namespace PrintIngredientsList
             }
             UpdatePreview();
         }
-
+        /// <summary>
+        /// ラベル領域の下余白
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtLabelAreaGapBottom_TextChanged(object sender, EventArgs e)
         {
             if (!float.TryParse(txtLabelAreaGapBottom.Text, out curLabelType.gapBottom))
@@ -780,17 +824,17 @@ namespace PrintIngredientsList
             }
             UpdatePreview();
         }
+        /// <summary>
+        /// セット枚数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtCopyNum_TextChanged(object sender, EventArgs e)
         {
             if(!int.TryParse(txtCopyNum.Text, out settingData.copyNum))
             {
                 ErrMsg("セット枚数");
             }
-
-        }
-        void ErrMsg(string itemName)
-        {
-            Utility.MessageError($"{itemName}に不正な文字が入力されました");
 
         }
 
@@ -891,18 +935,18 @@ namespace PrintIngredientsList
 
             return LicenseManager.GetLicenseManager().ReadLicenseFile(filePath);
         }
+        #endregion
 
         //=========================================================
         //  印刷タブの各種イベント
         //=========================================================
         #region 印刷タブの各種イベント
 
-
         //フォント選択
         private void cmbFont_SelectedIndexChanged(object sender, EventArgs e)
         {
-            curLabelType.fontName = cmbFont.Text;
-            panelPreviw.Invalidate();
+            settingData.fontName = cmbFont.Text;
+            UpdateLabelTypePreview();
         }
         /// <summary>
         /// 用紙選択
@@ -948,9 +992,6 @@ namespace PrintIngredientsList
         //ラベルブロック選択
         private void cmbLabelBlock_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-
-
             grdLabelBlockItems.CellValueChanged -= grdLabelBlockItems_CellValueChanged;
             {
                 grdLabelBlockItems.Rows.Clear();
@@ -960,6 +1001,11 @@ namespace PrintIngredientsList
 
                 txtPosX.Text = labelBlock.posX.ToString();
                 txtPosY.Text = labelBlock.posY.ToString();
+
+                txtTitleColWidth.Text = labelBlock.titleWidth.ToString("F2");
+                txtValueColWidth.Text = labelBlock.valueWidth.ToString("F2");
+
+                txtTitleColFontSize.Text = labelBlock.titleFontSize.ToString("F1");
 
                 //データグリッドビューのヘッダを更新
                 grdLabelBlockItems.Columns.Clear();
@@ -1063,45 +1109,52 @@ namespace PrintIngredientsList
             {
                 LabelItem item = (LabelItem)row.Tag;
 
-                switch (e.ColumnIndex)
+                if (row.Cells[e.ColumnIndex].Value!=null)
                 {
-                    case (int)LabelItemColumnIndex.COL_CHECK:
-                        item.Visible = (bool)row.Cells[e.ColumnIndex].Value;
-                        break;
-                    case (int)LabelItemColumnIndex.COL_HEIGHT:
-                        item.Height = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
-                        break;
-                    case (int)LabelItemColumnIndex.COL_FONT:
-                        item.FontSize = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
-                        break;
 
+                    switch (e.ColumnIndex)
+                    {
+                        case (int)LabelItemColumnIndex.COL_CHECK:
+                            item.Visible = (bool)row.Cells[e.ColumnIndex].Value;
+                            break;
+                        case (int)LabelItemColumnIndex.COL_HEIGHT:
+                            item.Height = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                            break;
+                        case (int)LabelItemColumnIndex.COL_FONT:
+                            item.FontSize = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                            break;
+
+                    }
                 }
             }
             else
             {
                 PictureItem item = (PictureItem)row.Tag;
 
-                switch (e.ColumnIndex)
+                if (row.Cells[e.ColumnIndex].Value != null)
                 {
-                    case (int)PictureItemColumnIndex.COL_CHECK:
-                        item.Visible = (bool)row.Cells[e.ColumnIndex].Value;
-                        break;
-                    case (int)PictureItemColumnIndex.COL_POSX:
-                        item.PosX = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
-                        break;
-                    case (int)PictureItemColumnIndex.COL_POSY:
-                        item.PosY = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
-                        break;
-                    case (int)PictureItemColumnIndex.COL_WIDTH:
-                        item.Width = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
-                        break;
-                    case (int)PictureItemColumnIndex.COL_HEIGHT:
-                        item.Height = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
-                        break;
+                    switch (e.ColumnIndex)
+                    {
+                        case (int)PictureItemColumnIndex.COL_CHECK:
+                            item.Visible = (bool)row.Cells[e.ColumnIndex].Value;
+                            break;
+                        case (int)PictureItemColumnIndex.COL_POSX:
+                            item.PosX = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                            break;
+                        case (int)PictureItemColumnIndex.COL_POSY:
+                            item.PosY = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                            break;
+                        case (int)PictureItemColumnIndex.COL_WIDTH:
+                            item.Width = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                            break;
+                        case (int)PictureItemColumnIndex.COL_HEIGHT:
+                            item.Height = float.Parse(row.Cells[e.ColumnIndex].Value.ToString());
+                            break;
 
+                    }
                 }
-                UpdateLabelTypePreview();
             }
+            UpdateLabelTypePreview();
 
         }
         private void grdLabelBlockItems_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -1121,9 +1174,8 @@ namespace PrintIngredientsList
                     case (int)LabelItemColumnIndex.COL_HEIGHT:
                     case (int)LabelItemColumnIndex.COL_FONT:
                         string sValue = (string)e.FormattedValue;
-                        if (!float.TryParse(sValue, out fValue))
+                        if (!CnvFloatValue(sValue, out fValue))
                         {
-                            Utility.MessageError("不正な値です");
                             e.Cancel = true;
                         }
                         break;
@@ -1139,9 +1191,8 @@ namespace PrintIngredientsList
                     case (int)PictureItemColumnIndex.COL_WIDTH:
                     case (int)PictureItemColumnIndex.COL_HEIGHT:
                         string sValue = (string)e.FormattedValue;
-                        if (!float.TryParse(sValue, out fValue))
+                        if (!CnvFloatValue(sValue, out fValue))
                         {
-                            Utility.MessageError("不正な値です");
                             e.Cancel = true;
                         }
                         break;
@@ -1160,13 +1211,11 @@ namespace PrintIngredientsList
             LabelTypeBlock labelBlock = (LabelTypeBlock)cmbLabelBlock.SelectedItem;
             if (labelBlock == null) return;
             float value;
-            if (!float.TryParse(txtPosX.Text, out value))
+            if (CnvFloatValue(txtPosX, out value))
             {
-                Utility.MessageError("不正な値です");
-                return;
+                labelBlock.posX = value;
+                UpdateLabelTypePreview();
             }
-            labelBlock.posX = value;
-            UpdateLabelTypePreview();
 
         }
 
@@ -1175,15 +1224,64 @@ namespace PrintIngredientsList
             LabelTypeBlock labelBlock = (LabelTypeBlock)cmbLabelBlock.SelectedItem;
             if (labelBlock == null) return;
             float value;
-            if (!float.TryParse(txtPosY.Text, out value))
+            if (CnvFloatValue(txtPosY, out value))
             {
-                Utility.MessageError("不正な値です");
-                return;
+                labelBlock.posY = value;
+                UpdateLabelTypePreview();
             }
-            labelBlock.posY = value;
-            UpdateLabelTypePreview();
+
 
         }
+        /// <summary>
+        /// タイトル列幅
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtTitleColWidth_TextChanged(object sender, EventArgs e)
+        {
+            LabelTypeBlock labelBlock = (LabelTypeBlock)cmbLabelBlock.SelectedItem;
+            if (labelBlock == null) return;
+            float value;
+            if (CnvFloatValue(txtTitleColWidth, out value))
+            {
+                labelBlock.titleWidth = value;
+                UpdateLabelTypePreview();
+            }
+
+        }
+        /// <summary>
+        /// タイトル列フォントサイズ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtTitleColFontSize_TextChanged(object sender, EventArgs e)
+        {
+            LabelTypeBlock labelBlock = (LabelTypeBlock)cmbLabelBlock.SelectedItem;
+            if (labelBlock == null) return;
+            float value;
+            if (CnvFloatValue(txtTitleColFontSize, out value))
+            {
+                labelBlock.titleFontSize = value;
+                UpdateLabelTypePreview();
+            }
+        }
+        /// <summary>
+        /// 値列幅
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtValueColWidth_TextChanged(object sender, EventArgs e)
+        {
+            LabelTypeBlock labelBlock = (LabelTypeBlock)cmbLabelBlock.SelectedItem;
+            if (labelBlock == null) return;
+            float value;
+            if (CnvFloatValue(txtValueColWidth, out value))
+            {
+                labelBlock.valueWidth = value;
+                UpdateLabelTypePreview();
+            }
+        }
+
         /// <summary>
         /// データグリッドセルクリック
         /// </summary>
@@ -1213,13 +1311,60 @@ namespace PrintIngredientsList
                 FormLabelTypeBlockIItemDetail frm = new FormLabelTypeBlockIItemDetail(labeItemBlock);
                 frm.ShowDialog();
                 UpdateRow(row, labeItemBlock);
+                UpdateLabelTypePreview();
 
 
             }
         }
+
+        /// <summary>
+        /// TextBoxの値→float変換
+        /// </summary>
+        /// <param name="txtBox"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        bool CnvFloatValue(TextBox txtBox, out float value)
+        {
+            return CnvFloatValue(txtBox.Text, out value);
+        }
+        /// <summary>
+        /// 数値文字列→float変換
+        /// </summary>
+        /// <param name="sValue"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        bool CnvFloatValue(string sValue, out float value)
+        {
+            if (!float.TryParse(sValue, out value))
+            {
+                Utility.MessageError("不正な値です");
+                return false;
+            }
+            return true;
+
+        }
+        bool CnvIntValue(string sValue, out int value)
+        {
+            if (!int.TryParse(sValue, out value))
+            {
+                Utility.MessageError("不正な値です");
+                return false;
+            }
+            return true;
+
+        }
+
+        void ErrMsg(string itemName)
+        {
+            Utility.MessageError($"{itemName}に不正な文字が入力されました");
+
+        }
+
+
+
+
+
         #endregion
-
-
     }
 
 }

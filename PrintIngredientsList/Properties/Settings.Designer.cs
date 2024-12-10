@@ -142,5 +142,17 @@ namespace PrintIngredientsList.Properties {
                 this["PrintPreviewDlgZoom"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("210")]
+        public int LabelLayoutPreviewSlpitDistance {
+            get {
+                return ((int)(this["LabelLayoutPreviewSlpitDistance"]));
+            }
+            set {
+                this["LabelLayoutPreviewSlpitDistance"] = value;
+            }
+        }
     }
 }

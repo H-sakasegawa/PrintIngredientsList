@@ -103,7 +103,7 @@ namespace ExcelReaderUtility
             ItemName.Storage,
             ItemName.Allergy,
             ItemName.Manifacture,
-            ItemName.Comment,
+            ItemName.Supplementary,
             //-----------------------------
             ItemName.Calorie,
             ItemName.Protein,
@@ -195,7 +195,7 @@ namespace ExcelReaderUtility
                         GetExcelRowData(lstRowData, ItemName.Storage, ref data.storageMethod);
                         GetExcelRowData(lstRowData, ItemName.Allergy, ref data.allergy);
                         GetExcelRowData(lstRowData, ItemName.Manifacture, ref data.manufacturer);
-                        GetExcelRowData(lstRowData, ItemName.Comment, ref data.comment);
+                        GetExcelRowData(lstRowData, ItemName.Supplementary, ref data.comment);
 
                         GetExcelRowData(lstRowData, ItemName.Calorie, ref data.Calorie);
                         GetExcelRowData(lstRowData, ItemName.Protein, ref data.Protein);

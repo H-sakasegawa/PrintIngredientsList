@@ -20,6 +20,7 @@ namespace PrintIngredientsList
         LabelTypeBlock labelBlock;
         Graphics graphics = null;
 
+        string fontName = Const.defaultFontName;
         float fontSizeItemTitle = 6;
 
         //印刷ページの左上の余白（コンストラクタで確定）
@@ -75,21 +76,22 @@ namespace PrintIngredientsList
         //float dpiX = 0;
         //float dpiY = 0;
         //private const float MillimetersPerInch = 25.4f;
-        public DrawUtil2(Graphics g, LabelType labelType,  bool bDrawLabelBackground)
+        public DrawUtil2(Graphics g, LabelType labelType, string fontName, bool bDrawLabelBackground)
         {
             this.graphics = g;
             this.graphics.PageUnit = GraphicsUnit.Millimeter;
-
+            this.fontName = fontName;
             this.labelType = labelType;
 
             Init(bDrawLabelBackground);
         }
 
-        public DrawUtil2(Graphics g, LabelType labelType,  float PageGapTopMM, float PageGapLeftMM, bool bDrawLabelBackground)
+        public DrawUtil2(Graphics g, LabelType labelType, string fontName,  float PageGapTopMM, float PageGapLeftMM, bool bDrawLabelBackground)
         {
 
             this.graphics = g;
             this.graphics.PageUnit = GraphicsUnit.Millimeter;
+            this.fontName = fontName;
 
             this.labelType = labelType;
             this.PageGapTopMM = PageGapTopMM;
@@ -139,9 +141,43 @@ namespace PrintIngredientsList
             fontSizeItemTitle = labelBlock.titleFontSize;
         }
 
-        public float DrawItemComment(string title, string content, float startY, float baseFontSize, bool bDrawFrame = true)
+        /// <summary>
+        /// コメント描画
+        /// </summary>
+        /// <param name="comment"></param>
+        /// <param name="startY"></param>
+        /// <param name="baseFontSize"></param>
+        /// <param name="bDrawFrame"></param>
+        /// <returns></returns>
+        public float DrawItemComment(string comment, float startY, float baseFontSize, bool bDrawFrame = true)
         {
-            Font fntTitle = new Font(labelType.fontName, fontSizeItemTitle, FontStyle.Regular);
+            Font fntTitle = new Font(fontName, fontSizeItemTitle, FontStyle.Regular);
+
+            //Font fntTitle = GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM);
+            //備考欄の高さは、全エリアの高さから直前の描画開始位置を引いた残りから、セルギャップを差し引いた高さ
+            float contentsLimitHightMM = labelDrawAreaHeightMM - (startY + CellBoxGapSumHeight);
+            float contentsHight = 0;
+
+            Font fntContents = GetFontCalcedBydHeightAndWidth(baseFontSize, comment, labelBlockWidthMM, contentsLimitHightMM, ref contentsHight);
+
+            DrawItem(comment, startY, fntTitle, fntContents, contentsHight, (float)(contentsHight + Math.Ceiling(labelType.celGapBottom)), bDrawFrame);
+
+
+            return startY + contentsHight;
+        }
+
+        /// <summary>
+        /// 欄外描画
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <param name="startY"></param>
+        /// <param name="baseFontSize"></param>
+        /// <param name="bDrawFrame"></param>
+        /// <returns></returns>
+        public float DrawItemSupplementary(string title, string content, float startY, float baseFontSize, bool bDrawFrame = true)
+        {
+            Font fntTitle = new Font(fontName, fontSizeItemTitle, FontStyle.Regular);
 
             //Font fntTitle = GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM);
             //備考欄の高さは、全エリアの高さから直前の描画開始位置を引いた残りから、セルギャップを差し引いた高さ
@@ -159,7 +195,7 @@ namespace PrintIngredientsList
         {
 
             //タイトル領域は、横１列として表示可能なフォントサイズのフォントを取得
-            Font fntTitle = new Font(labelType.fontName, fontSizeItemTitle, FontStyle.Regular);
+            Font fntTitle = new Font(fontName, fontSizeItemTitle, FontStyle.Regular);
             //Font fntTitle = new Font(GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM - CellBoxGapSumWidth, limitHight-CellBoxGapSumHeight );
             float contentsHight = 0;
             Font fntContents = GetFontCalcedBydHeight(baseFontSize, content, limitHight - CellBoxGapSumHeight, ref contentsHight);
@@ -231,7 +267,7 @@ namespace PrintIngredientsList
             float fntSize = startFontSize;
             while (fntSize > 0)
             {
-                Font font = new Font(labelType.fontName, fntSize, FontStyle.Regular);
+                Font font = new Font(fontName, fntSize, FontStyle.Regular);
                 SizeF size = graphics.MeasureString(s, font);
 
                 if( limitHight!=0 && size.Height > limitHight)
@@ -261,7 +297,7 @@ namespace PrintIngredientsList
             float fntSize = startFontSize;
             while (fntSize > 0)
             {
-                Font font = new Font(labelType.fontName, fntSize, FontStyle.Regular);
+                Font font = new Font(fontName, fntSize, FontStyle.Regular);
                 SizeF size = graphics.MeasureString(s, font, (int)contentAreWidthMM);
 
                 height = size.Height;
@@ -285,7 +321,7 @@ namespace PrintIngredientsList
             float fntSize = startFontSize;
             while (fntSize > 0)
             {
-                Font font = new Font(labelType.fontName, fntSize, FontStyle.Regular);
+                Font font = new Font(fontName, fntSize, FontStyle.Regular);
                 SizeF size = graphics.MeasureString(s, font, (int)limitWidth);
 
                 height = size.Height;

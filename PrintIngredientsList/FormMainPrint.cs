@@ -70,6 +70,9 @@ namespace PrintIngredientsList
         //選択されているラベルタイプ
         LabelType curLabelType = null;
 
+        //プレビュー画面拡大率最大／最小
+        double PreviewZoomMax = 3.0;
+        double PreviewZoomMin = 0.1;
 
         /// <summary>
         /// 印刷ドキュメント情報作成
@@ -120,6 +123,10 @@ namespace PrintIngredientsList
             PrintPreviewDialog ppd = new PrintPreviewDialog();
             //プレビューするPrintDocumentを設定
 
+            //印刷プレビュー画面のホイール拡大縮小処理イベント
+            ppd.MouseWheel += OnPrintPreviewDialog_MouseWheel;
+
+
             int x = Properties.Settings.Default.PrintPreviewDlgLocX;
             int y = Properties.Settings.Default.PrintPreviewDlgLocY;
             int w = Properties.Settings.Default.PrintPreviewDlgSizeW;
@@ -140,6 +147,22 @@ namespace PrintIngredientsList
             Properties.Settings.Default.PrintPreviewDlgZoom = ppd.PrintPreviewControl.Zoom;
 
         }
+
+
+        private void OnPrintPreviewDialog_MouseWheel(object sender, MouseEventArgs e)
+        {
+            PrintPreviewDialog ppd = (PrintPreviewDialog)sender;
+
+            double delta = (e.Delta / 120)/100.0 * 10;
+
+            double nowZoom = ppd.PrintPreviewControl.Zoom;
+            if (nowZoom + delta > PreviewZoomMax) return;
+            if (nowZoom + delta < PreviewZoomMin) return;
+
+
+            ppd.PrintPreviewControl.Zoom += delta;
+        }
+
         /// <summary>
         /// 印刷
         /// </summary>
@@ -210,7 +233,7 @@ namespace PrintIngredientsList
 
             if (pd.printType == PrintType.PREVIEW && chkTestLineDraw.Checked)
             {
-                DrawUtil2 util = new DrawUtil2(e.Graphics, curLabelType, false);
+                DrawUtil2 util = new DrawUtil2(e.Graphics, curLabelType, settingData.fontName, false);
                 System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.Black, (float)0.1);
                 pen.DashStyle = DashStyle.Dash;
 
@@ -305,23 +328,11 @@ namespace PrintIngredientsList
             var productData = productBaseInfo.GetProductDataByID(param.id);
             DateTime dt = Utility.GetValidDate(param.validDays);
 
-            string barcodeFilePath = "";
-            if (labelType.IsExistImageBlock())
-            {
-                //Janコード→バーコードイメージ作成
-                Barcode barCode = new Barcode();
-
-                string TempFolder = System.IO.Path.Combine(GetExePath(), "Temp");
-                if (!System.IO.Directory.Exists(TempFolder))
-                {
-                    System.IO.Directory.CreateDirectory(TempFolder);
-                }
-                barcodeFilePath = System.IO.Path.Combine(TempFolder, "barcode.png");
-                barCode.CreateBarcode(param.id, barcodeFilePath, System.Drawing.Imaging.ImageFormat.Png);
-            }
+            //以下のバーコード情報有無チェックはBARCODEブロックが１つのみ定義されていることが
+            //前提です。ループの中に入れると毎回イメージ作成が走るので、手前で１回作成するようにしてます。
 
 
-            DrawUtil2 util = new DrawUtil2(gPreview, labelType, gapTop, gapLeft, bDrawLabelBackground);
+            DrawUtil2 util = new DrawUtil2(gPreview, labelType, settingData.fontName, gapTop, gapLeft, bDrawLabelBackground);
 
             for (int iBlock = 0; iBlock < labelType.lstLabelBlocks.Count; iBlock++)
             {
@@ -349,7 +360,11 @@ namespace PrintIngredientsList
                                 switch (labelItem.name)
                                 {
                                     case ItemName.Comment:
-                                        nextY = util.DrawItemComment("", dispValue, nextY, labelItem.FontSize, labelItem.DrawFrame);
+                                        //描画領域幅は、タイトル幅＋値幅としてTITLEで指定された文字を表示
+                                        nextY = util.DrawItemComment(labelItem.Title, nextY, labelItem.FontSize, labelItem.DrawFrame);
+                                        break;
+                                    case ItemName.Supplementary:
+                                        nextY = util.DrawItemSupplementary("", dispValue, nextY, labelItem.FontSize, labelItem.DrawFrame);
                                         break;
                                     case ItemName.NutritionalInformation:
                                         nextY = util.DrawItem(labelItem.Title, dispValue, nextY, labelItem.Height, labelItem.FontSize, false, labelItem.DrawFrame); ;
@@ -363,6 +378,26 @@ namespace PrintIngredientsList
                         case LabelTypeBlockItemBase.LabelTypeBlockItemType.BARCODE:
                             {
                                 PictureItem pictureItem = (PictureItem)labelItemBase;
+
+                                string TempFolder = System.IO.Path.Combine(GetExePath(), Const.BarcodeDataFolderName);
+                                if (!System.IO.Directory.Exists(TempFolder))
+                                {
+                                    System.IO.Directory.CreateDirectory(TempFolder);
+                                }
+                                string barcodeFilePath = "";
+                                if (pictureItem.DispNo)
+                                {
+                                    barcodeFilePath = System.IO.Path.Combine(TempFolder, $"{param.id}_withNo.png");
+                                }else
+                                {
+                                    barcodeFilePath = System.IO.Path.Combine(TempFolder, $"{param.id}.png");
+                                }
+                                if (!System.IO.File.Exists(barcodeFilePath))
+                                {
+                                    //Janコード→バーコードイメージ作成
+                                    Barcode barCode = new Barcode();
+                                    barCode.CreateBarcode(param.id, pictureItem.DispNo, barcodeFilePath, System.Drawing.Imaging.ImageFormat.Png);
+                                }
                                 if (!pictureItem.Visible) continue;
                                 util.DrawImage(barcodeFilePath, pictureItem.PosX, pictureItem.PosY, pictureItem.Width, pictureItem.Height);
                             }
@@ -414,7 +449,7 @@ namespace PrintIngredientsList
                     return commonDefManifac.printText;
                 case ItemName.Allergy:
                     return productData.allergy;
-                case ItemName.Comment:
+                case ItemName.Supplementary:
                     return productData.comment;
 
                 //成分表
