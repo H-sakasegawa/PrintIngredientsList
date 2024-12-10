@@ -48,5 +48,19 @@ namespace PrintIngredientsList
         {
             return float.Parse(value);
         }
+        public static int ToInt(string value)
+        {
+            return int.Parse(value);
+        }
+        public static bool ToBoolean(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                int tmpValue = 0;
+                int.TryParse(value, out tmpValue);
+                return tmpValue == 0 ? false : true;
+            }
+            return false;
+        }
     }
 }

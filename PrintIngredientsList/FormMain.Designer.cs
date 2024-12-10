@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gridList = new System.Windows.Forms.DataGridView();
             this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -84,11 +84,11 @@
             this.txtLabelAreaGapRight = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.txtFontManifacture = new System.Windows.Forms.TabPage();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtTitleColFontSize = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtValueColWidth = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtTitleColWidth = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.panelPrintTypePreview = new System.Windows.Forms.Panel();
@@ -176,14 +176,14 @@
             // 
             this.gridList.AllowUserToAddRows = false;
             this.gridList.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCheck,
@@ -240,17 +240,17 @@
             // 
             // colPrintNum
             // 
-            dataGridViewCellStyle6.NullValue = null;
-            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.NullValue = null;
+            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle2;
             this.colPrintNum.HeaderText = "枚数";
             this.colPrintNum.Name = "colPrintNum";
             this.colPrintNum.Width = 50;
             // 
             // colLImitDate
             // 
-            dataGridViewCellStyle7.Format = "d";
-            dataGridViewCellStyle7.NullValue = null;
-            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Format = "d";
+            dataGridViewCellStyle3.NullValue = null;
+            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle3;
             this.colLImitDate.HeaderText = "賞味期限";
             this.colLImitDate.Name = "colLImitDate";
             this.colLImitDate.ReadOnly = true;
@@ -293,7 +293,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(732, 450);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "成分表一覧";
+            this.tabPage1.Text = "商品一覧";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
@@ -750,11 +750,11 @@
             // 
             // txtFontManifacture
             // 
-            this.txtFontManifacture.Controls.Add(this.textBox3);
+            this.txtFontManifacture.Controls.Add(this.txtTitleColFontSize);
             this.txtFontManifacture.Controls.Add(this.label20);
-            this.txtFontManifacture.Controls.Add(this.textBox2);
+            this.txtFontManifacture.Controls.Add(this.txtValueColWidth);
             this.txtFontManifacture.Controls.Add(this.label19);
-            this.txtFontManifacture.Controls.Add(this.textBox1);
+            this.txtFontManifacture.Controls.Add(this.txtTitleColWidth);
             this.txtFontManifacture.Controls.Add(this.label12);
             this.txtFontManifacture.Controls.Add(this.splitContainer4);
             this.txtFontManifacture.Controls.Add(this.label11);
@@ -771,28 +771,30 @@
             this.txtFontManifacture.Text = "項目の位置、高さ、ﾌｫﾝﾄ調整";
             this.txtFontManifacture.UseVisualStyleBackColor = true;
             // 
-            // textBox3
+            // txtTitleColFontSize
             // 
-            this.textBox3.Location = new System.Drawing.Point(340, 4);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(36, 19);
-            this.textBox3.TabIndex = 50;
+            this.txtTitleColFontSize.Location = new System.Drawing.Point(345, 4);
+            this.txtTitleColFontSize.Name = "txtTitleColFontSize";
+            this.txtTitleColFontSize.Size = new System.Drawing.Size(36, 19);
+            this.txtTitleColFontSize.TabIndex = 50;
+            this.txtTitleColFontSize.TextChanged += new System.EventHandler(this.txtTitleColFontSize_TextChanged);
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(301, 7);
+            this.label20.Location = new System.Drawing.Point(306, 7);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(40, 12);
             this.label20.TabIndex = 49;
             this.label20.Text = "フォント:";
             // 
-            // textBox2
+            // txtValueColWidth
             // 
-            this.textBox2.Location = new System.Drawing.Point(258, 29);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(36, 19);
-            this.textBox2.TabIndex = 48;
+            this.txtValueColWidth.Location = new System.Drawing.Point(258, 29);
+            this.txtValueColWidth.Name = "txtValueColWidth";
+            this.txtValueColWidth.Size = new System.Drawing.Size(40, 19);
+            this.txtValueColWidth.TabIndex = 48;
+            this.txtValueColWidth.TextChanged += new System.EventHandler(this.txtValueColWidth_TextChanged);
             // 
             // label19
             // 
@@ -803,12 +805,13 @@
             this.label19.TabIndex = 47;
             this.label19.Text = "値列 幅:";
             // 
-            // textBox1
+            // txtTitleColWidth
             // 
-            this.textBox1.Location = new System.Drawing.Point(258, 4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(36, 19);
-            this.textBox1.TabIndex = 46;
+            this.txtTitleColWidth.Location = new System.Drawing.Point(258, 4);
+            this.txtTitleColWidth.Name = "txtTitleColWidth";
+            this.txtTitleColWidth.Size = new System.Drawing.Size(40, 19);
+            this.txtTitleColWidth.TabIndex = 46;
+            this.txtTitleColWidth.TextChanged += new System.EventHandler(this.txtTitleColWidth_TextChanged);
             // 
             // label12
             // 
@@ -824,6 +827,7 @@
             this.splitContainer4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer4.Location = new System.Drawing.Point(8, 61);
             this.splitContainer4.Name = "splitContainer4";
             // 
@@ -851,14 +855,14 @@
             // 
             this.grdLabelBlockItems.AllowUserToAddRows = false;
             this.grdLabelBlockItems.AllowUserToResizeRows = false;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdLabelBlockItems.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdLabelBlockItems.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.grdLabelBlockItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdLabelBlockItems.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewCheckBoxColumn1,
@@ -918,7 +922,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(128, 36);
+            this.label11.Location = new System.Drawing.Point(140, 36);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(12, 12);
             this.label11.TabIndex = 43;
@@ -926,9 +930,9 @@
             // 
             // txtPosY
             // 
-            this.txtPosY.Location = new System.Drawing.Point(143, 33);
+            this.txtPosY.Location = new System.Drawing.Point(155, 33);
             this.txtPosY.Name = "txtPosY";
-            this.txtPosY.Size = new System.Drawing.Size(36, 19);
+            this.txtPosY.Size = new System.Drawing.Size(40, 19);
             this.txtPosY.TabIndex = 42;
             this.txtPosY.TextChanged += new System.EventHandler(this.txtPosY_TextChanged);
             // 
@@ -936,7 +940,7 @@
             // 
             this.txtPosX.Location = new System.Drawing.Point(86, 32);
             this.txtPosX.Name = "txtPosX";
-            this.txtPosX.Size = new System.Drawing.Size(36, 19);
+            this.txtPosX.Size = new System.Drawing.Size(40, 19);
             this.txtPosX.TabIndex = 41;
             this.txtPosX.TextChanged += new System.EventHandler(this.txtPosX_TextChanged);
             // 
@@ -1414,11 +1418,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewButtonColumn Column3;
         private System.Windows.Forms.SplitContainer splitContainer4;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtTitleColFontSize;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtValueColWidth;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTitleColWidth;
         private System.Windows.Forms.Label label12;
     }
 }
