@@ -95,7 +95,7 @@ namespace ExcelReaderUtility
         string[] colDataNames = new string[]
         {
             ItemName.ID,
-            ItemName.Kind,
+            //ItemName.Kind,
             ItemName.Name,
             ItemName.Material,
             ItemName.Amount,
@@ -139,84 +139,89 @@ namespace ExcelReaderUtility
 
             //データクリア
             lstProduct.Clear();
-    
+            int sheetNum = workbook.NumberOfSheets;
 
-            XSSFSheet sheet = (XSSFSheet)((XSSFWorkbook)workbook).GetSheetAt(0);
-
-            bool bReadTitle = false;
-            int iRow = 0;
-            while (true)
+            for (int iSheet = 0; iSheet < sheetNum; iSheet++)
             {
-                List<ExcelReader.TextInfo> lstRowData;
+                XSSFSheet sheet = (XSSFSheet)((XSSFWorkbook)workbook).GetSheetAt(iSheet);
 
-                int rc =  ReadRowData( sheet,  iRow, out lstRowData);
-                if( rc == -1)
+                string sheetName = sheet.SheetName;
+
+                bool bReadTitle = false;
+                int iRow = 0;
+                while (true)
                 {
-                    //読み込み終了
-                    break;
-                }
-                if (lstRowData != null)
-                {
-                    if (!bReadTitle)
+                    List<ExcelReader.TextInfo> lstRowData;
+
+                    int rc = ReadRowData(sheet, iRow, out lstRowData);
+                    if (rc == -1)
                     {
-                        //最初の行をタイトル行とする。
-                        bReadTitle = true;
-                        dicColmunIndex.Clear();
-                        //カラムインデックス ディクショナリを作成
-                        foreach ( var name in colDataNames)
+                        //読み込み終了
+                        break;
+                    }
+                    if (lstRowData != null)
+                    {
+                        if (!bReadTitle)
                         {
-                            int index = lstRowData.FindIndex(x => string.Compare(x.Text, name, true) == 0);
-                            if( index<0)
+                            //最初の行をタイトル行とする。
+                            bReadTitle = true;
+                            dicColmunIndex.Clear();
+                            //カラムインデックス ディクショナリを作成
+                            foreach (var name in colDataNames)
                             {
-                                dicColmunIndex[name] = -1;
-                                continue;
-                                //Utility.MessageError($"商品データベースに「{name}」項目が見つかりません。");
-                                //return -1;
+                                int index = lstRowData.FindIndex(x => string.Compare(x.Text, name, true) == 0);
+                                if (index < 0)
+                                {
+                                    dicColmunIndex[name] = -1;
+                                    continue;
+                                    //Utility.MessageError($"商品データベースに「{name}」項目が見つかりません。");
+                                    //return -1;
+                                }
+
+                                dicColmunIndex[name] = index;
                             }
 
-                            dicColmunIndex[name] = index;
+
                         }
-
-
-                    }
-                    else
-                    {
-                        //取り合えず、順番に決め打ちでデータ作成
-
-
-                        ProductData data = new ProductData();
-
-                        GetExcelRowData(lstRowData, ItemName.ID, ref data.id);
-                        GetExcelRowData(lstRowData, ItemName.Kind, ref data.kind);
-                        GetExcelRowData(lstRowData, ItemName.Name, ref data.name);
-                        GetExcelRowData(lstRowData, ItemName.Material, ref data.rawMaterials);
-                        GetExcelRowData(lstRowData, ItemName.Amount, ref data.amount);
-                        GetExcelRowData(lstRowData, ItemName.ValidDate, ref data.validDays);
-                        GetExcelRowData(lstRowData, ItemName.Storage, ref data.storageMethod);
-                        GetExcelRowData(lstRowData, ItemName.Allergy, ref data.allergy);
-                        GetExcelRowData(lstRowData, ItemName.Manifacture, ref data.manufacturer);
-                        GetExcelRowData(lstRowData, ItemName.Supplementary, ref data.comment);
-
-                        GetExcelRowData(lstRowData, ItemName.Calorie, ref data.Calorie);
-                        GetExcelRowData(lstRowData, ItemName.Protein, ref data.Protein);
-                        GetExcelRowData(lstRowData, ItemName.Lipids, ref data.Lipids);
-                        GetExcelRowData(lstRowData, ItemName.Carbohydrates, ref data.Carbohydrates);
-                        GetExcelRowData(lstRowData, ItemName.Salt, ref data.Salt);
-
-                        var wk = lstProduct.Find(x => x.id == data.id);
-
-                        if (wk != null)
+                        else
                         {
-                            //IDの重複
-                            Utility.MessageError($"商品データベースに重複したIDがあります。\n({wk.id}) {wk.name}\n({data.id}) {data.name}\n\n重複しないIDを設定してください");
-                            return -1;
+                            //取り合えず、順番に決め打ちでデータ作成
+
+
+                            ProductData data = new ProductData();
+                            data.kind = sheetName;
+                            GetExcelRowData(lstRowData, ItemName.ID, ref data.id);
+                            //GetExcelRowData(lstRowData, ItemName.Kind, ref data.kind);
+                            GetExcelRowData(lstRowData, ItemName.Name, ref data.name);
+                            GetExcelRowData(lstRowData, ItemName.Material, ref data.rawMaterials);
+                            GetExcelRowData(lstRowData, ItemName.Amount, ref data.amount);
+                            GetExcelRowData(lstRowData, ItemName.ValidDate, ref data.validDays);
+                            GetExcelRowData(lstRowData, ItemName.Storage, ref data.storageMethod);
+                            GetExcelRowData(lstRowData, ItemName.Allergy, ref data.allergy);
+                            GetExcelRowData(lstRowData, ItemName.Manifacture, ref data.manufacturer);
+                            GetExcelRowData(lstRowData, ItemName.Supplementary, ref data.comment);
+
+                            GetExcelRowData(lstRowData, ItemName.Calorie, ref data.Calorie);
+                            GetExcelRowData(lstRowData, ItemName.Protein, ref data.Protein);
+                            GetExcelRowData(lstRowData, ItemName.Lipids, ref data.Lipids);
+                            GetExcelRowData(lstRowData, ItemName.Carbohydrates, ref data.Carbohydrates);
+                            GetExcelRowData(lstRowData, ItemName.Salt, ref data.Salt);
+
+                            var wk = lstProduct.Find(x => x.id == data.id);
+
+                            if (wk != null)
+                            {
+                                //IDの重複
+                                Utility.MessageError($"商品データベースに重複したIDがあります。\n({wk.id}) {wk.name}\n({data.id}) {data.name}\n\n重複しないIDを設定してください");
+                                return -1;
+                            }
+                            lstProduct.Add(data);
+
                         }
-                        lstProduct.Add(data);
-
                     }
-                }
 
-                iRow++;
+                    iRow++;
+                }
             }
 
             return 0;

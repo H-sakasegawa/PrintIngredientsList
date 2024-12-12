@@ -182,6 +182,12 @@ namespace PrintIngredientsList
             //Network.GetMacAddress();
         }
 
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //ユーザ固有の設定保存
+            SaveUserSetting();
+        }
+
         public int CheckLicense()
         {
             var info = ReadLicenseFileFromSettingDir();
@@ -200,11 +206,6 @@ namespace PrintIngredientsList
 
         }
 
-        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //ユーザ固有の設定保存
-            SaveUserSetting();
-        }
 
         private void SettingDataToUI( PrintSettingData data)
         {
@@ -233,6 +234,9 @@ namespace PrintIngredientsList
             txtCopyNum.Text            = data.copyNum.ToString();
             txtPrintLeftGap.Text       = curLayout.printGapLeft.ToString("F2");
             txtPrintTopGap.Text        = curLayout.printGapTop.ToString("F2");
+
+            txtHeaderLeftGap.Text       = curLayout.headerGapLeft.ToString("F2");
+            txtHeaderTopGap.Text        = curLayout.headerGapTop.ToString("F2");
 
             txtLabelAreaGapTop.Text    = curLabelType.gapTop.ToString("F2");
             txtLabelAreaGapLeft.Text   = curLabelType.gapLeft.ToString("F2");
@@ -352,8 +356,67 @@ namespace PrintIngredientsList
             return printLayoutMng.ReadLayout(filePath);
         }
 
- 
-        /// <summary>
+        private void UpdateTypeCombobox()
+        {
+            int selectIndex = -1;
+            //現在の選択項目
+            var oldSelectText = cmbKind.Text;
+            cmbKind.Items.Add("全て");
+            foreach (DataGridViewRow row in gridList.Rows)
+            {
+
+                EditProductData data = (EditProductData)row.Tag;
+
+                var product = productBaseInfo.GetProductDataByID(data.id);
+
+                if ( cmbKind.Items.IndexOf(product.kind)<0)
+                {
+                    cmbKind.Items.Add(product.kind);
+                    if( product.kind == oldSelectText)
+                    {
+                        selectIndex = cmbKind.Items.Count-1;
+                    }
+                }
+            }
+            //前回選択されていた項目があれば選択状態にする。
+            if(selectIndex>=0)
+            {
+                cmbKind.SelectedIndex = selectIndex;
+            }else
+            {
+                cmbKind.SelectedIndex = 0;
+            }
+
+        }
+        //種別フィルタ表示
+        private void cmbKind_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var SelectKind = cmbKind.Text;
+
+            if (SelectKind == "全て")
+            {
+                foreach (DataGridViewRow row in gridList.Rows)
+                {
+                    row.Visible = true;
+                }
+            } else
+            {
+
+                foreach (DataGridViewRow row in gridList.Rows)
+                {
+                    EditProductData data = (EditProductData)row.Tag;
+                    var product = productBaseInfo.GetProductDataByID(data.id);
+                    if (SelectKind == product.kind)
+                    {
+                        row.Visible = true;
+                    }else
+                    {
+                        row.Visible = false;
+                    }
+                }
+            }
+        }
+       /// <summary>
         /// 行の表示更新
         /// </summary>
         /// <param name="row"></param>
@@ -451,6 +514,9 @@ namespace PrintIngredientsList
 
         }
 
+
+
+
         //=========================================================
         //  データの保存と読み込み
         //=========================================================
@@ -477,7 +543,11 @@ namespace PrintIngredientsList
             settingData.Write(settingDataFilePath);
 
             //印刷レイアウト情報の保存
+#if DEBUG
             printLayoutMng.SaveLayout(printLayoutDataFilePath + "_");
+#else
+            printLayoutMng.SaveLayout(printLayoutDataFilePath);
+#endif
 
         }
         /// <summary>
@@ -525,6 +595,8 @@ namespace PrintIngredientsList
             {
                 Utility.MessageInfo("前回編集データに商品データベースに登録されていない商品がありました。");
             }
+            //種別フィルタコンボボックス更新
+            UpdateTypeCombobox();
 
             if (gridList.Rows.Count > 0)
             {
@@ -534,7 +606,7 @@ namespace PrintIngredientsList
 
             return 0;
         }
-        #endregion
+#endregion
 
         //=========================================================
         //  成分表一覧タブの各種イベント
@@ -555,7 +627,7 @@ namespace PrintIngredientsList
             var data = (EditProductData)row.Tag;
 
 
-            FormEditIngredients frm = new FormEditIngredients(productBaseInfo, commonDefInfo, data);
+            FormEditIngredients frm = new FormEditIngredients(this, productBaseInfo, commonDefInfo, data);
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 //編集結果
@@ -572,15 +644,21 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void button6_Click(object sender, EventArgs e)
         {
-            FormEditIngredients frm = new FormEditIngredients(productBaseInfo, commonDefInfo);
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                //編集結果
-                var editParam = frm.GetEditParam();
+            FormEditIngredients frm = new FormEditIngredients(this, productBaseInfo, commonDefInfo);
+            frm.Show();
+            frm.TopMost = true;
+            //== DialogResult.OK)
+            //{
+            //    //編集結果
+            //    var editParam = frm.GetEditParam();
 
-                EditParamToGridAdd(editParam);
-            }
+            //    EditParamToGridAdd(editParam);
+            //}
 
+        }
+        public void AddProduct(EditProductData editParam )
+        {
+            EditParamToGridAdd(editParam);
         }
         /// <summary>
         /// 削除ボタン
@@ -688,6 +766,221 @@ namespace PrintIngredientsList
             gridList.Rows[e.RowIndex].ErrorText = null;
 
         }
+
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            if (Utility.MessageConfirm("編集データをリセとします。\nよろしいですか？", "リセット") != DialogResult.OK)
+            {
+                return;
+            }
+
+            gridList.Rows.Clear();
+        }
+
+        //商品データ再読み込み
+        private void toolBtnReload_Click(object sender, EventArgs e)
+        {
+            if(ReadDatabase()!=0)
+            {
+                Utility.MessageError("読み込みに失敗しました。");
+            }
+
+            try
+            {
+                //印刷レイアウト情報の読み込み
+                ReadPrintLayoutInfo(printLayoutDataFilePath);
+            }
+            catch (Exception ex)
+            {
+                Utility.MessageError("印刷レイアウト情報の読み込みで例外が発生");
+            }
+            //印刷設定をUIに設定
+            SettingDataToUI(settingData);
+
+
+            UpdatePreview();
+            Utility.MessageInfo("読み込み完了！");
+
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            FormEditPrintStartPos frm = new FormEditPrintStartPos(curLabelType,settingData);
+            frm.printStartPos = settingData.printStartPos;
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                settingData.printStartPos = frm.printStartPos;
+                txtPrintStartPos.Text = settingData.printStartPos.ToString();
+            }
+        }
+
+        private void menuSave_Click(object sender, EventArgs e)
+        {
+            toolBtnSave_Click(null, null);
+        }
+
+        private void menuReload_Click(object sender, EventArgs e)
+        {
+            toolBtnReload_Click(null, null);
+        }
+        /// <summary>
+        /// ライセンス更新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mnuUpdateLicense_Click(object sender, EventArgs e)
+        {
+            FormLicenseMng frm = new FormLicenseMng();
+            if(frm.ShowDialog() == DialogResult.OK)
+            {
+                //制限解除
+                SetApplicationLimit(true);
+            }else
+            {
+                SetApplicationLimit(false);
+
+            }
+        }
+
+        /// <summary>
+        /// 有効期限について
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mnuLimitDate_Click(object sender, EventArgs e)
+        {
+            LicenseManager lm = LicenseManager.GetLicenseManager();
+
+            var info = ReadLicenseFileFromSettingDir();
+
+            Utility.MessageInfo($"現在取得されているライセンスの期限は、\n{info.LimitDate.Value.ToShortDateString()}\nとなっています。");
+        }
+
+        private LicenseManager.LicenseInfo ReadLicenseFileFromSettingDir()
+        {
+            string filePath = System.IO.Path.Combine(SettingsFolderPath, Const.LicenseFileName);
+
+            return LicenseManager.GetLicenseManager().ReadLicenseFile(filePath);
+        }
+        #endregion
+
+        //=========================================================
+        //  印刷タブの各種イベント
+        //=========================================================
+        #region 印刷タブの各種イベント
+
+        //--------------------------------
+        //印刷レイアウト
+        //--------------------------------
+        #region 印刷レイアウト
+
+        /// <summary>
+        /// セット枚数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtCopyNum_TextChanged(object sender, EventArgs e)
+        {
+            if (!int.TryParse(txtCopyNum.Text, out settingData.copyNum))
+            {
+                ErrMsg("セット枚数");
+            }
+
+        }
+        //フォント選択
+        private void cmbFont_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            settingData.fontName = cmbFont.Text;
+            UpdateLabelTypePreview();
+        }
+        /// <summary>
+        /// 用紙選択
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbLayout_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            curLayout = (Layout)cmbLayout.SelectedItem;
+
+            lblSize.Text = $"{curLayout.paperWidth} × {curLayout.paperHeight}";
+            txtPrintLeftGap.Text = curLayout.printGapLeft.ToString("F2");
+            txtPrintTopGap.Text = curLayout.printGapTop.ToString("F2");
+
+        }
+        /// <summary>
+        /// ラベルタイプ選択
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbLabelType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            curLabelType = (LabelType)cmbLabelType.SelectedItem;
+
+            txtLabelAreaGapLeft.Text = curLabelType.gapLeft.ToString("F2");
+            txtLabelAreaGapTop.Text = curLabelType.gapTop.ToString("F2");
+            txtLabelAreaGapRight.Text = curLabelType.gapRight.ToString("F2");
+            txtLabelAreaGapBottom.Text = curLabelType.gapBottom.ToString("F2");
+
+            cmbLabelBlock.Items.Clear();
+            foreach (var ItemBlock in curLabelType.lstLabelBlocks)
+            {
+                cmbLabelBlock.Items.Add(ItemBlock);
+            }
+            if (cmbLabelBlock.Items.Count > 0)
+            {
+                cmbLabelBlock.SelectedIndex = 0;
+            }
+            UpdateLabelTypePreview();
+        }
+
+        /// <summary>
+        /// プレビュー
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button9_Click(object sender, EventArgs e)
+        {
+            CreatePrintData();
+
+            PrintDocumentEx pd = CreatePrintDocument(PrintType.PREVIEW);
+            pd.ResetPageIndex();
+
+            FormPrintPreview frm = new FormPrintPreview(this, pd);
+            frm.ShowDialog();
+
+        }
+        /// <summary>
+        /// 印刷
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button8_Click(object sender, EventArgs e)
+        {
+            CreatePrintData();
+
+            PrintDocumentEx pd = CreatePrintDocument(PrintType.PRINT);
+            pd.ResetPageIndex();
+
+            //PrintDialogクラスの作成
+            System.Windows.Forms.PrintDialog pdlg = new System.Windows.Forms.PrintDialog();
+            //PrintDocumentを指定
+            pdlg.Document = pd;
+            //印刷の選択ダイアログを表示する
+            if (pdlg.ShowDialog() == DialogResult.OK)
+            {
+                //OKがクリックされた時は印刷する
+                pd.Print();
+            }
+        }
+        #endregion
+
+
+        //--------------------------------
+        //印刷位置調整タブ
+        //--------------------------------
+        #region 印刷位置調整 タブ
         /// <summary>
         /// ▶ボタン
         /// </summary>
@@ -768,6 +1061,41 @@ namespace PrintIngredientsList
             UpdatePreview();
         }
         /// <summary>
+        /// ヘッダ領域(左余白）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtHeaderLeftGap_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtHeaderLeftGap.Text, out curLayout.headerGapLeft))
+            {
+                ErrMsg("ヘッダ領域(左余白)");
+                return;
+            }
+            UpdatePreview();
+
+        }
+        /// <summary>
+        /// ヘッダ領域(上余白)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtHeaderTopGap_TextChanged(object sender, EventArgs e)
+        {
+            if (!float.TryParse(txtHeaderTopGap.Text, out curLayout.headerGapTop))
+            {
+                ErrMsg("ヘッダ領域(上余白)");
+                return;
+            }
+            UpdatePreview();
+        }
+        #endregion
+
+        //--------------------------------
+        //ラベル余白調整タブ
+        //--------------------------------
+        #region ラベル余白調整タブ
+        /// <summary>
         /// ラベル領域の左余白
         /// </summary>
         /// <param name="sender"></param>
@@ -824,170 +1152,13 @@ namespace PrintIngredientsList
             }
             UpdatePreview();
         }
-        /// <summary>
-        /// セット枚数
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void txtCopyNum_TextChanged(object sender, EventArgs e)
-        {
-            if(!int.TryParse(txtCopyNum.Text, out settingData.copyNum))
-            {
-                ErrMsg("セット枚数");
-            }
-
-        }
-
-        /// <summary>
-        /// リセット
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button5_Click(object sender, EventArgs e)
-        {
-            settingData = new PrintSettingData();
-            //印刷設定をUIに設定
-            SettingDataToUI(settingData);
-        }
-
-
-        private void button11_Click(object sender, EventArgs e)
-        {
-            if (Utility.MessageConfirm("編集データをリセとします。\nよろしいですか？", "リセット") != DialogResult.OK)
-            {
-                return;
-            }
-
-            gridList.Rows.Clear();
-        }
-
-        //商品データ再読み込み
-        private void toolBtnReload_Click(object sender, EventArgs e)
-        {
-            if(ReadDatabase()!=0)
-            {
-                Utility.MessageError("読み込みに失敗しました。");
-            }else
-            {
-                Utility.MessageInfo("商品データを再読み込みしました。");
-            }
-
-            UpdatePreview();
-        }
-
-        private void button10_Click(object sender, EventArgs e)
-        {
-            FormEditPrintStartPos frm = new FormEditPrintStartPos(curLabelType,settingData);
-            frm.printStartPos = settingData.printStartPos;
-
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                settingData.printStartPos = frm.printStartPos;
-                txtPrintStartPos.Text = settingData.printStartPos.ToString();
-            }
-        }
-
-        private void menuSave_Click(object sender, EventArgs e)
-        {
-            toolBtnSave_Click(null, null);
-        }
-
-        private void menuReload_Click(object sender, EventArgs e)
-        {
-            toolBtnReload_Click(null, null);
-        }
-        /// <summary>
-        /// ライセンス更新
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void mnuUpdateLicense_Click(object sender, EventArgs e)
-        {
-            FormLicenseMng frm = new FormLicenseMng();
-            if(frm.ShowDialog() == DialogResult.OK)
-            {
-                //制限解除
-                SetApplicationLimit(true);
-            }else
-            {
-                SetApplicationLimit(false);
-
-            }
-        }
-
-        /// <summary>
-        /// 有効期限について
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void mnuLimitDate_Click(object sender, EventArgs e)
-        {
-            LicenseManager lm = LicenseManager.GetLicenseManager();
-
-            var info = ReadLicenseFileFromSettingDir();
-
-            Utility.MessageInfo($"現在取得されているライセンスの期限は、\n{info.LimitDate.Value.ToShortDateString()}\nとなっています。");
-        }
-
-        private LicenseManager.LicenseInfo ReadLicenseFileFromSettingDir()
-        {
-            string filePath = System.IO.Path.Combine(SettingsFolderPath, Const.LicenseFileName);
-
-            return LicenseManager.GetLicenseManager().ReadLicenseFile(filePath);
-        }
         #endregion
 
-        //=========================================================
-        //  印刷タブの各種イベント
-        //=========================================================
-        #region 印刷タブの各種イベント
 
-        //フォント選択
-        private void cmbFont_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            settingData.fontName = cmbFont.Text;
-            UpdateLabelTypePreview();
-        }
-        /// <summary>
-        /// 用紙選択
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cmbLayout_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            curLayout = (Layout)cmbLayout.SelectedItem;
-
-            lblSize.Text = $"{curLayout.paperWidth} × {curLayout.paperHeight}";
-            txtPrintLeftGap.Text = curLayout.printGapLeft.ToString("F2");
-            txtPrintTopGap.Text = curLayout.printGapTop.ToString("F2");
-
-        }
-
-        /// <summary>
-        /// ラベルタイプ選択
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cmbLabelType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            curLabelType = (LabelType)cmbLabelType.SelectedItem;
-
-            txtLabelAreaGapLeft.Text = curLabelType.gapLeft.ToString("F2");
-            txtLabelAreaGapTop.Text = curLabelType.gapTop.ToString("F2");
-            txtLabelAreaGapRight.Text = curLabelType.gapRight.ToString("F2");
-            txtLabelAreaGapBottom.Text = curLabelType.gapBottom.ToString("F2");
-
-            cmbLabelBlock.Items.Clear();
-            foreach (var ItemBlock in curLabelType.lstLabelBlocks)
-            {
-                cmbLabelBlock.Items.Add(ItemBlock);
-            }
-            if (cmbLabelBlock.Items.Count > 0)
-            {
-                cmbLabelBlock.SelectedIndex = 0;
-            }
-            UpdateLabelTypePreview();
-        }
+        //--------------------------------
+        //項目の位置、高さ、フォント調整
+        //--------------------------------
+        #region 項目の位置、高さ、フォント調整
 
         //ラベルブロック選択
         private void cmbLabelBlock_SelectedIndexChanged(object sender, EventArgs e)
@@ -1316,6 +1487,7 @@ namespace PrintIngredientsList
 
             }
         }
+        #endregion
 
         /// <summary>
         /// TextBoxの値→float変換
@@ -1362,9 +1534,10 @@ namespace PrintIngredientsList
 
 
 
-
-
         #endregion
+
+ 
+
     }
 
 }
