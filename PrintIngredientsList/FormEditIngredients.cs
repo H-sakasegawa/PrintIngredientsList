@@ -326,6 +326,7 @@ namespace PrintIngredientsList
             this.Size = new Size(SizeW, SizeH);
 
             int SplitDistance = Properties.Settings.Default.EdtFrmSplitDistance;
+            if (SplitDistance < 100) SplitDistance = 100;
             splitContainer1.SplitterDistance = SplitDistance;
         }
         private void SaveUserSetting()

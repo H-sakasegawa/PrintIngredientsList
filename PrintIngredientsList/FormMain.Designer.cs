@@ -48,6 +48,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.label21 = new System.Windows.Forms.Label();
             this.cmbKind = new System.Windows.Forms.ComboBox();
             this.chkAll = new System.Windows.Forms.CheckBox();
             this.button11 = new System.Windows.Forms.Button();
@@ -64,12 +65,13 @@
             this.cmbLayout = new System.Windows.Forms.ComboBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.txtHeaderTopGap = new System.Windows.Forms.TextBox();
             this.txtHeaderLeftGap = new System.Windows.Forms.TextBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
             this.txtPrintTopGap = new System.Windows.Forms.TextBox();
             this.txtPrintLeftGap = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -138,7 +140,6 @@
             this.mnuUpdateLicense = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuLimitDate = new System.Windows.Forms.ToolStripMenuItem();
-            this.label21 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -360,6 +361,15 @@
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 1;
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(88, 6);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(29, 12);
+            this.label21.TabIndex = 3;
+            this.label21.Text = "種別";
+            // 
             // cmbKind
             // 
             this.cmbKind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -534,12 +544,13 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label23);
+            this.tabPage3.Controls.Add(this.label22);
             this.tabPage3.Controls.Add(this.txtHeaderTopGap);
             this.tabPage3.Controls.Add(this.txtHeaderLeftGap);
             this.tabPage3.Controls.Add(this.pictureBox3);
             this.tabPage3.Controls.Add(this.label18);
             this.tabPage3.Controls.Add(this.label17);
-            this.tabPage3.Controls.Add(this.button5);
             this.tabPage3.Controls.Add(this.txtPrintTopGap);
             this.tabPage3.Controls.Add(this.txtPrintLeftGap);
             this.tabPage3.Controls.Add(this.pictureBox1);
@@ -555,9 +566,27 @@
             this.tabPage3.Text = "印刷位置の調整";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(8, 174);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(67, 12);
+            this.label23.TabIndex = 32;
+            this.label23.Text = "ヘッダ部余白";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(8, 9);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(77, 12);
+            this.label22.TabIndex = 31;
+            this.label22.Text = "印刷用紙余白";
+            // 
             // txtHeaderTopGap
             // 
-            this.txtHeaderTopGap.Location = new System.Drawing.Point(9, 215);
+            this.txtHeaderTopGap.Location = new System.Drawing.Point(56, 214);
             this.txtHeaderTopGap.Name = "txtHeaderTopGap";
             this.txtHeaderTopGap.Size = new System.Drawing.Size(44, 19);
             this.txtHeaderTopGap.TabIndex = 30;
@@ -567,7 +596,7 @@
             // 
             // txtHeaderLeftGap
             // 
-            this.txtHeaderLeftGap.Location = new System.Drawing.Point(62, 172);
+            this.txtHeaderLeftGap.Location = new System.Drawing.Point(109, 171);
             this.txtHeaderLeftGap.Name = "txtHeaderLeftGap";
             this.txtHeaderLeftGap.Size = new System.Drawing.Size(44, 19);
             this.txtHeaderLeftGap.TabIndex = 29;
@@ -579,7 +608,7 @@
             // 
             this.pictureBox3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox3.BackgroundImage")));
             this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox3.Location = new System.Drawing.Point(53, 195);
+            this.pictureBox3.Location = new System.Drawing.Point(100, 194);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(188, 95);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -589,7 +618,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(14, 118);
+            this.label18.Location = new System.Drawing.Point(61, 117);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(23, 12);
             this.label18.TabIndex = 27;
@@ -598,25 +627,15 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(153, 16);
+            this.label17.Location = new System.Drawing.Point(200, 15);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(23, 12);
             this.label17.TabIndex = 27;
             this.label17.Text = "mm";
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(369, 9);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(84, 28);
-            this.button5.TabIndex = 26;
-            this.button5.Text = "リセット";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
             // txtPrintTopGap
             // 
-            this.txtPrintTopGap.Location = new System.Drawing.Point(6, 73);
+            this.txtPrintTopGap.Location = new System.Drawing.Point(53, 72);
             this.txtPrintTopGap.Name = "txtPrintTopGap";
             this.txtPrintTopGap.Size = new System.Drawing.Size(48, 19);
             this.txtPrintTopGap.TabIndex = 25;
@@ -626,7 +645,7 @@
             // 
             // txtPrintLeftGap
             // 
-            this.txtPrintLeftGap.Location = new System.Drawing.Point(76, 9);
+            this.txtPrintLeftGap.Location = new System.Drawing.Point(123, 8);
             this.txtPrintLeftGap.Name = "txtPrintLeftGap";
             this.txtPrintLeftGap.Size = new System.Drawing.Size(44, 19);
             this.txtPrintLeftGap.TabIndex = 24;
@@ -638,7 +657,7 @@
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(43, 32);
+            this.pictureBox1.Location = new System.Drawing.Point(90, 31);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(140, 131);
             this.pictureBox1.TabIndex = 23;
@@ -650,7 +669,7 @@
             this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
             this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button4.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button4.Location = new System.Drawing.Point(8, 52);
+            this.button4.Location = new System.Drawing.Point(55, 51);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(29, 22);
             this.button4.TabIndex = 21;
@@ -663,7 +682,7 @@
             this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button2.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button2.Location = new System.Drawing.Point(48, 8);
+            this.button2.Location = new System.Drawing.Point(95, 7);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(29, 22);
             this.button2.TabIndex = 22;
@@ -676,7 +695,7 @@
             this.button3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button3.BackgroundImage")));
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button3.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button3.Location = new System.Drawing.Point(9, 93);
+            this.button3.Location = new System.Drawing.Point(56, 92);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(29, 22);
             this.button3.TabIndex = 17;
@@ -689,7 +708,7 @@
             this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button1.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.Location = new System.Drawing.Point(120, 8);
+            this.button1.Location = new System.Drawing.Point(167, 7);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(29, 22);
             this.button1.TabIndex = 18;
@@ -1306,15 +1325,6 @@
             this.mnuLimitDate.Text = "ライセンス有効期限について";
             this.mnuLimitDate.Click += new System.EventHandler(this.mnuLimitDate_Click);
             // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(88, 6);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(29, 12);
-            this.label21.TabIndex = 3;
-            this.label21.Text = "種別";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1428,7 +1438,6 @@
         private System.Windows.Forms.TextBox txtLabelAreaGapRight;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TextBox txtPrintTopGap;
-        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox txtPrintStartPos;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button10;
@@ -1491,6 +1500,8 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.ComboBox cmbKind;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
     }
 }
 

@@ -543,7 +543,11 @@ namespace PrintIngredientsList
             settingData.Write(settingDataFilePath);
 
             //印刷レイアウト情報の保存
+#if DEBUG
             printLayoutMng.SaveLayout(printLayoutDataFilePath + "_");
+#else
+            printLayoutMng.SaveLayout(printLayoutDataFilePath);
+#endif
 
         }
         /// <summary>
@@ -602,7 +606,7 @@ namespace PrintIngredientsList
 
             return 0;
         }
-        #endregion
+#endregion
 
         //=========================================================
         //  成分表一覧タブの各種イベント
@@ -764,19 +768,6 @@ namespace PrintIngredientsList
         }
 
 
-        /// <summary>
-        /// リセット
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button5_Click(object sender, EventArgs e)
-        {
-            settingData = new PrintSettingData();
-            //印刷設定をUIに設定
-            SettingDataToUI(settingData);
-        }
-
-
         private void button11_Click(object sender, EventArgs e)
         {
             if (Utility.MessageConfirm("編集データをリセとします。\nよろしいですか？", "リセット") != DialogResult.OK)
@@ -809,7 +800,7 @@ namespace PrintIngredientsList
 
 
             UpdatePreview();
-            Utility.MessageInfo("再読み込み完了！");
+            Utility.MessageInfo("読み込み完了！");
 
         }
 
@@ -942,6 +933,46 @@ namespace PrintIngredientsList
                 cmbLabelBlock.SelectedIndex = 0;
             }
             UpdateLabelTypePreview();
+        }
+
+        /// <summary>
+        /// プレビュー
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button9_Click(object sender, EventArgs e)
+        {
+            CreatePrintData();
+
+            PrintDocumentEx pd = CreatePrintDocument(PrintType.PREVIEW);
+            pd.ResetPageIndex();
+
+            FormPrintPreview frm = new FormPrintPreview(this, pd);
+            frm.ShowDialog();
+
+        }
+        /// <summary>
+        /// 印刷
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button8_Click(object sender, EventArgs e)
+        {
+            CreatePrintData();
+
+            PrintDocumentEx pd = CreatePrintDocument(PrintType.PRINT);
+            pd.ResetPageIndex();
+
+            //PrintDialogクラスの作成
+            System.Windows.Forms.PrintDialog pdlg = new System.Windows.Forms.PrintDialog();
+            //PrintDocumentを指定
+            pdlg.Document = pd;
+            //印刷の選択ダイアログを表示する
+            if (pdlg.ShowDialog() == DialogResult.OK)
+            {
+                //OKがクリックされた時は印刷する
+                pd.Print();
+            }
         }
         #endregion
 
@@ -1504,6 +1535,8 @@ namespace PrintIngredientsList
 
 
         #endregion
+
+ 
 
     }
 

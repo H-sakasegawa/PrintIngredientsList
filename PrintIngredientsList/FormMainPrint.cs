@@ -20,7 +20,7 @@ namespace PrintIngredientsList
 {
     public partial class FormMain : Form
     {
-        enum PrintType
+        public enum PrintType
         {
             PREVIEW,
             PRINT
@@ -29,7 +29,7 @@ namespace PrintIngredientsList
         /// <summary>
         /// グリッド列インデックス
         /// </summary>
-        enum LabelItemColumnIndex
+        public enum LabelItemColumnIndex
         {
             COL_CHECK = 0,
             COL_NAME,
@@ -38,7 +38,7 @@ namespace PrintIngredientsList
             COL_DETAIL
         }
 
-        enum PictureItemColumnIndex
+        public enum PictureItemColumnIndex
         {
             COL_CHECK = 0,
             COL_NAME,
@@ -48,8 +48,10 @@ namespace PrintIngredientsList
             COL_HEIGHT,
             COL_DETAIL
         }
-
-        class PrintDocumentEx : System.Drawing.Printing.PrintDocument
+        /// <summary>
+        /// 印刷ドキュメント拡張クラス
+        /// </summary>
+        public class PrintDocumentEx : System.Drawing.Printing.PrintDocument
         {
             public PrintDocumentEx(PrintType type)
                 : base()
@@ -57,10 +59,32 @@ namespace PrintIngredientsList
                 printType = type;
             }
             public PrintType printType;
+            public int printDataIndex;
+            public　int curPrintPageNo = 0;
+
+            public void ResetPageIndex() 
+            { 
+                printDataIndex = 0;
+                curPrintPageNo = 0;
+            }
+
+        }
+
+        /// <summary>
+        /// ヘッダに表示する商品と印刷ラベル数情報管理クラス
+        /// </summary>
+        class PrintedProducts
+        {
+            public PrintedProducts(string name)
+            {
+                this.name = name;
+            }
+            public string name;
+            public int printNum;
         }
 
         List<EditProductData> lstPrintData = new List<EditProductData>();
-        int printDataIndex = 0;
+        //int printDataIndex = 0;
         bool bPrintStartPositionning = false;
 
         //プレビュー画面拡大率最大／最小
@@ -106,93 +130,13 @@ namespace PrintIngredientsList
             return pd;
         }
 
-        /// <summary>
-        /// プレビュー
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button9_Click(object sender, EventArgs e)
-        {
-
-            CreatePrintData();
-
-            PrintDocumentEx pd = CreatePrintDocument(PrintType.PREVIEW);
-
-            //PrintPreviewDialogオブジェクトの作成
-            PrintPreviewDialog ppd = new PrintPreviewDialog();
-
-            //印刷プレビュー画面のホイール拡大縮小処理イベント
-            ppd.MouseWheel += OnPrintPreviewDialog_MouseWheel;
 
 
-            int x = Properties.Settings.Default.PrintPreviewDlgLocX;
-            int y = Properties.Settings.Default.PrintPreviewDlgLocY;
-            int w = Properties.Settings.Default.PrintPreviewDlgSizeW;
-            int h = Properties.Settings.Default.PrintPreviewDlgSizeH;
-            ppd.SetBounds( x, y, w, h);
-
-            ppd.PrintPreviewControl.Zoom = Properties.Settings.Default.PrintPreviewDlgZoom;
-
-            //プレビューするPrintDocumentを設定
-            ppd.Document = pd;
-            //印刷プレビューダイアログを表示する
-            ppd.ShowDialog();
-
-            //現在位置とサイズを記録
-            Properties.Settings.Default.PrintPreviewDlgLocX = ppd.Bounds.Left;
-            Properties.Settings.Default.PrintPreviewDlgLocY = ppd.Bounds.Top;
-            Properties.Settings.Default.PrintPreviewDlgSizeW = ppd.Bounds.Width;
-            Properties.Settings.Default.PrintPreviewDlgSizeH = ppd.Bounds.Height;
-            Properties.Settings.Default.PrintPreviewDlgZoom = ppd.PrintPreviewControl.Zoom;
-
-        }
-
-
-        private void OnPrintPreviewDialog_MouseWheel(object sender, MouseEventArgs e)
-        {
-            PrintPreviewDialog ppd = (PrintPreviewDialog)sender;
-            PrintPreviewControl ppc = ppd.PrintPreviewControl;
-
-            if (e.Delta > 0)
-            {
-                ppc.Zoom -= ppc.Zoom * 0.1;
-            }
-            else
-            {
-                ppc.Zoom += ppc.Zoom * 0.1;
-            }
-        }
-
-        /// <summary>
-        /// 印刷
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button8_Click(object sender, EventArgs e)
-        {
-            CreatePrintData();
-
-            PrintDocumentEx pd = CreatePrintDocument(PrintType.PRINT);
-            //PrintDialogクラスの作成
-            System.Windows.Forms.PrintDialog pdlg = new System.Windows.Forms.PrintDialog();
-            //PrintDocumentを指定
-            pdlg.Document = pd;
-            //印刷の選択ダイアログを表示する
-            if (pdlg.ShowDialog() == DialogResult.OK)
-            {
-                //OKがクリックされた時は印刷する
-                pd.Print();
-            }
-
-        }
-
-        int curPrintPageNo = 0;
         
         private void CreatePrintData()
         {
             lstPrintData.Clear();
-            printDataIndex = 0; //印刷ラベルIndex初期化
-            curPrintPageNo = 0;
+            //printDataIndex = 0; //印刷ラベルIndex初期化
 
             //セット枚数
             for (int iCopy = 0; iCopy < settingData.copyNum; iCopy++)
@@ -217,22 +161,13 @@ namespace PrintIngredientsList
             }
         }
 
-        class PrintedProducts
-        {
-            public PrintedProducts(string name)
-            {
-                this.name = name;
-            }
-            public string name;
-            public int printNum;
-        }
 
 
         private void pd_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            curPrintPageNo++;
 
             PrintDocumentEx pd = (PrintDocumentEx)sender;
+            pd.curPrintPageNo++;
 
             float A4HeightMM = curLayout.paperHeight; //mm
             float A4WidthMM  = curLayout.paperWidth; //mm
@@ -242,8 +177,6 @@ namespace PrintIngredientsList
 
             float LabelBlockWidth = curLabelType.width;
             float LabelBlockHeiht = curLabelType.height;
-
-            // float pageWidthMM = POINT2MILLI(e.PageSettings.PaperSize.Width);
 
             if (pd.printType == PrintType.PREVIEW && chkTestLineDraw.Checked)
             {
@@ -298,9 +231,9 @@ namespace PrintIngredientsList
             try
             {
                 PrintedProducts curPrintProduct = null;
-                while (printDataIndex < lstPrintData.Count)
+                while (pd.printDataIndex < lstPrintData.Count)
                 {
-                    EditProductData data = lstPrintData[printDataIndex];
+                    EditProductData data = lstPrintData[pd.printDataIndex];
                     var productData = productBaseInfo.GetProductDataByID(data.id);
 
                     if (curPrintProduct == null || string.Compare(curPrintProduct.name, productData.name, true) != 0)
@@ -319,9 +252,9 @@ namespace PrintIngredientsList
 
                     //印刷枚数
                     DrawLabel(data, e.Graphics, bDrawProductSepLine, curLabelType, drawX, drawY);
-                    printDataIndex++;//次のラベル
+                    pd.printDataIndex++;//次のラベル
 
-                    if (printDataIndex < lstPrintData.Count)
+                    if (pd.printDataIndex < lstPrintData.Count)
                     {
 
                         drawX += LabelBlockWidth;
@@ -345,14 +278,14 @@ namespace PrintIngredientsList
             {
                 //ヘッダにこのページに印刷されている商品名とラベル枚数を表示
                 DrawHeader(printHeaderProductNames, e.Graphics, curLayout.printGapLeft, curLayout.printGapTop);
-                DrawFooter(curPrintPageNo, pageNum, e.Graphics, A4WidthMM, A4HeightMM);
+                DrawFooter(pd.curPrintPageNo, pageNum, e.Graphics, A4WidthMM, A4HeightMM);
             }
         }
         /// <summary>
         /// 印刷ページ数カウント
         /// </summary>
         /// <returns></returns>
-        private int GetPageNum()
+        public int GetPageNum()
         {
             float A4HeightMM = curLayout.paperHeight; //mm
             float A4WidthMM = curLayout.paperWidth; //mm

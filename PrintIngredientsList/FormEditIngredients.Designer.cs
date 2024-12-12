@@ -53,18 +53,18 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.txtNumOfSheets = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cmbKind = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtProductName = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.lvNutritional = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbKind = new System.Windows.Forms.ComboBox();
             this.lstProductNames = new System.Windows.Forms.ListBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.txtProductName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtValidDays)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -334,25 +334,6 @@
             this.label12.TabIndex = 24;
             this.label12.Text = "枚";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 12);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "分類：";
-            // 
-            // cmbKind
-            // 
-            this.cmbKind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbKind.FormattingEnabled = true;
-            this.cmbKind.Location = new System.Drawing.Point(40, 13);
-            this.cmbKind.Name = "cmbKind";
-            this.cmbKind.Size = new System.Drawing.Size(125, 20);
-            this.cmbKind.TabIndex = 20;
-            this.cmbKind.SelectedIndexChanged += new System.EventHandler(this.cmbKind_SelectedIndexChanged);
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -371,13 +352,24 @@
             this.label1.TabIndex = 19;
             this.label1.Text = "名称：";
             // 
+            // txtProductName
+            // 
+            this.txtProductName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtProductName.Location = new System.Drawing.Point(61, 6);
+            this.txtProductName.Multiline = true;
+            this.txtProductName.Name = "txtProductName";
+            this.txtProductName.ReadOnly = true;
+            this.txtProductName.Size = new System.Drawing.Size(277, 21);
+            this.txtProductName.TabIndex = 5;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.lvNutritional);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(399, 465);
+            this.tabPage2.Size = new System.Drawing.Size(344, 459);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "栄養成分";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -393,7 +385,7 @@
             this.lvNutritional.HideSelection = false;
             this.lvNutritional.Location = new System.Drawing.Point(11, 6);
             this.lvNutritional.Name = "lvNutritional";
-            this.lvNutritional.Size = new System.Drawing.Size(208, 453);
+            this.lvNutritional.Size = new System.Drawing.Size(208, 447);
             this.lvNutritional.TabIndex = 0;
             this.lvNutritional.UseCompatibleStateImageBehavior = false;
             this.lvNutritional.View = System.Windows.Forms.View.Details;
@@ -408,6 +400,27 @@
             this.columnHeader2.Text = "設定値";
             this.columnHeader2.Width = 88;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 12);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "分類：";
+            // 
+            // cmbKind
+            // 
+            this.cmbKind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbKind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKind.FormattingEnabled = true;
+            this.cmbKind.Location = new System.Drawing.Point(40, 13);
+            this.cmbKind.Name = "cmbKind";
+            this.cmbKind.Size = new System.Drawing.Size(125, 20);
+            this.cmbKind.TabIndex = 20;
+            this.cmbKind.SelectedIndexChanged += new System.EventHandler(this.cmbKind_SelectedIndexChanged);
+            // 
             // lstProductNames
             // 
             this.lstProductNames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -417,7 +430,7 @@
             this.lstProductNames.ItemHeight = 12;
             this.lstProductNames.Location = new System.Drawing.Point(3, 39);
             this.lstProductNames.Name = "lstProductNames";
-            this.lstProductNames.Size = new System.Drawing.Size(162, 436);
+            this.lstProductNames.Size = new System.Drawing.Size(162, 448);
             this.lstProductNames.TabIndex = 19;
             this.lstProductNames.SelectedIndexChanged += new System.EventHandler(this.lstProductNames_SelectedIndexChanged);
             this.lstProductNames.DoubleClick += new System.EventHandler(this.lstProductNames_DoubleClick);
@@ -461,17 +474,6 @@
             this.splitContainer2.Size = new System.Drawing.Size(530, 529);
             this.splitContainer2.SplitterDistance = 491;
             this.splitContainer2.TabIndex = 23;
-            // 
-            // txtProductName
-            // 
-            this.txtProductName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtProductName.Location = new System.Drawing.Point(61, 6);
-            this.txtProductName.Multiline = true;
-            this.txtProductName.Name = "txtProductName";
-            this.txtProductName.ReadOnly = true;
-            this.txtProductName.Size = new System.Drawing.Size(277, 21);
-            this.txtProductName.TabIndex = 5;
             // 
             // FormEditIngredients
             // 
