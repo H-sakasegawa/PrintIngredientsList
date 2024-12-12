@@ -62,6 +62,8 @@ namespace ExcelReaderUtility
             }
             XSSFSheet sheet = (XSSFSheet)((XSSFWorkbook)workbook).GetSheetAt(0);
 
+            dicCommonDef.Clear();
+
             bool bReadTitle = false;
             int iRow = 0;
             while (true)

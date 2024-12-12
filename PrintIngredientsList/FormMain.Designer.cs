@@ -48,6 +48,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.cmbKind = new System.Windows.Forms.ComboBox();
             this.chkAll = new System.Windows.Forms.CheckBox();
             this.button11 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -63,6 +64,9 @@
             this.cmbLayout = new System.Windows.Forms.ComboBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.txtHeaderTopGap = new System.Windows.Forms.TextBox();
+            this.txtHeaderLeftGap = new System.Windows.Forms.TextBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
@@ -134,6 +138,7 @@
             this.mnuUpdateLicense = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuLimitDate = new System.Windows.Forms.ToolStripMenuItem();
+            this.label21 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -153,6 +158,7 @@
             this.groupBox2.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -342,6 +348,8 @@
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.label21);
+            this.splitContainer3.Panel1.Controls.Add(this.cmbKind);
             this.splitContainer3.Panel1.Controls.Add(this.chkAll);
             // 
             // splitContainer3.Panel2
@@ -351,6 +359,16 @@
             this.splitContainer3.SplitterDistance = 25;
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 1;
+            // 
+            // cmbKind
+            // 
+            this.cmbKind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKind.FormattingEnabled = true;
+            this.cmbKind.Location = new System.Drawing.Point(122, 2);
+            this.cmbKind.Name = "cmbKind";
+            this.cmbKind.Size = new System.Drawing.Size(122, 20);
+            this.cmbKind.TabIndex = 2;
+            this.cmbKind.SelectedIndexChanged += new System.EventHandler(this.cmbKind_SelectedIndexChanged);
             // 
             // chkAll
             // 
@@ -516,6 +534,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.txtHeaderTopGap);
+            this.tabPage3.Controls.Add(this.txtHeaderLeftGap);
+            this.tabPage3.Controls.Add(this.pictureBox3);
             this.tabPage3.Controls.Add(this.label18);
             this.tabPage3.Controls.Add(this.label17);
             this.tabPage3.Controls.Add(this.button5);
@@ -533,6 +554,37 @@
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "印刷位置の調整";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // txtHeaderTopGap
+            // 
+            this.txtHeaderTopGap.Location = new System.Drawing.Point(9, 215);
+            this.txtHeaderTopGap.Name = "txtHeaderTopGap";
+            this.txtHeaderTopGap.Size = new System.Drawing.Size(44, 19);
+            this.txtHeaderTopGap.TabIndex = 30;
+            this.txtHeaderTopGap.Text = "0.0";
+            this.txtHeaderTopGap.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtHeaderTopGap.TextChanged += new System.EventHandler(this.txtHeaderTopGap_TextChanged);
+            // 
+            // txtHeaderLeftGap
+            // 
+            this.txtHeaderLeftGap.Location = new System.Drawing.Point(62, 172);
+            this.txtHeaderLeftGap.Name = "txtHeaderLeftGap";
+            this.txtHeaderLeftGap.Size = new System.Drawing.Size(44, 19);
+            this.txtHeaderLeftGap.TabIndex = 29;
+            this.txtHeaderLeftGap.Text = "0.0";
+            this.txtHeaderLeftGap.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtHeaderLeftGap.TextChanged += new System.EventHandler(this.txtHeaderLeftGap_TextChanged);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox3.BackgroundImage")));
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox3.Location = new System.Drawing.Point(53, 195);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(188, 95);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 28;
+            this.pictureBox3.TabStop = false;
             // 
             // label18
             // 
@@ -554,7 +606,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(213, 32);
+            this.button5.Location = new System.Drawing.Point(369, 9);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(84, 28);
             this.button5.TabIndex = 26;
@@ -1254,6 +1306,15 @@
             this.mnuLimitDate.Text = "ライセンス有効期限について";
             this.mnuLimitDate.Click += new System.EventHandler(this.mnuLimitDate_Click);
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(88, 6);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(29, 12);
+            this.label21.TabIndex = 3;
+            this.label21.Text = "種別";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1290,6 +1351,7 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
@@ -1424,6 +1486,11 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtTitleColWidth;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txtHeaderTopGap;
+        private System.Windows.Forms.TextBox txtHeaderLeftGap;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.ComboBox cmbKind;
+        private System.Windows.Forms.Label label21;
     }
 }
 
