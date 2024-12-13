@@ -230,22 +230,26 @@ namespace PrintIngredientsList
 
 
             cmbFont.Text = data.fontName;
+            if (curLayout != null)
+            {
 
-            txtCopyNum.Text            = data.copyNum.ToString();
-            txtPrintLeftGap.Text       = curLayout.printGapLeft.ToString("F2");
-            txtPrintTopGap.Text        = curLayout.printGapTop.ToString("F2");
+                txtCopyNum.Text = data.copyNum.ToString();
+                txtPrintLeftGap.Text = curLayout.printGapLeft.ToString("F2");
+                txtPrintTopGap.Text = curLayout.printGapTop.ToString("F2");
 
-            txtHeaderLeftGap.Text       = curLayout.headerGapLeft.ToString("F2");
-            txtHeaderTopGap.Text        = curLayout.headerGapTop.ToString("F2");
+                txtHeaderLeftGap.Text = curLayout.headerGapLeft.ToString("F2");
+                txtHeaderTopGap.Text = curLayout.headerGapTop.ToString("F2");
 
-            txtLabelAreaGapTop.Text    = curLabelType.gapTop.ToString("F2");
-            txtLabelAreaGapLeft.Text   = curLabelType.gapLeft.ToString("F2");
-            txtLabelAreaGapRight.Text  = curLabelType.gapRight.ToString("F2");
-            txtLabelAreaGapBottom.Text = curLabelType.gapBottom.ToString("F2");
+                txtLabelAreaGapTop.Text = curLabelType.gapTop.ToString("F2");
+                txtLabelAreaGapLeft.Text = curLabelType.gapLeft.ToString("F2");
+                txtLabelAreaGapRight.Text = curLabelType.gapRight.ToString("F2");
+                txtLabelAreaGapBottom.Text = curLabelType.gapBottom.ToString("F2");
 
-
-            var labeBlock = curLabelType.GetLabelBlock("成分表");
-
+            }
+            if (curLabelType != null)
+            {
+                var labeBlock = curLabelType.GetLabelBlock("成分表");
+            }
 
             txtPrintStartPos.Text       = data.printStartPos.ToString();
            
@@ -498,6 +502,8 @@ namespace PrintIngredientsList
         }
         private void Preview(Graphics gPreview,System.Windows.Forms.Panel panel, LabelType labelType, float rate)
         {
+            if (labelType == null) return;
+
             int areaWidth = (int)DrawUtil2.MillimetersToPixels(labelType.width, gPreview.DpiX);
             int areaHeight = (int)DrawUtil2.MillimetersToPixels(labelType.height, gPreview.DpiY);
 
