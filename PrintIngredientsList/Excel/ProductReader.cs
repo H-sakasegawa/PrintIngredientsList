@@ -186,7 +186,7 @@ namespace ExcelReaderUtility
                         else
                         {
                             //最低でもSupplementaryまでのデータが入力されていなければ読み込み対象外とする
-                            if (lstRowData.Count >= dicColmunIndex[ItemName.Supplementary])
+                            if (lstRowData.Count > dicColmunIndex[ItemName.Supplementary])
                             {
                                 //取り合えず、順番に決め打ちでデータ作成
                                 ProductData data = new ProductData();
