@@ -214,7 +214,7 @@ LABEL
 	//-------------------------------------------
 	TYPE
 	{
-		TITLE		= 横長
+		TITLE		= 横長1
 		WIDTH 		= 65		//ラベルサイズW
 		HEIGHT 		= 43		//ラベルサイズH
 		//ラベル領域内のギャップ
@@ -374,6 +374,182 @@ LABEL
 			}
 		}
 	}
+	//-------------------------------------------
+	// 横長 サンプル
+	//-------------------------------------------
+	TYPE
+	{
+		TITLE		= 横長2
+		WIDTH 		= 65		//ラベルサイズW
+		HEIGHT 		= 43		//ラベルサイズH
+		//ラベル領域内のギャップ
+		GAP_TOP 	= 2
+		GAP_LEFT 	= 2
+		GAP_RIGHT 	= 2
+		GAP_BOTTOM	= 2
+		//セル内のギャップ
+		CEL_GAP_TOP 	= 0.2
+		CEL_GAP_LEFT 	= 0.2
+		CEL_GAP_RIGHT 	= 0.2
+		CEL_GAP_BOTTOM	= 0.2
+
+		//ラベル内のブロック定義
+		BLOCK
+		{
+			TITLE		= 成分表
+			TYPE		= GRID
+			POSITION   	= 0,0
+			TITLE_WIDTH	= 10
+			VALUE_WIDTH	= 30
+			TITLE_FONT_SIZE = 5.5
+
+			
+			//ITEM(*) *...商品.xlsのタイトル
+			ITEM(名称)
+			{
+				VISIBLE			= 1
+				TITLE 			= 名    称
+				HIGHT			= 3.5
+				FONT_SIZE		= 5
+			}
+			ITEM(原材料)
+			{
+				VISIBLE			= 1
+				TITLE 			= 原 材 料
+				HIGHT			= 10
+				FONT_SIZE		= 5
+			}
+			ITEM(内容量)
+			{
+				VISIBLE			= 1
+				TITLE 			= 内 容 量
+				HIGHT			= 3.5
+				FONT_SIZE		= 7
+			}
+			ITEM(保存方法)
+			{
+				VISIBLE			= 1
+				TITLE 			= 保存方法
+				HIGHT			= 3.5
+				VALUE_WIDTH		= 20　//特殊ラベル表示領域を開けるため
+				FONT_SIZE		= 6
+			}
+			ITEM(製造者)
+			{
+				VISIBLE			= 1
+				TITLE 			= 製造者
+				HIGHT			= 6
+				VALUE_WIDTH		= 20　//特殊ラベル表示領域を開けるため
+				FONT_SIZE		= 6
+			}
+			
+			//以下は特殊な位置表示用
+			ITEM(賞味期限)
+			{
+				//保存方法と製造者の右横に配置
+				TYPE			= CUSTOMIZE
+				VISIBLE			= 1
+				TITLE 			= 賞味期限
+				TITLE_POSITION  = 20,20
+				VALUE_POSITION  = 20,25
+				TITLE_HIGHT		= 3.5 	//このタイトル高さが優先されます。
+				TITLE_WIDTH		= 10  	//このタイトル幅が優先されます。
+				VALUE_HIGHT		= 6		//この値高さが優先されます。
+				VALUE_WIDTH		= 10	//この値幅が優先されます。
+				FONT_SIZE		= 6
+			}
+//			ITEM(欄外)
+//			{
+//				//描画領域高さは、ラベルの高さから上記項目の描画
+//				//領域の合算を差し引いた残りとなります。
+//				VISIBLE			= 1
+//				FONT_SIZE		= 4
+//				FRAME			= OFF	//枠なし
+//			}
+		}
+
+		BLOCK
+		{
+			TITLE		= 栄養成分表
+			TYPE		= GRID
+			POSITION   	= 41,0
+			TITLE_WIDTH	= 12
+			VALUE_WIDTH	= 8
+			TITLE_FONT_SIZE = 5.5
+			
+			//ITEM(*) *...商品.xlsのタイトル
+
+			ITEM(コメント)	//特殊ITEMです。
+			{
+				//TITLE_WIDTH + VALUE_WIDTHの領域にTITLEの文字を描画します。
+				
+				TITLE 			= 栄養成分表示(100g当たり)
+				HIGHT			= 3.5
+				FONT_SIZE		= 4
+				FRAME			= OFF	//枠なし
+			}
+			ITEM(熱量)
+			{
+				VISIBLE			= 1
+				TITLE 			= カロリー
+				HIGHT			= 3.5
+				FONT_SIZE		= 6
+			}
+			ITEM(たんぱく質)
+			{
+				VISIBLE			= 1
+				TITLE 			= たんぱく質
+				HIGHT			= 3.5
+				FONT_SIZE		= 6
+			}
+			ITEM(脂質)
+			{
+				VISIBLE			= 1
+				TITLE 			= 脂  質
+				HIGHT			= 3.5
+				FONT_SIZE		= 6
+			}
+			ITEM(炭水化物)
+			{
+				VISIBLE			= 1
+				TITLE 			= 炭水化物
+				HIGHT			= 3.5
+				FONT_SIZE		= 6
+			}
+			ITEM(食塩相当量)
+			{
+				VISIBLE			= 1
+				TITLE 			= 食塩相当量
+				HIGHT			= 3.5
+				FONT_SIZE		= 6
+			}
+		}
+		
+		BLOCK
+		{
+			TITLE				= 画像
+			TYPE				= PICTURE
+			POSITION   			= 41,23
+			
+			
+			ITEM(BARCODE) //現在１ブロックのみ指定可能
+			{
+				VISIBLE			= 1
+				POSITION   		= 0,0
+				WIDTH			= 20	//mm
+				HEIGHT			= 7		//mm
+				DISP_NO			= 1
+			}
+			ITEM(ICON)
+			{
+				VISIBLE			= 1
+				POSITION   		= 3,8
+				SOURCE			= かしこいヒヨコ.png //Settingsフォルダに配置してください。
+				WIDTH			= 8	//mm
+				HEIGHT			= 8	//mm
+			}
+		}
+	}	
 }
 
 PRINT_LAYOUT

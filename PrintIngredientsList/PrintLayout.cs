@@ -13,6 +13,7 @@ using System.Windows.Media;
 using static PrintIngredientsList.LabelTypeBlockItemBase;
 using static PrintIngredientsList.LabelTypeBlockBase;
 using System.ComponentModel;
+using NPOI.OpenXmlFormats.Wordprocessing;
 
 namespace PrintIngredientsList
 {
@@ -79,8 +80,9 @@ namespace PrintIngredientsList
             ICON
         }
         public LabelTypeBlockItemBase() { }
-        public LabelTypeBlockItemBase(CConfigBlockWrapper blockITEM)
+        public LabelTypeBlockItemBase(LabelTypeBlock parent,CConfigBlockWrapper blockITEM)
         {
+            this.parent = parent;
             this.blockITEM = blockITEM;
             name = blockITEM.GetValue();
 
@@ -88,10 +90,41 @@ namespace PrintIngredientsList
             {
                 Enum.TryParse(name, true, out itemType);
             }
+
+            var item = blockITEM.GetItem("VISIBLE");
+            if (item != null)
+            {
+                int value = 0;
+                int.TryParse(item.GetValue(), out value);
+                _bVisible = value == 0 ? false : true;
+            }
+            item = blockITEM.GetItem("TYPE");
+            if (item != null)
+            {
+                if (item.GetValue() == "CUSTOMIZE")
+                {
+                    bCustomize = true;
+                }
+            }
+
         }
 
+
+        public bool _bVisible = true;
+        public bool Visible
+        {
+            get { return _bVisible; }
+            set
+            {
+                _bVisible = value;
+                blockITEM.SetValue("VISIBLE", _bVisible ? "1" : "0");
+            }
+        }
+
+        public LabelTypeBlock parent = null;
         public LabelTypeBlockItemType itemType = LabelTypeBlockItemType.LABEL;
         protected CConfigBlockWrapper blockITEM;
+        public bool bCustomize = false;
         public string name;
 
     }
@@ -482,10 +515,20 @@ namespace PrintIngredientsList
                 switch (labelTypeBlockType)
                 {
                     case LabelTypeBlockType.GRID:
-                        item = new LabelItem(blockItem);
+                        {
+                            var itemType = blockItem.GetItem("TYPE");
+                            if (itemType != null && itemType.GetValue() == "CUSTOMIZE")
+                            {
+                                item = new LabelItemCustomize(this, blockItem);
+                            }
+                            else
+                            {
+                                item = new LabelItem(this, blockItem);
+                            }
+                        }
                         break;
                     case LabelTypeBlockType.PICTURE:
-                        item = new PictureItem(blockItem);
+                        item = new PictureItem(this, blockItem);
                         break;
                 }
 
@@ -600,19 +643,11 @@ namespace PrintIngredientsList
     {
         public LabelItem() { }
 
-        public LabelItem(CConfigBlockWrapper blockITEM):base(blockITEM)
+        public LabelItem(LabelTypeBlock parent, CConfigBlockWrapper blockITEM):base(parent,blockITEM)
         {
             this.blockITEM = blockITEM;
 
-            var item = blockITEM.GetItem("VISIBLE");
-            if (item != null)
-            {
-                int value = 0;
-                int.TryParse( item.GetValue(), out value);
-                 _bVisible = value == 0 ? false : true;
-            }
-
-            item = blockITEM.GetItem("TITLE");
+            var item = blockITEM.GetItem("TITLE");
             if (item != null)
             {
                 Title = item.GetValue();
@@ -641,25 +676,17 @@ namespace PrintIngredientsList
                     DrawFrame = false;
                 }
             }
+
+           
         }
 
         //------------------------------------
         // プロパティ
         //------------------------------------
-        public bool  _bVisible = true;
-        public bool Visible
-        {
-            get { return  _bVisible; }
-            set
-            {
-                 _bVisible = value;
-                blockITEM.SetValue("VISIBLE",  _bVisible?"1":"0");
-            }
-        }
 
         public string Title { get; set; }
 
-        public float _height;
+        protected float _height= -1;
         public float Height
         {
             get { return _height; }
@@ -669,7 +696,7 @@ namespace PrintIngredientsList
                 blockITEM.SetValue("HIGHT", _height.ToString("F1"));
             }
         }
-        public float _width =-1;
+        protected float _width = -1;
         public float Width
         {
             get { return _width; }
@@ -679,7 +706,7 @@ namespace PrintIngredientsList
                 blockITEM.SetValue("WIDTH", _height.ToString("F1"));
             }
         }
-        public float _fontSize;
+        protected float _fontSize;
         public float FontSize
         {
             get { return _fontSize; }
@@ -693,22 +720,152 @@ namespace PrintIngredientsList
 
     }
 
+    public class LabelItemCustomize : LabelItem
+    {
+        public LabelItemCustomize() { }
+
+        public LabelItemCustomize(LabelTypeBlock parent, CConfigBlockWrapper blockITEM) : base(parent, blockITEM)
+        {
+
+
+            var item = blockITEM.GetItem("TITLE_POSITION");
+            if (item != null)
+            {
+                string pos = item.GetValue();
+                var items = pos.Split(',');
+                _titlePosX = Utility.ToFloat(items[0]);
+                _titlePosY = Utility.ToFloat(items[1]);
+            }
+            item = blockITEM.GetItem("VALUE_POSITION");
+            if (item != null)
+            {
+                string pos = item.GetValue();
+                var items = pos.Split(',');
+                _valuePosX = Utility.ToFloat(items[0]);
+                _valuePosY = Utility.ToFloat(items[1]);
+            }
+
+            item = blockITEM.GetItem("TITLE_HIGHT");
+            if (item != null)
+            {
+                _titleHeight = Utility.ToFloat(item.GetValue());
+            }
+            item = blockITEM.GetItem("TITLE_WIDTH");
+            if (item != null)
+            {
+                _titleWidth = Utility.ToFloat(item.GetValue());
+            }
+            item = blockITEM.GetItem("VALUE_HIGHT");
+            if (item != null)
+            {
+                _valueHeight = Utility.ToFloat(item.GetValue());
+            }
+            item = blockITEM.GetItem("VALUE_WIDTH");
+            if (item != null)
+            {
+                _valueWidth = Utility.ToFloat(item.GetValue());
+            }
+
+        }
+
+        //------------------------------------
+        // プロパティ
+        //------------------------------------
+
+        //拡張プロパティ
+        public float _titlePosX;
+        public float TitlePosX
+        {
+            get { return _titlePosX; }
+            set
+            {
+                _titlePosX = value;
+                blockITEM.SetValue("TITLE_POSITION", $"{_titlePosX:F1},{_titlePosY:F1}");
+            }
+        }
+        public float _titlePosY;
+        public float TitlePosY
+        {
+            get { return _titlePosY; }
+            set
+            {
+                _titlePosY = value;
+                blockITEM.SetValue("TITLE_POSITION", $"{_titlePosX:F1},{_titlePosY:F1}");
+            }
+        }
+        public float _valuePosX;
+        public float ValuePosX
+        {
+            get { return _valuePosX; }
+            set
+            {
+                _titlePosX = value;
+                blockITEM.SetValue("TITLE_POSITION", $"{_valuePosX:F1},{_valuePosY:F1}");
+            }
+        }
+        public float _valuePosY;
+        public float ValuePosY
+        {
+            get { return _valuePosY; }
+            set
+            {
+                _valuePosY = value;
+                blockITEM.SetValue("TITLE_POSITION", $"{_valuePosX:F1},{_valuePosY:F1}");
+            }
+        }
+        public float _titleHeight;
+        public float TitleHeight
+        {
+            get { return _titleHeight; }
+            set
+            {
+                _titleHeight = value;
+                blockITEM.SetValue("TITLE_HIGHT", _titleHeight.ToString("F1"));
+            }
+        }
+        public float _valueHeight;
+        public float ValueHeight
+        {
+            get { return _valueHeight; }
+            set
+            {
+                _valueHeight = value;
+                blockITEM.SetValue("VALUE_HIGHT", _valueHeight.ToString("F1"));
+            }
+        }
+        public float _titleWidth;
+        public float TitleWidth
+        {
+            get { return _titleWidth; }
+            set
+            {
+                _titleWidth = value;
+                blockITEM.SetValue("TITLE_WIDTH", _titleWidth.ToString("F1"));
+            }
+        }
+        public float _valueWidth;
+        public float ValueWidth
+        {
+            get { return _valueWidth; }
+            set
+            {
+                _valueWidth = value;
+                blockITEM.SetValue("VALUE_WIDTH", _valueWidth.ToString("F1"));
+            }
+        }
+
+
+    }
+
     /// <summary>
     /// BLOCK(画像)内のITEM
     /// </summary>
     public class PictureItem : LabelTypeBlockItemBase
     {
         public PictureItem() { }
-        public PictureItem(CConfigBlockWrapper blockITEM) : base(blockITEM)
+        public PictureItem(LabelTypeBlock parent, CConfigBlockWrapper blockITEM) : base(parent, blockITEM)
         {
 
-            var item = blockITEM.GetItem("VISIBLE");
-            if (item != null)
-            {
-                int value = 0;
-                int.TryParse(item.GetValue(), out value);
-                 _bVisible = value == 0 ? false : true;
-            }
 
             string pos = GetBlockItemVale(blockITEM, "POSITION", "0,0");
             var items = pos.Split(',');
@@ -726,16 +883,6 @@ namespace PrintIngredientsList
         public float Height { get; set; }
         public string Image { get; set; }
 
-        public bool _bVisible = true;
-        public bool Visible
-        {
-            get { return _bVisible; }
-            set
-            {
-                _bVisible = value;
-                blockITEM.SetValue("VISIBLE", value ? "1" : "0");
-            }
-        }
         public bool _bDispNo = true;
         public bool DispNo
         {

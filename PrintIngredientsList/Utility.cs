@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NPOI.SS.Formula.Functions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,15 +47,15 @@ namespace PrintIngredientsList
 
         public static float ToFloat(string value)
         {
-            return float.Parse(value);
+            return float.Parse(value.Trim());
         }
         public static int ToInt(string value)
         {
-            return int.Parse(value);
+            return int.Parse(value.Trim());
         }
         public static bool ToBoolean(string value)
         {
-            if (!string.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value.Trim()))
             {
                 int tmpValue = 0;
                 int.TryParse(value, out tmpValue);
