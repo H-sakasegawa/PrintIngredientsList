@@ -14,6 +14,8 @@ using static ExcelReaderUtility.ProductReader;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.AxHost;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace PrintIngredientsList
 {
@@ -34,6 +36,12 @@ namespace PrintIngredientsList
             }
             public PrintType printType;
         }
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+        public const int WM_HSCROLL = 0x00000114;
+        public const int WM_VSCROLL = 0x00000115;
+        private const int SB_LINEUP = 0;          //上矢印を押した
+        private const int SB_LINEDOWN = 1;          //下矢印を押した
 
         List<EditProductData> lstPrintData = new List<EditProductData>();
         int printDataIndex = 0;
@@ -43,6 +51,7 @@ namespace PrintIngredientsList
         double PreviewZoomMax = 3.0;
         double PreviewZoomMin = 0.1;
 
+
         /// <summary>
         /// 印刷ドキュメント情報作成
         /// </summary>
@@ -50,6 +59,9 @@ namespace PrintIngredientsList
         /// <returns></returns>
         private PrintDocumentEx CreatePrintDocument(PrintType printType)
         {
+
+
+
             PrintDocumentEx pd = new PrintDocumentEx(printType);
 
             var ps = new System.Drawing.Printing.PrinterSettings();
@@ -73,6 +85,47 @@ namespace PrintIngredientsList
             return pd;
         }
 
+        protected void OnMouseWheel(Object sender, MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            PrintPreviewControl ppc = (PrintPreviewControl)sender;
+
+            //if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                //スクロールでズーム値変更する
+                //増減量・方向はお好みで
+                if (e.Delta > 0)
+                {
+                    ppc.Zoom -= ppc.Zoom * 0.1;
+                }
+                else
+                {
+                    ppc.Zoom += ppc.Zoom * 0.1;
+                }
+            }
+            //else
+            //{
+            //    SendMessage(ppc.Parent.Handle, WM_VSCROLL, new IntPtr(SB_LINEDOWN), new IntPtr(100));
+            //    var pos = ppc.AutoScrollOffset;
+            //}
+
+            //外部通知用にイベントを呼ぶ
+            // this.ZoomChanged?.Invoke(this, EventArgs.Empty);
+        }
+        protected void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            //ドラッグ中だった場合
+            if (e.Button == MouseButtons.Left)
+            {
+            }
+            else
+            {
+            }
+
+        }
+ 
+
         /// <summary>
         /// プレビュー
         /// </summary>
@@ -85,45 +138,61 @@ namespace PrintIngredientsList
 
             PrintDocumentEx pd = CreatePrintDocument(PrintType.PREVIEW);
 
-            //PrintPreviewDialogオブジェクトの作成
-            PrintPreviewDialog ppd = new PrintPreviewDialog();
 
             //印刷プレビュー画面のホイール拡大縮小処理イベント
-            ppd.MouseWheel += OnPrintPreviewDialog_MouseWheel;
+            var ppc = PrintPreviewDlg.PrintPreviewControl;
+
+            ppc.MouseWheel += OnMouseWheel;
+            ppc.MouseMove += OnMouseMove;
 
             //プレビューするPrintDocumentを設定
             int x = Properties.Settings.Default.PrintPreviewDlgLocX;
             int y = Properties.Settings.Default.PrintPreviewDlgLocY;
             int w = Properties.Settings.Default.PrintPreviewDlgSizeW;
             int h = Properties.Settings.Default.PrintPreviewDlgSizeH;
-            ppd.SetBounds( x, y, w, h);
+            PrintPreviewDlg.SetBounds( x, y, w, h);
 
-            ppd.PrintPreviewControl.Zoom = Properties.Settings.Default.PrintPreviewDlgZoom;
+            PrintPreviewDlg.PrintPreviewControl.Zoom = Properties.Settings.Default.PrintPreviewDlgZoom;
 
-            ppd.Document = pd;
+            PrintPreviewDlg.Document = pd;
             //印刷プレビューダイアログを表示する
-            ppd.ShowDialog();
+            PrintPreviewDlg.ShowDialog();
 
             //現在位置とサイズを記録
-            Properties.Settings.Default.PrintPreviewDlgLocX = ppd.Bounds.Left;
-            Properties.Settings.Default.PrintPreviewDlgLocY = ppd.Bounds.Top;
-            Properties.Settings.Default.PrintPreviewDlgSizeW = ppd.Bounds.Width;
-            Properties.Settings.Default.PrintPreviewDlgSizeH = ppd.Bounds.Height;
-            Properties.Settings.Default.PrintPreviewDlgZoom = ppd.PrintPreviewControl.Zoom;
+            Properties.Settings.Default.PrintPreviewDlgLocX = PrintPreviewDlg.Bounds.Left;
+            Properties.Settings.Default.PrintPreviewDlgLocY = PrintPreviewDlg.Bounds.Top;
+            Properties.Settings.Default.PrintPreviewDlgSizeW = PrintPreviewDlg.Bounds.Width;
+            Properties.Settings.Default.PrintPreviewDlgSizeH = PrintPreviewDlg.Bounds.Height;
+            Properties.Settings.Default.PrintPreviewDlgZoom = PrintPreviewDlg.PrintPreviewControl.Zoom;
 
         }
+        /// <summary>
+        /// ;ホイール操作(拡大、スクロール）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnPrintPreviewDialog_MouseWheel(object sender, MouseEventArgs e)
         {
             PrintPreviewDialog ppd = (PrintPreviewDialog)sender;
 
-            double delta = (e.Delta / 120) / 100.0 * 10;
+            if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                double delta = (e.Delta / 120) / 100.0 * 10;
 
-            double nowZoom = ppd.PrintPreviewControl.Zoom;
-            if (nowZoom + delta > PreviewZoomMax) return;
-            if (nowZoom + delta < PreviewZoomMin) return;
+                double nowZoom = ppd.PrintPreviewControl.Zoom;
+                if (nowZoom + delta > PreviewZoomMax) return;
+                if (nowZoom + delta < PreviewZoomMin) return;
 
 
-            ppd.PrintPreviewControl.Zoom += delta;
+                ppd.PrintPreviewControl.Zoom += delta;
+            }else
+            {
+                var pos = ppd.AutoScrollPosition;
+
+                var vs = ppd.VerticalScroll;
+
+                vs.Value += (-e.Delta / 120) * 10;
+            }
         }
         /// <summary>
         /// 印刷
@@ -278,14 +347,9 @@ namespace PrintIngredientsList
                        bDrawProductSepLine = true;
                     }
 
-                    //印刷枚数
-                    DrawLabel(data, e.Graphics, bDrawProductSepLine, drawX, drawY);
-                    printDataIndex++;//次のラベル
-
                     if (printDataIndex < lstPrintData.Count)
                     {
 
-                        drawX += LabelBlockWidth;
                         if (drawX + LabelBlockWidth >= A4WidthMM)
                         {
                             drawY += LabelBlockHeiht;
@@ -297,6 +361,14 @@ namespace PrintIngredientsList
                                 e.HasMorePages = true;
                                 return;
                             }
+                        }
+                        else
+                        {
+                            //印刷枚数
+                            DrawLabel(data, e.Graphics, bDrawProductSepLine, drawX, drawY);
+                            printDataIndex++;//次のラベル
+
+                            drawX += LabelBlockWidth;
                         }
                     }
                 }
@@ -345,8 +417,6 @@ namespace PrintIngredientsList
             int index = 0;
             while (index < lstPrintData.Count)
             {
-                index++;
-                drawX += LabelBlockWidth;
                 if (drawX + LabelBlockWidth >= A4WidthMM)
                 {
                     drawY += LabelBlockHeiht;
@@ -359,7 +429,10 @@ namespace PrintIngredientsList
                         drawX = startX;
                         drawY = startY;
                     }
+                    continue;
                 }
+                drawX += LabelBlockWidth;
+                index++;
             }
             return pageCount;
 

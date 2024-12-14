@@ -861,8 +861,6 @@ namespace PrintIngredientsList
 
             return LicenseManager.GetLicenseManager().ReadLicenseFile(filePath);
         }
-
-
     }
 
 }

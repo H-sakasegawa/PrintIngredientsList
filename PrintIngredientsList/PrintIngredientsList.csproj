@@ -185,6 +185,9 @@
     </Compile>
     <Compile Include="License\License.cs" />
     <Compile Include="Network.cs" />
+    <Compile Include="PrintPreviewDialogEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="PrintSettingData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
