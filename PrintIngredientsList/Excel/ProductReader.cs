@@ -185,37 +185,39 @@ namespace ExcelReaderUtility
                         }
                         else
                         {
-                            //取り合えず、順番に決め打ちでデータ作成
-
-
-                            ProductData data = new ProductData();
-                            data.kind = sheetName;
-                            GetExcelRowData(lstRowData, ItemName.ID, ref data.id);
-                            //GetExcelRowData(lstRowData, ItemName.Kind, ref data.kind);
-                            GetExcelRowData(lstRowData, ItemName.Name, ref data.name);
-                            GetExcelRowData(lstRowData, ItemName.Material, ref data.rawMaterials);
-                            GetExcelRowData(lstRowData, ItemName.Amount, ref data.amount);
-                            GetExcelRowData(lstRowData, ItemName.ValidDate, ref data.validDays);
-                            GetExcelRowData(lstRowData, ItemName.Storage, ref data.storageMethod);
-                            GetExcelRowData(lstRowData, ItemName.Allergy, ref data.allergy);
-                            GetExcelRowData(lstRowData, ItemName.Manifacture, ref data.manufacturer);
-                            GetExcelRowData(lstRowData, ItemName.Supplementary, ref data.comment);
-
-                            GetExcelRowData(lstRowData, ItemName.Calorie, ref data.Calorie);
-                            GetExcelRowData(lstRowData, ItemName.Protein, ref data.Protein);
-                            GetExcelRowData(lstRowData, ItemName.Lipids, ref data.Lipids);
-                            GetExcelRowData(lstRowData, ItemName.Carbohydrates, ref data.Carbohydrates);
-                            GetExcelRowData(lstRowData, ItemName.Salt, ref data.Salt);
-
-                            var wk = lstProduct.Find(x => x.id == data.id);
-
-                            if (wk != null)
+                            //最低でもSupplementaryまでのデータが入力されていなければ読み込み対象外とする
+                            if (lstRowData.Count >= dicColmunIndex[ItemName.Supplementary])
                             {
-                                //IDの重複
-                                Utility.MessageError($"商品データベースに重複したIDがあります。\n({wk.id}) {wk.name}\n({data.id}) {data.name}\n\n重複しないIDを設定してください");
-                                return -1;
+                                //取り合えず、順番に決め打ちでデータ作成
+                                ProductData data = new ProductData();
+                                data.kind = sheetName;
+                                GetExcelRowData(lstRowData, ItemName.ID, ref data.id);
+                                //GetExcelRowData(lstRowData, ItemName.Kind, ref data.kind);
+                                GetExcelRowData(lstRowData, ItemName.Name, ref data.name);
+                                GetExcelRowData(lstRowData, ItemName.Material, ref data.rawMaterials);
+                                GetExcelRowData(lstRowData, ItemName.Amount, ref data.amount);
+                                GetExcelRowData(lstRowData, ItemName.ValidDate, ref data.validDays);
+                                GetExcelRowData(lstRowData, ItemName.Storage, ref data.storageMethod);
+                                GetExcelRowData(lstRowData, ItemName.Allergy, ref data.allergy);
+                                GetExcelRowData(lstRowData, ItemName.Manifacture, ref data.manufacturer);
+                                GetExcelRowData(lstRowData, ItemName.Supplementary, ref data.comment);
+
+                                GetExcelRowData(lstRowData, ItemName.Calorie, ref data.Calorie);
+                                GetExcelRowData(lstRowData, ItemName.Protein, ref data.Protein);
+                                GetExcelRowData(lstRowData, ItemName.Lipids, ref data.Lipids);
+                                GetExcelRowData(lstRowData, ItemName.Carbohydrates, ref data.Carbohydrates);
+                                GetExcelRowData(lstRowData, ItemName.Salt, ref data.Salt);
+
+                                var wk = lstProduct.Find(x => x.id == data.id);
+
+                                if (wk != null)
+                                {
+                                    //IDの重複
+                                    Utility.MessageError($"商品データベースに重複したIDがあります。\n({wk.id}) {wk.name}\n({data.id}) {data.name}\n\n重複しないIDを設定してください");
+                                    return -1;
+                                }
+                                lstProduct.Add(data);
                             }
-                            lstProduct.Add(data);
 
                         }
                     }
@@ -233,7 +235,10 @@ namespace ExcelReaderUtility
             value = "";
             if (dicColmunIndex[itemKeyName] >= 0)
             {
-                value = rowData[dicColmunIndex[itemKeyName]].Text;
+                if (dicColmunIndex[itemKeyName] + 1 < rowData.Count)
+                {
+                    value = rowData[dicColmunIndex[itemKeyName]].Text;
+                }
             }
             return 0;
         }
@@ -243,9 +248,12 @@ namespace ExcelReaderUtility
             value = 0;
             if (dicColmunIndex[itemKeyName] >= 0)
             {
-                if (int.TryParse(rowData[dicColmunIndex[itemKeyName]].Text, out value) == false)
+                if (dicColmunIndex[itemKeyName] + 1 < rowData.Count)
                 {
-                    return -1;
+                    if (int.TryParse(rowData[dicColmunIndex[itemKeyName]].Text, out value) == false)
+                    {
+                        return -1;
+                    }
                 }
             }
 
