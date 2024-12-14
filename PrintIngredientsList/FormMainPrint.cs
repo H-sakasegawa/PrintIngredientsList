@@ -250,14 +250,10 @@ namespace PrintIngredientsList
                        bDrawProductSepLine = true;
                     }
 
-                    //印刷枚数
-                    DrawLabel(data, e.Graphics, bDrawProductSepLine, curLabelType, drawX, drawY);
-                    pd.printDataIndex++;//次のラベル
 
                     if (pd.printDataIndex < lstPrintData.Count)
                     {
 
-                        drawX += LabelBlockWidth;
                         if (drawX + LabelBlockWidth >= A4WidthMM)
                         {
                             drawY += LabelBlockHeiht;
@@ -269,6 +265,14 @@ namespace PrintIngredientsList
                                 e.HasMorePages = true;
                                 return;
                             }
+                        }
+                        else
+                        {
+                            //印刷枚数
+                            DrawLabel(data, e.Graphics, bDrawProductSepLine, curLabelType, drawX, drawY);
+                            pd.printDataIndex++;//次のラベル
+
+                            drawX += LabelBlockWidth;
                         }
                     }
                 }
@@ -317,8 +321,6 @@ namespace PrintIngredientsList
             int index = 0;
             while (index < lstPrintData.Count)
             {
-                index++;
-                drawX += LabelBlockWidth;
                 if (drawX + LabelBlockWidth >= A4WidthMM)
                 {
                     drawY += LabelBlockHeiht;
@@ -331,7 +333,10 @@ namespace PrintIngredientsList
                         drawX = startX;
                         drawY = startY;
                     }
+                    continue;
                 }
+                drawX += LabelBlockWidth;
+                index++;
             }
             return pageCount;
 
@@ -395,18 +400,19 @@ namespace PrintIngredientsList
 
                                 switch (labelItem.name)
                                 {
-                                    case ItemName.Comment:
+                                    case ItemName.Comment: //コメント
                                         //描画領域幅は、タイトル幅＋値幅としてTITLEで指定された文字を表示
                                         nextY = util.DrawItemComment(labelItem.Title, nextY, labelItem.FontSize, labelItem.DrawFrame);
                                         break;
-                                    case ItemName.Supplementary:
+                                    case ItemName.Supplementary://欄外
                                         nextY = util.DrawItemSupplementary("", dispValue, nextY, labelItem.FontSize, labelItem.Width,labelItem.DrawFrame);
                                         break;
-                                    case ItemName.NutritionalInformation:
+                                    case ItemName.NutritionalInformation: //栄養成分表示
                                         nextY = util.DrawItem(labelItem.Title, dispValue, nextY, labelItem.Height, labelItem.FontSize, false, labelItem.DrawFrame);
                                         break;
                                     default:
-                                        nextY = util.DrawItem(labelItem.Title, dispValue, nextY, labelItem.Height, labelItem.FontSize, false, labelItem.DrawFrame);
+                                        //nextY = util.DrawItem(labelItem.Title, dispValue, nextY, labelItem.Height, labelItem.FontSize, false, labelItem.DrawFrame);
+                                        nextY = util.DrawItem(nextY, dispValue, labelItem);
                                         break;
                                 }
                             }

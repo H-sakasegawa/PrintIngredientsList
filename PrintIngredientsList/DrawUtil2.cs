@@ -37,7 +37,7 @@ namespace PrintIngredientsList
         public float labelDrawAreaHeightMM = 0; //mm
         float labelBlockWidthMM = 0;
         float titleAreWidthMM          = 0; //mm
-        float contentAreWidthMM        = 0;  //mm
+        float contentAreaWidthMM        = 0;  //mm
 
         float CellBoxGapSumHeight = 0;
         float CellBoxGapSumWidth = 0;
@@ -139,7 +139,7 @@ namespace PrintIngredientsList
 
             labelBlockWidthMM = labelBlock.LabelBlockWidth;
             titleAreWidthMM = labelBlock.TitleAreWidthMM;
-            contentAreWidthMM = labelBlock.ContentAreWidthMM;
+            contentAreaWidthMM = labelBlock.ContentAreWidthMM;
 
             fontSizeItemTitle = labelBlock.titleFontSize;
         }
@@ -238,14 +238,85 @@ namespace PrintIngredientsList
         //=============================================
         //ラベル項目
         //=============================================
+        public float DrawItem(float startY,
+                              string content,
+                              LabelItem labelItem)
+        {
+            string title        = labelItem.Title;
+            float titleX        = 0;
+            float titleY        = startY;
+            float titleWidth    = labelItem.parent.titleWidth;
+            float titleHeight   = labelItem.Height;
+            bool bDrawFrame     = labelItem.DrawFrame;
+
+            float valueX        = titleAreWidthMM;
+            float valueY        = startY;
+            float valueWidth    = labelItem.parent.valueWidth;
+            float valueHeight   = labelItem.Height;
+            float valueFontSize = labelItem.FontSize;
+
+            if( labelItem.bCustomize)
+            {
+                //カスタマイズラベル
+
+            }
+
+            //項目タイトル描画
+            DrawItemTitle(title, titleX, titleY, titleWidth, titleHeight, bDrawFrame);
+
+            //項目値描画
+            float nextY = DrawItemValue(content, valueX, valueY, valueWidth, valueHeight, valueFontSize, bDrawFrame);
+
+            return nextY;
+
+        }
+        private void DrawItemTitle(string title, float x, float y, float width, float height, bool bDrawFrame)
+        {
+            //タイトル領域は、横１列として表示可能なフォントサイズのフォントを取得
+            Font fntTitle = new Font(fontName, fontSizeItemTitle, FontStyle.Regular);
+
+            Brush brs = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
+
+            PointF point = new PointF(_X(x), _Y(y));
+            graphics.DrawString(title, fntTitle, brs, point);
+
+            if (bDrawFrame)
+            {
+                Pen pen = new Pen(Color.Black, (float)0.1);
+                graphics.DrawRectangle(pen, _X(x), _Y(y), width, height);
+            }
+
+        }
+
+        private float DrawItemValue(string value, float x, float y, float width, float height, float baseFontSize, bool bDrawFrame)
+        {
+            float contentsHight = 0;
+            Font fntContents = GetFontCalcedBydHeight(baseFontSize, value, height - CellBoxGapSumHeight, ref contentsHight);
+
+            Brush brs = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
+
+            PointF point = new PointF(_X(x + labelType.celGapLeft), _Y(y + labelType.celGapTop));
+            graphics.DrawString(value, fntContents, brs, new RectangleF(point.X, point.Y, contentAreaWidthMM, contentsHight));
+
+            if (bDrawFrame)
+            {
+                Pen pen = new Pen(Color.Black, (float)0.1);
+                graphics.DrawRectangle(pen, _X(x), _Y(y), width, height);
+            }
+            return y + height;
+
+        }
+
+
+
         public float DrawItem(  string title, 
-                                string content, 
-                                float startY,
-                                float limitHight,
-                                float baseFontSize,
-                                bool bResizeHeight=false, 
-                                bool bDrawFrame = true
-            )
+                            string content, 
+                            float startY,
+                            float limitHight,
+                            float baseFontSize,
+                            bool bResizeHeight=false, 
+                            bool bDrawFrame = true
+        )
         {
 
             //タイトル領域は、横１列として表示可能なフォントサイズのフォントを取得
@@ -284,7 +355,7 @@ namespace PrintIngredientsList
             PointF point = new PointF(_X(labelType.celGapLeft), _Y(startY + labelType.celGapTop));
             graphics.DrawString(title, fntTitle, brs, point);
             point.X = titleAreWidthMM + labelType.celGapLeft;
-            graphics.DrawString(content, fntContens, brs, new RectangleF(_X(point.X), _Y(startY + labelType.celGapTop), contentAreWidthMM, contentsHight));
+            graphics.DrawString(content, fntContens, brs, new RectangleF(_X(point.X), _Y(startY + labelType.celGapTop), contentAreaWidthMM, contentsHight));
 
             if (bDrawFrame)
             {
@@ -341,7 +412,7 @@ namespace PrintIngredientsList
             while (fntSize > 0)
             {
                 Font font = new Font(fontName, fntSize, FontStyle.Regular);
-                SizeF size = graphics.MeasureString(s, font, (int)contentAreWidthMM);
+                SizeF size = graphics.MeasureString(s, font, (int)contentAreaWidthMM);
 
                 height = size.Height;
 
