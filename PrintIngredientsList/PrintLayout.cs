@@ -38,10 +38,13 @@ namespace PrintIngredientsList
     {
         public string GetBlockItemVale(CConfigBlockWrapper block, string keyName, string defaultValue = "")
         {
+            this.blockITEM = block;
+
             var item = block.GetItem(keyName);
             if (item == null) return defaultValue;
             return item.GetValue();
         }
+        protected CConfigBlockWrapper blockITEM;
 
     }
 
@@ -96,7 +99,7 @@ namespace PrintIngredientsList
             {
                 int value = 0;
                 int.TryParse(item.GetValue(), out value);
-                _bVisible = value == 0 ? false : true;
+                visible = value == 0 ? false : true;
             }
             item = blockITEM.GetItem("TYPE");
             if (item != null)
@@ -110,22 +113,22 @@ namespace PrintIngredientsList
         }
 
 
-        public bool _bVisible = true;
+        public bool bCustomize = false;
+        public string name;
+
+        protected bool visible = true;
         public bool Visible
         {
-            get { return _bVisible; }
+            get { return visible; }
             set
             {
-                _bVisible = value;
-                blockITEM.SetValue("VISIBLE", _bVisible ? "1" : "0");
+                visible = value;
+                blockITEM.SetValue("VISIBLE", visible ? "1" : "0");
             }
         }
 
         public LabelTypeBlock parent = null;
         public LabelTypeBlockItemType itemType = LabelTypeBlockItemType.LABEL;
-        protected CConfigBlockWrapper blockITEM;
-        public bool bCustomize = false;
-        public string name;
 
     }
 
@@ -220,7 +223,10 @@ namespace PrintIngredientsList
     {
         public Layout(CConfigBlockWrapper blockLayout)
         {
+
             layoutName = blockLayout.GetValue(); //"A4縦"
+            paperType = GetBlockItemVale(blockLayout, "PAPER_TYPE", "A4");
+            paperDirc = GetBlockItemVale(blockLayout, "PAPER_DIRC", "縦");
             paperWidth = Utility.ToFloat(GetBlockItemVale(blockLayout,"PAPER_WIDTH", "0") );
             paperHeight = Utility.ToFloat(GetBlockItemVale(blockLayout, "PAPER_HEIGHT", "0"));
             printGapTop = Utility.ToFloat(GetBlockItemVale(blockLayout, "PRINT_GAP_TOP", "18.5"));
@@ -228,10 +234,10 @@ namespace PrintIngredientsList
             headerGapTop = Utility.ToFloat(GetBlockItemVale(blockLayout, "HEADER_GAP_TOP", "3"));
             headerGapLeft = Utility.ToFloat(GetBlockItemVale(blockLayout, "HEADER_GAP_LEFT", "3"));
 
-            if (layoutName.IndexOf("A4") >= 0)
+            if (paperType == "A4")
             {
                 paperKind = System.Drawing.Printing.PaperKind.A4;
-                if (layoutName.IndexOf("横") >= 0)
+                if (paperDirc == "横")
                 {
                     landscape = true;
                 }
@@ -262,18 +268,60 @@ namespace PrintIngredientsList
         {
             return layoutName;
         }
+
+        public float paperWidth;
+        public float paperHeight;
+        public string paperType;
+        public string paperDirc;
+
+        protected float printGapTop;
+        public float PrintGapTop
+        {
+            get { return printGapTop; }
+            set {
+                printGapTop = value;
+                blockITEM.SetValue("PRINT_GAP_TOP", printGapTop.ToString("F1"));
+            }
+        }
+
+        protected float printGapLeft;
+        public float PrintGapLeft
+        {
+            get { return printGapLeft; }
+            set
+            {
+                printGapLeft = value;
+                blockITEM.SetValue("PRINT_GAP_LEFT", printGapLeft.ToString("F1"));
+            }
+        }
+
+        protected float headerGapTop;
+        public float HeaderGapTop
+        {
+            get { return headerGapTop; }
+            set
+            {
+                headerGapTop = value;
+                blockITEM.SetValue("HEADER_GAP_TOP", headerGapTop.ToString("F1"));
+            }
+        }
+        protected float headerGapLeft;
+        public float HeaderGapLeft
+        {
+            get { return headerGapLeft; }
+            set
+            {
+                headerGapLeft = value;
+                blockITEM.SetValue("HEADER_GAP_LEFT", headerGapLeft.ToString("F1"));
+            }
+        }
+
+
+
         public string layoutName;
         public System.Drawing.Printing.PaperKind paperKind;
         public bool landscape = false;
 
-        public float paperWidth;
-        public float paperHeight;
-
-        public float printGapTop;
-        public float printGapLeft;
-
-        public float headerGapTop;
-        public float headerGapLeft;
     }
 
     //=======================================================
@@ -469,18 +517,109 @@ namespace PrintIngredientsList
 
         public string Name;
 
-        public float width;
-        public float height;
+        protected float width;
+        public float Width
+        {
+            get { return width; }
+            set
+            {
+                width = value;
+                blockITEM.SetValue("WIDTH", width.ToString("F1"));
+            }
+        }
+
+        protected float height;
+        public float Height
+        {
+            get { return height; }
+            set
+            {
+                height = value;
+                blockITEM.SetValue("HEIGHT", height.ToString("F1"));
+            }
+        }
         ////ラベル領域内のギャップ
-        public float gapTop;
-        public float gapLeft;
-        public float gapRight;
-        public float gapBottom;
+        protected float gapTop;
+        public float GapTop
+        {
+            get { return gapTop; }
+            set
+            {
+                gapTop = value;
+                blockITEM.SetValue("GAP_TOP", gapTop.ToString("F1"));
+            }
+        }
+        protected float gapLeft;
+        public float GapLeft
+        {
+            get { return gapLeft; }
+            set
+            {
+                gapLeft = value;
+                blockITEM.SetValue("GAP_LEFT", gapLeft.ToString("F1"));
+            }
+        }
+        protected float gapRight;
+        public float GapRight
+        {
+            get { return gapRight; }
+            set
+            {
+                gapRight = value;
+                blockITEM.SetValue("GAP_RIGHT", gapRight.ToString("F1"));
+            }
+        }
+        protected float gapBottom;
+        public float GapBottom
+        {
+            get { return gapBottom; }
+            set
+            {
+                gapBottom = value;
+                blockITEM.SetValue("GAP_BOTTOM", gapBottom.ToString("F1"));
+            }
+        }
         //ラベル領域内の各セル（矩形）内の文字描画範囲余白サイズ
-        public float celGapTop;
-        public float celGapLeft;
-        public float celGapRight;
-        public float celGapBottom;
+        protected float celGapTop;
+        public float CelGapTop
+        {
+            get { return celGapTop; }
+            set
+            {
+                celGapTop = value;
+                blockITEM.SetValue("CEL_GAP_TOP", celGapTop.ToString("F1"));
+            }
+        }
+        protected float celGapLeft;
+        public float CelGapLeft
+        {
+            get { return celGapLeft; }
+            set
+            {
+                celGapLeft = value;
+                blockITEM.SetValue("CEL_GAP_LEFT", celGapLeft.ToString("F1"));
+            }
+        }
+        protected float celGapRight;
+        public float CelGapRight
+        {
+            get { return celGapRight; }
+            set
+            {
+                celGapRight = value;
+                blockITEM.SetValue("CEL_GAP_RIGHT", celGapRight.ToString("F1"));
+            }
+        }
+        protected float celGapBottom;
+        public float CelGapBottom
+        {
+            get { return celGapBottom; }
+            set
+            {
+                celGapBottom = value;
+                blockITEM.SetValue("CEL_GAP_BOTTOM", celGapBottom.ToString("F1"));
+            }
+        }
 
 
 
@@ -542,24 +681,6 @@ namespace PrintIngredientsList
             return name;
         }
 
-        public float TitleAreWidthMM
-        {
-            get
-            {
-                return titleWidth;
-            }
-        }
-        /// <summary>
-        /// 右側セルの幅(mm)
-        /// </summary>
-        public float ContentAreWidthMM
-        {
-            get
-            {
-                return valueWidth;
-            }
-        }
-
         public float LabelBlockWidth
         {
             get
@@ -575,45 +696,44 @@ namespace PrintIngredientsList
 
         }
 
-        public float GetFontSize(string name)
-        {
+        //public float GetFontSize(string name)
+        //{
+        //    var item = GetLabelItem(name);
+        //    if (item != null)
+        //    {
+        //        return item.FontSize;
+        //    }
+        //    return Const.defaultFontSize;
 
-            var item = GetLabelItem(name);
-            if (item != null)
-            {
-                return item.FontSize;
-            }
-            return Const.defaultFontSize;
+        //}
+        //public void SetFontSize(string name, float value)
+        //{
+        //    var item = GetLabelItem(name);
+        //    if (item != null)
+        //    {
+        //        item.FontSize = value;
+        //    }
+        //}
 
-        }
-        public void SetFontSize(string name, float value)
-        {
-            var item = GetLabelItem(name);
-            if (item != null)
-            {
-                item.FontSize = value;
-            }
-        }
+        //public float GeItemHeight(string name)
+        //{
+        //    var item = GetLabelItem(name);
+        //    if (item != null)
+        //    {
+        //        return item.Height;
+        //    }
+        //    return Const.defaultItemHeight;
 
-        public float GeItemHeight(string name)
-        {
-            var item = GetLabelItem(name);
-            if (item != null)
-            {
-                return item.Height;
-            }
-            return Const.defaultItemHeight;
+        //}
+        //public void SeItemHeight(string name, float value)
+        //{
+        //    var item = GetLabelItem(name);
+        //    if (item != null)
+        //    {
+        //        item.Height = value;
+        //    }
 
-        }
-        public void SeItemHeight(string name, float value)
-        {
-            var item = GetLabelItem(name);
-            if (item != null)
-            {
-                item.Height = value;
-            }
-
-        }
+        //}
 
 
         /// <summary>
@@ -622,11 +742,59 @@ namespace PrintIngredientsList
         private LabelType labelType;
 
         public string name { get; set; }
-        public float posX { get; set; }
-        public float posY { get; set; }
-        public float titleWidth { get; set; } = 10;
-        public float valueWidth { get; set; }
-        public float titleFontSize { get; set; }
+
+        protected float posX = 0;
+        public float PosX
+        {
+            get { return posX; }
+            set
+            {
+                posX = value;
+                blockITEM.SetValue("POSITION", $"{posX:F1},{posY:F1}");
+            }
+        }
+        protected float posY = 0;
+        public float PosY
+        {
+            get { return posY; }
+            set
+            {
+                posY = value;
+                blockITEM.SetValue("POSITION", $"{posX:F1},{posY:F1}");
+            }
+        }
+
+        protected float titleWidth = 10;
+        public float TitleWidth
+        {
+            get { return titleWidth; }
+            set
+            {
+                titleWidth = value;
+                blockITEM.SetValue("TITLE_WIDTH", titleWidth.ToString("F1"));
+            }
+
+        }
+        protected float valueWidth;
+        public float ValueWidth
+        {
+            get{ return valueWidth;}
+            set
+            {
+                valueWidth = value;
+                blockITEM.SetValue("VALUE_WIDTH", valueWidth.ToString("F1"));
+            }
+        }
+        protected float titleFontSize = 6;
+        public float TitleFontSize
+        {
+            get { return titleFontSize; }
+            set
+            {
+                titleFontSize = value;
+                blockITEM.SetValue("TITLE_FONT_SIZE", titleFontSize.ToString("F1"));
+            }
+        }
 
         public List<LabelTypeBlockItemBase> lstLabelTypeBlocklItems { get; set; } = new List<LabelTypeBlockItemBase>();
         
@@ -656,28 +824,28 @@ namespace PrintIngredientsList
             item = blockITEM.GetItem("HIGHT");
             if (item != null)
             {
-                _height = Utility.ToFloat(item.GetValue());
+                height = Utility.ToFloat(item.GetValue());
             }
-            item = blockITEM.GetItem("WIDTH");
+            item = blockITEM.GetItem("VALUE_WIDTH");
             if (item != null)
             {
-                _width = Utility.ToFloat(item.GetValue());
+                valueWidth = Utility.ToFloat(item.GetValue());
             }
             item = blockITEM.GetItem("FONT_SIZE");
             if (item != null)
             {
-                _fontSize = Utility.ToFloat(item.GetValue());
+                fontSize = Utility.ToFloat(item.GetValue());
             }
             item = blockITEM.GetItem("FRAME");
             if (item != null)
             {
-               if(item.GetValue()=="OFF")
-                {
-                    DrawFrame = false;
-                }
+                int value = 0;
+                int.TryParse(item.GetValue(), out value);
+                DrawFrame = value == 0 ? false : true;
             }
 
-           
+
+
         }
 
         //------------------------------------
@@ -686,37 +854,47 @@ namespace PrintIngredientsList
 
         public string Title { get; set; }
 
-        protected float _height= -1;
+        protected float height= -1;
         public float Height
         {
-            get { return _height; }
+            get { return height; }
             set
             {
-                _height = value;
-                blockITEM.SetValue("HIGHT", _height.ToString("F1"));
+                height = value;
+                blockITEM.SetValue("HIGHT", height.ToString("F1"));
             }
         }
-        protected float _width = -1;
-        public float Width
+        protected float valueWidth = -1;
+        public float ValueWidth
         {
-            get { return _width; }
+            get { return valueWidth; }
             set
             {
-                _height = value;
-                blockITEM.SetValue("WIDTH", _height.ToString("F1"));
+                valueWidth = value;
+                blockITEM.SetValue("VALUE_WIDTH", valueWidth.ToString("F1"));
             }
         }
-        protected float _fontSize;
+        protected float fontSize;
         public float FontSize
         {
-            get { return _fontSize; }
+            get { return fontSize; }
             set
             {
-                _fontSize = value;
-                blockITEM.SetValue("FONT_SIZE", _fontSize.ToString("F1"));
+                fontSize = value;
+                blockITEM.SetValue("FONT_SIZE", fontSize.ToString("F1"));
             }
         }
-        public bool DrawFrame { get; set; } =true;
+        public bool drawFrame = true;
+        public bool DrawFrame
+        {
+            get { return drawFrame; }
+            set
+            {
+                drawFrame = value;
+                blockITEM.SetValue("FRAME", drawFrame ? "1" : "0");
+            }
+        }
+
 
     }
 
@@ -733,37 +911,37 @@ namespace PrintIngredientsList
             {
                 string pos = item.GetValue();
                 var items = pos.Split(',');
-                _titlePosX = Utility.ToFloat(items[0]);
-                _titlePosY = Utility.ToFloat(items[1]);
+                titlePosX = Utility.ToFloat(items[0]);
+                titlePosY = Utility.ToFloat(items[1]);
             }
             item = blockITEM.GetItem("VALUE_POSITION");
             if (item != null)
             {
                 string pos = item.GetValue();
                 var items = pos.Split(',');
-                _valuePosX = Utility.ToFloat(items[0]);
-                _valuePosY = Utility.ToFloat(items[1]);
+                valuePosX = Utility.ToFloat(items[0]);
+                valuePosY = Utility.ToFloat(items[1]);
             }
 
             item = blockITEM.GetItem("TITLE_HIGHT");
             if (item != null)
             {
-                _titleHeight = Utility.ToFloat(item.GetValue());
+                titleHeight = Utility.ToFloat(item.GetValue());
             }
             item = blockITEM.GetItem("TITLE_WIDTH");
             if (item != null)
             {
-                _titleWidth = Utility.ToFloat(item.GetValue());
+                titleWidth = Utility.ToFloat(item.GetValue());
             }
             item = blockITEM.GetItem("VALUE_HIGHT");
             if (item != null)
             {
-                _valueHeight = Utility.ToFloat(item.GetValue());
+                valueHeight = Utility.ToFloat(item.GetValue());
             }
             item = blockITEM.GetItem("VALUE_WIDTH");
             if (item != null)
             {
-                _valueWidth = Utility.ToFloat(item.GetValue());
+                valueWidth = Utility.ToFloat(item.GetValue());
             }
 
         }
@@ -773,86 +951,87 @@ namespace PrintIngredientsList
         //------------------------------------
 
         //拡張プロパティ
-        public float _titlePosX;
+        protected float titlePosX;
         public float TitlePosX
         {
-            get { return _titlePosX; }
+            get { return titlePosX; }
             set
             {
-                _titlePosX = value;
-                blockITEM.SetValue("TITLE_POSITION", $"{_titlePosX:F1},{_titlePosY:F1}");
+                titlePosX = value;
+                blockITEM.SetValue("TITLE_POSITION", $"{titlePosX:F1},{titlePosY:F1}");
             }
         }
-        public float _titlePosY;
+        protected float titlePosY;
         public float TitlePosY
         {
-            get { return _titlePosY; }
+            get { return titlePosY; }
             set
             {
-                _titlePosY = value;
-                blockITEM.SetValue("TITLE_POSITION", $"{_titlePosX:F1},{_titlePosY:F1}");
+                titlePosY = value;
+                blockITEM.SetValue("TITLE_POSITION", $"{titlePosX:F1},{titlePosY:F1}");
             }
         }
-        public float _valuePosX;
+        protected float valuePosX;
         public float ValuePosX
         {
-            get { return _valuePosX; }
+            get { return valuePosX; }
             set
             {
-                _titlePosX = value;
-                blockITEM.SetValue("TITLE_POSITION", $"{_valuePosX:F1},{_valuePosY:F1}");
+                valuePosX = value;
+                blockITEM.SetValue("TITLE_POSITION", $"{valuePosX:F1},{valuePosY:F1}");
             }
         }
-        public float _valuePosY;
+        protected float valuePosY;
         public float ValuePosY
         {
-            get { return _valuePosY; }
+            get { return valuePosY; }
             set
             {
-                _valuePosY = value;
-                blockITEM.SetValue("TITLE_POSITION", $"{_valuePosX:F1},{_valuePosY:F1}");
+                valuePosY = value;
+                blockITEM.SetValue("TITLE_POSITION", $"{valuePosX:F1},{valuePosY:F1}");
             }
         }
-        public float _titleHeight;
+        protected float titleHeight;
         public float TitleHeight
         {
-            get { return _titleHeight; }
+            get { return titleHeight; }
             set
             {
-                _titleHeight = value;
-                blockITEM.SetValue("TITLE_HIGHT", _titleHeight.ToString("F1"));
+                titleHeight = value;
+                blockITEM.SetValue("TITLE_HIGHT", titleHeight.ToString("F1"));
             }
         }
-        public float _valueHeight;
+        protected float valueHeight;
         public float ValueHeight
         {
-            get { return _valueHeight; }
+            get { return valueHeight; }
             set
             {
-                _valueHeight = value;
-                blockITEM.SetValue("VALUE_HIGHT", _valueHeight.ToString("F1"));
+                valueHeight = value;
+                blockITEM.SetValue("VALUE_HIGHT", valueHeight.ToString("F1"));
             }
         }
-        public float _titleWidth;
+        protected float titleWidth;
         public float TitleWidth
         {
-            get { return _titleWidth; }
+            get { return titleWidth; }
             set
             {
-                _titleWidth = value;
-                blockITEM.SetValue("TITLE_WIDTH", _titleWidth.ToString("F1"));
+                titleWidth = value;
+                blockITEM.SetValue("TITLE_WIDTH", titleWidth.ToString("F1"));
             }
         }
-        public float _valueWidth;
-        public float ValueWidth
-        {
-            get { return _valueWidth; }
-            set
-            {
-                _valueWidth = value;
-                blockITEM.SetValue("VALUE_WIDTH", _valueWidth.ToString("F1"));
-            }
-        }
+        //派生もとにあるので一旦コメント
+        //protected float valueWidth;
+        //public float ValueWidth
+        //{
+        //    get { return valueWidth; }
+        //    set
+        //    {
+        //        valueWidth = value;
+        //        blockITEM.SetValue("VALUE_WIDTH", valueWidth.ToString("F1"));
+        //    }
+        //}
 
 
     }
@@ -877,23 +1056,59 @@ namespace PrintIngredientsList
             Height = Utility.ToFloat(GetBlockItemVale(blockITEM, "HEIGHT", "0"));
             DispNo = Utility.ToBoolean(GetBlockItemVale(blockITEM, "DISP_NO", "1"));
         }
-        public float PosX { get; set; }
-        public float PosY { get; set; }
-        public float Width { get; set; }
-        public float Height { get; set; }
-        public string Image { get; set; }
-
-        public bool _bDispNo = true;
-        public bool DispNo
+        protected float posX = 0;
+        public float PosX
         {
-            get { return _bDispNo; }
+            get { return posX; }
             set
             {
-                _bDispNo = value;
+                posX = value;
+                blockITEM.SetValue("POSITION", $"{posX:F1},{posY:F1}");
+            }
+        }
+        public float posY = 0;
+        public float PosY
+        {
+            get { return posY; }
+            set
+            {
+                posY = value;
+                blockITEM.SetValue("POSITION", $"{posX:F1},{posY:F1}");
+            }
+        }
+        public float width = 0;
+        public float Width
+        {
+            get { return width; }
+            set
+            {
+                width = value;
+                blockITEM.SetValue("WIDTH", width.ToString("F1"));
+            }
+        }
+        public float height = 0;
+        public float Height
+        {
+            get { return height; }
+            set
+            {
+                height = value;
+                blockITEM.SetValue("HEIGHT", height.ToString("F1"));
+            }
+        }
+
+        public bool dispNo = true;
+        public bool DispNo
+        {
+            get { return dispNo; }
+            set
+            {
+                dispNo = value;
                 blockITEM.SetValue("DISP_NO", value ? "1" : "0");
             }
         }
 
+        public string Image { get; set; }
     }
 
 }

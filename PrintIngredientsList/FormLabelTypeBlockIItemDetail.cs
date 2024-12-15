@@ -14,12 +14,18 @@ namespace PrintIngredientsList
 {
     public partial class FormLabelTypeBlockIItemDetail : Form
     {
-        LabelTypeBlockItemBase labelTypeBlockItem;
+        public delegate void CallbackValueChanged(DataGridViewRow row, LabelTypeBlockItemBase blockItem);
 
-        public FormLabelTypeBlockIItemDetail(LabelTypeBlockItemBase labelTypeBlockItem)
+        public CallbackValueChanged onCallbackValueChanged = null;
+
+        LabelTypeBlockItemBase labelTypeBlockItem;
+        DataGridViewRow targetRow;
+
+        public FormLabelTypeBlockIItemDetail(DataGridViewRow targetRow, LabelTypeBlockItemBase labelTypeBlockItem)
         {
             InitializeComponent();
 
+            this.targetRow = targetRow;
             this.labelTypeBlockItem = labelTypeBlockItem;
         }
 
@@ -33,7 +39,14 @@ namespace PrintIngredientsList
             switch(labelTypeBlockItem.itemType)
             {
                 case LabelTypeBlockItemBase.LabelTypeBlockItemType.LABEL:
-                    targetType = new LabelItem().GetType();
+                    if (labelTypeBlockItem.bCustomize)
+                    {
+                        targetType = new LabelItemCustomize().GetType();
+                    }
+                    else
+                    {
+                        targetType = new LabelItem().GetType();
+                    }
                     break;
                 case LabelTypeBlockItemBase.LabelTypeBlockItemType.BARCODE:
                     targetType = new PictureItem().GetType();
@@ -97,6 +110,7 @@ namespace PrintIngredientsList
             var row = gridItem.Rows[e.RowIndex];
 
             var value = row.Cells[e.ColumnIndex].Value;
+            if (value == null) return;
 
             PropertyInfo info = (PropertyInfo)row.Tag;
 
@@ -118,6 +132,8 @@ namespace PrintIngredientsList
                     break;
 
             }
+
+            if (onCallbackValueChanged != null) onCallbackValueChanged(targetRow, labelTypeBlockItem);
         }
 
         private void gridItem_CurrentCellDirtyStateChanged(object sender, EventArgs e)
