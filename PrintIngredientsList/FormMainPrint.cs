@@ -87,9 +87,6 @@ namespace PrintIngredientsList
         //int printDataIndex = 0;
         bool bPrintStartPositionning = false;
 
-        //プレビュー画面拡大率最大／最小
-        double PreviewZoomMax = 3.0;
-        double PreviewZoomMin = 0.1;
 
         //選択されている印刷用紙
         Layout curLayout = null;
@@ -133,7 +130,7 @@ namespace PrintIngredientsList
 
 
         
-        private void CreatePrintData()
+        private void CreatePrintData(bool b1peace=false)
         {
             lstPrintData.Clear();
             //printDataIndex = 0; //印刷ラベルIndex初期化
@@ -153,7 +150,13 @@ namespace PrintIngredientsList
                     }
                     EditProductData data = (EditProductData)row.Tag;
 
-                    for (int i = 0; i < data.numOfSheets; i++)
+                    int num = data.numOfSheets;
+                    if(b1peace)
+                    {
+                        num = 1;//強制１枚印刷
+                    }
+
+                    for (int i = 0; i < num; i++)
                     {
                         lstPrintData.Add(data);
                     }
@@ -172,11 +175,11 @@ namespace PrintIngredientsList
             float A4HeightMM = curLayout.paperHeight; //mm
             float A4WidthMM  = curLayout.paperWidth; //mm
 
-            float startX = curLayout.printGapLeft;
-            float startY = curLayout.printGapTop;
+            float startX = curLayout.PrintGapLeft;
+            float startY = curLayout.PrintGapTop;
 
-            float LabelBlockWidth = curLabelType.width;
-            float LabelBlockHeiht = curLabelType.height;
+            float LabelBlockWidth = curLabelType.Width;
+            float LabelBlockHeiht = curLabelType.Height;
 
             if (pd.printType == PrintType.PREVIEW && chkTestLineDraw.Checked)
             {
@@ -281,7 +284,7 @@ namespace PrintIngredientsList
             }finally
             {
                 //ヘッダにこのページに印刷されている商品名とラベル枚数を表示
-                DrawHeader(printHeaderProductNames, e.Graphics, curLayout.printGapLeft, curLayout.printGapTop);
+                DrawHeader(printHeaderProductNames, e.Graphics, curLayout.PrintGapLeft, curLayout.PrintGapTop);
                 DrawFooter(pd.curPrintPageNo, pageNum, e.Graphics, A4WidthMM, A4HeightMM);
             }
         }
@@ -294,11 +297,11 @@ namespace PrintIngredientsList
             float A4HeightMM = curLayout.paperHeight; //mm
             float A4WidthMM = curLayout.paperWidth; //mm
 
-            float startX = curLayout.printGapLeft;
-            float startY = curLayout.printGapTop;
+            float startX = curLayout.PrintGapLeft;
+            float startY = curLayout.PrintGapTop;
 
-            float LabelBlockWidth = curLabelType.width;
-            float LabelBlockHeiht = curLabelType.height;
+            float LabelBlockWidth = curLabelType.Width;
+            float LabelBlockHeiht = curLabelType.Height;
 
             float drawX = startX;
             float drawY = startY;
@@ -381,7 +384,7 @@ namespace PrintIngredientsList
                 util.SetTargetLabelBlock(labelBlock);
 
                 //ラベルブロックの描画位置を設定
-                util.SetDrawLabelBlockOffset(labelBlock.posX, labelBlock.posY);
+                util.SetDrawLabelBlockOffset(labelBlock.PosX, labelBlock.PosY);
 
                 float nextY = 0;
                 for (int iItem = 0; iItem < labelBlock.lstLabelTypeBlocklItems.Count; iItem++)
@@ -405,12 +408,20 @@ namespace PrintIngredientsList
                                         nextY = util.DrawItemComment(labelItem.Title, nextY, labelItem.FontSize, labelItem.DrawFrame);
                                         break;
                                     case ItemName.Supplementary://欄外
-                                        nextY = util.DrawItemSupplementary("", dispValue, nextY, labelItem.FontSize, labelItem.Width,labelItem.DrawFrame);
+                                        {
+                                            bool bResult = true;
+                                            nextY = util.DrawItemSupplementary("", dispValue, nextY, labelItem.FontSize, labelItem.ValueWidth, ref bResult, labelItem.DrawFrame);
+                                            if (bResult == false)
+                                            {
+                                                Utility.MessageError($"{productData.name}の欄外表示がはみ出している可能性があります。");
+                                            }
+                                        }
                                         break;
                                     case ItemName.NutritionalInformation: //栄養成分表示
                                         nextY = util.DrawItem(labelItem.Title, dispValue, nextY, labelItem.Height, labelItem.FontSize, false, labelItem.DrawFrame);
                                         break;
                                     default:
+
                                         //nextY = util.DrawItem(labelItem.Title, dispValue, nextY, labelItem.Height, labelItem.FontSize, false, labelItem.DrawFrame);
                                         nextY = util.DrawItem(nextY, dispValue, labelItem);
                                         break;
@@ -475,8 +486,8 @@ namespace PrintIngredientsList
 
             float maxWidth = 0;
             float nextY = 0;
-            float x = curLayout.headerGapLeft;
-            float y = curLayout.headerGapTop;
+            float x = curLayout.HeaderGapLeft;
+            float y = curLayout.HeaderGapTop;
             float width = 0;
 
             foreach (var prd in printHeaderProductNames)
@@ -489,7 +500,7 @@ namespace PrintIngredientsList
                     {
                         //ヘッダ領域オーバー
                         x += maxWidth+2;
-                        y = curLayout.headerGapTop;
+                        y = curLayout.HeaderGapTop;
                     }
                 } while (rc != 0);
 
@@ -597,28 +608,16 @@ namespace PrintIngredientsList
             }
         }
 
+        //private void panelPrintTypePreview_Paint(object sender, PaintEventArgs e)
+        //{
+        //    Graphics gPreview = e.Graphics;
 
-        /// <summary>
-        /// ラベルタイププレビューウィンドウ更新
-        /// </summary>
-        void UpdateLabelTypePreview()
-        {
-            panelPrintTypePreview.Invalidate();
-            panelPreviw.Invalidate();
-        }
-        private void panelPrintTypePreview_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics gPreview = e.Graphics;
+        //    //選択されているラベルタイプ
+        //    var labelType = (LabelType)cmbLabelType.SelectedItem;
 
-            //選択されているラベルタイプ
-            var labelType = (LabelType)cmbLabelType.SelectedItem;
+        //    //Preview(gPreview, panelPrintTypePreview, labelType,(float)1);
 
-            Preview(gPreview, panelPrintTypePreview, labelType,(float)1);
-
-        }
-
-
-
+        //}
         bool IsLabelTypeBlockType(LabelTypeBlockBase.LabelTypeBlockType type)
         {
             LabelTypeBlock labelBlock = (LabelTypeBlock)cmbLabelBlock.SelectedItem;

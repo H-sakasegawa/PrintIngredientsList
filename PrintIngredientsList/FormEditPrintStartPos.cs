@@ -36,8 +36,8 @@ namespace PrintIngredientsList
             int colNum = 4;
             int rowNum = 4;
 
-            int btnWidth  = (int)(Utility.MILLI2POINT(labelType.width) * 0.4);
-            int btnHeight = (int)(Utility.MILLI2POINT(labelType.height) * 0.4);
+            int btnWidth  = (int)(Utility.MILLI2POINT(labelType.Width) * 0.4);
+            int btnHeight = (int)(Utility.MILLI2POINT(labelType.Height) * 0.4);
 
             int gapTop = 10;
             int gapLeft =10;

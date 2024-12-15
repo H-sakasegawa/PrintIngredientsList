@@ -25,6 +25,7 @@ using System.Diagnostics;
 using NPOI.OpenXmlFormats.Wordprocessing;
 using ZXing;
 using System.Drawing.Imaging;
+using NPOI.OpenXmlFormats.Dml.Chart;
 
 namespace PrintIngredientsList
 {
@@ -102,8 +103,8 @@ namespace PrintIngredientsList
             gridList.Dock = DockStyle.Fill;
 
 
-            panelPrintTypePreview.Dock = DockStyle.Fill;
-            grdLabelBlockItems.Dock = DockStyle.Fill;
+            //panelPrintTypePreview.Dock = DockStyle.Fill;
+            //grdLabelBlockItems.Dock = DockStyle.Fill;
 
 
             tabControl1.TabPages[0].Focus();
@@ -139,7 +140,7 @@ namespace PrintIngredientsList
                 ReadPrintLayoutInfo(printLayoutDataFilePath);
             }catch(Exception ex)
             {
-                Utility.MessageError("印刷レイアウト情報の読み込みで例外が発生");
+                Utility.MessageError($"印刷レイアウト情報の読み込みで例外が発生\n{ex.Message}");
             }
             //印刷設定をUIに設定
             SettingDataToUI(settingData);
@@ -234,16 +235,16 @@ namespace PrintIngredientsList
             {
 
                 txtCopyNum.Text = data.copyNum.ToString();
-                txtPrintLeftGap.Text = curLayout.printGapLeft.ToString("F2");
-                txtPrintTopGap.Text = curLayout.printGapTop.ToString("F2");
+                txtPrintLeftGap.Text = curLayout.PrintGapLeft.ToString("F2");
+                txtPrintTopGap.Text = curLayout.PrintGapTop.ToString("F2");
 
-                txtHeaderLeftGap.Text = curLayout.headerGapLeft.ToString("F2");
-                txtHeaderTopGap.Text = curLayout.headerGapTop.ToString("F2");
+                txtHeaderLeftGap.Text = curLayout.HeaderGapLeft.ToString("F2");
+                txtHeaderTopGap.Text = curLayout.HeaderGapTop.ToString("F2");
 
-                txtLabelAreaGapTop.Text = curLabelType.gapTop.ToString("F2");
-                txtLabelAreaGapLeft.Text = curLabelType.gapLeft.ToString("F2");
-                txtLabelAreaGapRight.Text = curLabelType.gapRight.ToString("F2");
-                txtLabelAreaGapBottom.Text = curLabelType.gapBottom.ToString("F2");
+                txtLabelAreaGapTop.Text = curLabelType.GapTop.ToString("F2");
+                txtLabelAreaGapLeft.Text = curLabelType.GapLeft.ToString("F2");
+                txtLabelAreaGapRight.Text = curLabelType.GapRight.ToString("F2");
+                txtLabelAreaGapBottom.Text = curLabelType.GapBottom.ToString("F2");
 
             }
             if (curLabelType != null)
@@ -288,7 +289,7 @@ namespace PrintIngredientsList
 
             //印刷設定のラベルレイアウトスプリット位置
             SplitDistance = Properties.Settings.Default.LabelLayoutPreviewSlpitDistance;
-            splitContainer4.SplitterDistance = SplitDistance;
+            //splitContainer4.SplitterDistance = SplitDistance;
 
 
             //印刷プレビュー画面位置とサイズ補正
@@ -306,7 +307,7 @@ namespace PrintIngredientsList
             Properties.Settings.Default.WinSizeW = this.Size.Width;
             Properties.Settings.Default.WinSizeH = this.Size.Height;
             Properties.Settings.Default.SplitDistance = splitContainer1.SplitterDistance;
-            Properties.Settings.Default.LabelLayoutPreviewSlpitDistance = splitContainer4.SplitterDistance;
+            //Properties.Settings.Default.LabelLayoutPreviewSlpitDistance = splitContainer4.SplitterDistance;
 
 
             Properties.Settings.Default.Save();
@@ -483,6 +484,7 @@ namespace PrintIngredientsList
         void UpdatePreview()
         {
             panelPreviw.Invalidate();
+            //panelPrintTypePreview.Invalidate();
         }
 
         /// <summary>
@@ -504,8 +506,8 @@ namespace PrintIngredientsList
         {
             if (labelType == null) return;
 
-            int areaWidth = (int)DrawUtil2.MillimetersToPixels(labelType.width, gPreview.DpiX);
-            int areaHeight = (int)DrawUtil2.MillimetersToPixels(labelType.height, gPreview.DpiY);
+            int areaWidth = (int)DrawUtil2.MillimetersToPixels(labelType.Width, gPreview.DpiX);
+            int areaHeight = (int)DrawUtil2.MillimetersToPixels(labelType.Height, gPreview.DpiY);
 
             float scaleW = (float)panel.Width / areaWidth;
             float scaleH = (float)panel.Height / areaHeight;
@@ -799,7 +801,7 @@ namespace PrintIngredientsList
             }
             catch (Exception ex)
             {
-                Utility.MessageError("印刷レイアウト情報の読み込みで例外が発生");
+                Utility.MessageError($"印刷レイアウト情報の読み込みで例外が発生\n{ex.Message}");
             }
             //印刷設定をUIに設定
             SettingDataToUI(settingData);
@@ -899,7 +901,7 @@ namespace PrintIngredientsList
         private void cmbFont_SelectedIndexChanged(object sender, EventArgs e)
         {
             settingData.fontName = cmbFont.Text;
-            UpdateLabelTypePreview();
+            UpdatePreview();
         }
         /// <summary>
         /// 用紙選択
@@ -911,8 +913,9 @@ namespace PrintIngredientsList
             curLayout = (Layout)cmbLayout.SelectedItem;
 
             lblSize.Text = $"{curLayout.paperWidth} × {curLayout.paperHeight}";
-            txtPrintLeftGap.Text = curLayout.printGapLeft.ToString("F2");
-            txtPrintTopGap.Text = curLayout.printGapTop.ToString("F2");
+            txtPrintLeftGap.Text = curLayout.PrintGapLeft.ToString("F2");
+            txtPrintTopGap.Text  = curLayout.PrintGapTop.ToString("F2");
+            UpdatePreview();
 
         }
         /// <summary>
@@ -924,10 +927,10 @@ namespace PrintIngredientsList
         {
             curLabelType = (LabelType)cmbLabelType.SelectedItem;
 
-            txtLabelAreaGapLeft.Text = curLabelType.gapLeft.ToString("F2");
-            txtLabelAreaGapTop.Text = curLabelType.gapTop.ToString("F2");
-            txtLabelAreaGapRight.Text = curLabelType.gapRight.ToString("F2");
-            txtLabelAreaGapBottom.Text = curLabelType.gapBottom.ToString("F2");
+            txtLabelAreaGapLeft.Text   = curLabelType.GapLeft.ToString("F2");
+            txtLabelAreaGapTop.Text    = curLabelType.GapTop.ToString("F2");
+            txtLabelAreaGapRight.Text  = curLabelType.GapRight.ToString("F2");
+            txtLabelAreaGapBottom.Text = curLabelType.GapBottom.ToString("F2");
 
             cmbLabelBlock.Items.Clear();
             foreach (var ItemBlock in curLabelType.lstLabelBlocks)
@@ -938,7 +941,7 @@ namespace PrintIngredientsList
             {
                 cmbLabelBlock.SelectedIndex = 0;
             }
-            UpdateLabelTypePreview();
+            UpdatePreview();
         }
 
         /// <summary>
@@ -948,7 +951,7 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void button9_Click(object sender, EventArgs e)
         {
-            CreatePrintData();
+            CreatePrintData(chkPreview1piece.Checked);
 
             PrintDocumentEx pd = CreatePrintDocument(PrintType.PREVIEW);
             pd.ResetPageIndex();
@@ -1044,11 +1047,13 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void txtPrintLeftGap_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtPrintLeftGap.Text, out curLayout.printGapLeft))
+            float value;
+            if (!float.TryParse(txtPrintLeftGap.Text, out value))
             {
                 ErrMsg("印刷領域(左余白)");
                 return;
             }
+            curLayout.PrintGapLeft = value;
             UpdatePreview();
 
         }
@@ -1059,11 +1064,13 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void txtPrintTopGap_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtPrintTopGap.Text, out curLayout.printGapTop))
+            float value;
+            if (!float.TryParse(txtPrintTopGap.Text, out value))
             {
                 ErrMsg("印刷領域(上余白)");
                 return;
             }
+            curLayout.PrintGapTop = value;
             UpdatePreview();
         }
         /// <summary>
@@ -1073,11 +1080,13 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void txtHeaderLeftGap_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtHeaderLeftGap.Text, out curLayout.headerGapLeft))
+            float value;
+            if (!float.TryParse(txtHeaderLeftGap.Text, out value))
             {
                 ErrMsg("ヘッダ領域(左余白)");
                 return;
             }
+            curLayout.HeaderGapLeft = value;
             UpdatePreview();
 
         }
@@ -1088,11 +1097,13 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void txtHeaderTopGap_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtHeaderTopGap.Text, out curLayout.headerGapTop))
+            float value;
+            if (!float.TryParse(txtHeaderTopGap.Text, out value))
             {
                 ErrMsg("ヘッダ領域(上余白)");
                 return;
             }
+            curLayout.HeaderGapTop = value;
             UpdatePreview();
         }
         #endregion
@@ -1108,11 +1119,13 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void txtLabelAreaGapLeft_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtLabelAreaGapLeft.Text, out curLabelType.gapLeft))
+            float value;
+            if (!float.TryParse(txtLabelAreaGapLeft.Text, out value))
             {
                 ErrMsg("ラベル印刷領域(左余白)");
                 return;
             }
+            curLabelType.GapLeft = value;
             UpdatePreview();
         }
         /// <summary>
@@ -1123,11 +1136,13 @@ namespace PrintIngredientsList
         private void txtLabelAreaGapRight_TextChanged(object sender, EventArgs e)
         {
 
-            if (!float.TryParse(txtLabelAreaGapRight.Text, out curLabelType.gapRight))
+            float value;
+            if (!float.TryParse(txtLabelAreaGapRight.Text, out value))
             {
                 ErrMsg("ラベル印刷領域(右余白)");
                 return;
             }
+            curLabelType.GapRight = value;
             UpdatePreview();
         }
         /// <summary>
@@ -1137,11 +1152,13 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void txtLabelAreaGapTop_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtLabelAreaGapTop.Text, out curLabelType.gapTop))
+            float value;
+            if (!float.TryParse(txtLabelAreaGapTop.Text, out value))
             {
                 ErrMsg("ラベル印刷領域(上余白)");
                 return;
             }
+            curLabelType.GapTop = value;
             UpdatePreview();
         }
         /// <summary>
@@ -1151,11 +1168,13 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void txtLabelAreaGapBottom_TextChanged(object sender, EventArgs e)
         {
-            if (!float.TryParse(txtLabelAreaGapBottom.Text, out curLabelType.gapBottom))
+            float value;
+            if (!float.TryParse(txtLabelAreaGapBottom.Text, out value))
             {
                 ErrMsg("ラベル印刷領域(下余白)");
                 return;
             }
+            curLabelType.GapBottom = value;
             UpdatePreview();
         }
         #endregion
@@ -1176,13 +1195,13 @@ namespace PrintIngredientsList
                 LabelTypeBlock labelBlock = (LabelTypeBlock)cmbLabelBlock.SelectedItem;
                 if (labelBlock == null) return;
 
-                txtPosX.Text = labelBlock.posX.ToString();
-                txtPosY.Text = labelBlock.posY.ToString();
+                txtPosX.Text = labelBlock.PosX.ToString();
+                txtPosY.Text = labelBlock.PosY.ToString();
 
-                txtTitleColWidth.Text = labelBlock.titleWidth.ToString("F2");
-                txtValueColWidth.Text = labelBlock.valueWidth.ToString("F2");
+                txtTitleColWidth.Text = labelBlock.TitleWidth.ToString("F2");
+                txtValueColWidth.Text = labelBlock.ValueWidth.ToString("F2");
 
-                txtTitleColFontSize.Text = labelBlock.titleFontSize.ToString("F1");
+                txtTitleColFontSize.Text = labelBlock.TitleFontSize.ToString("F1");
 
                 //データグリッドビューのヘッダを更新
                 grdLabelBlockItems.Columns.Clear();
@@ -1331,7 +1350,7 @@ namespace PrintIngredientsList
                     }
                 }
             }
-            UpdateLabelTypePreview();
+            UpdatePreview();
 
         }
         private void grdLabelBlockItems_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -1390,8 +1409,8 @@ namespace PrintIngredientsList
             float value;
             if (CnvFloatValue(txtPosX, out value))
             {
-                labelBlock.posX = value;
-                UpdateLabelTypePreview();
+                labelBlock.PosX = value;
+                UpdatePreview();
             }
 
         }
@@ -1403,8 +1422,8 @@ namespace PrintIngredientsList
             float value;
             if (CnvFloatValue(txtPosY, out value))
             {
-                labelBlock.posY = value;
-                UpdateLabelTypePreview();
+                labelBlock.PosY = value;
+                UpdatePreview();
             }
 
 
@@ -1421,8 +1440,8 @@ namespace PrintIngredientsList
             float value;
             if (CnvFloatValue(txtTitleColWidth, out value))
             {
-                labelBlock.titleWidth = value;
-                UpdateLabelTypePreview();
+                labelBlock.TitleWidth = value;
+                UpdatePreview();
             }
 
         }
@@ -1438,8 +1457,8 @@ namespace PrintIngredientsList
             float value;
             if (CnvFloatValue(txtTitleColFontSize, out value))
             {
-                labelBlock.titleFontSize = value;
-                UpdateLabelTypePreview();
+                labelBlock.TitleFontSize = value;
+                UpdatePreview();
             }
         }
         /// <summary>
@@ -1454,8 +1473,8 @@ namespace PrintIngredientsList
             float value;
             if (CnvFloatValue(txtValueColWidth, out value))
             {
-                labelBlock.valueWidth = value;
-                UpdateLabelTypePreview();
+                labelBlock.ValueWidth = value;
+                UpdatePreview();
             }
         }
 
@@ -1485,14 +1504,28 @@ namespace PrintIngredientsList
 
             if (bButtonCellClicked)
             {
-                FormLabelTypeBlockIItemDetail frm = new FormLabelTypeBlockIItemDetail(labeItemBlock);
+                FormLabelTypeBlockIItemDetail frm = new FormLabelTypeBlockIItemDetail(row,labeItemBlock);
+
+                frm.onCallbackValueChanged += OnonCallbackValueChanged;
                 frm.ShowDialog();
                 UpdateRow(row, labeItemBlock);
-                UpdateLabelTypePreview();
+                UpdatePreview();
 
 
             }
         }
+
+        void OnonCallbackValueChanged(DataGridViewRow row, LabelTypeBlockItemBase blockItem)
+        {
+            UpdateRow(row, blockItem);
+            UpdatePreview();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
 
         /// <summary>
@@ -1540,10 +1573,14 @@ namespace PrintIngredientsList
 
 
 
+
+
         #endregion
 
- 
+        private void label19_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 
 }

@@ -128,20 +128,20 @@ namespace PrintIngredientsList
                 graphics.Clear(Color.Gray);
                 //ラベル背景描画
                 SolidBrush brs = new SolidBrush(Color.White);
-                graphics.FillRectangle(brs, new RectangleF(0, 0, labelType.width, labelType.height));
+                graphics.FillRectangle(brs, new RectangleF(0, 0, labelType.Width, labelType.Height));
             }
         }
         public  void SetTargetLabelBlock(LabelTypeBlock labelBlock)
         {
             this.labelBlock = labelBlock;
 
-            fontSizeItemTitle = labelBlock.titleFontSize;
+            fontSizeItemTitle = labelBlock.TitleFontSize;
 
             labelBlockWidthMM = labelBlock.LabelBlockWidth;
-            titleAreWidthMM = labelBlock.TitleAreWidthMM;
-            contentAreaWidthMM = labelBlock.ContentAreWidthMM;
+            titleAreWidthMM = labelBlock.TitleWidth;
+            contentAreaWidthMM = labelBlock.ValueWidth;
 
-            fontSizeItemTitle = labelBlock.titleFontSize;
+            fontSizeItemTitle = labelBlock.TitleFontSize;
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace PrintIngredientsList
         /// <returns></returns>
         public float DrawItemComment(string comment, float startY, float baseFontSize, bool bDrawFrame = true)
         {
-            Font fntTitle = new Font(fontName, fontSizeItemTitle, FontStyle.Regular);
+           // Font fntTitle = new Font(fontName, fontSizeItemTitle, FontStyle.Regular);
 
             //Font fntTitle = GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM);
             //備考欄の高さは、全エリアの高さから直前の描画開始位置を引いた残りから、セルギャップを差し引いた高さ
@@ -163,7 +163,7 @@ namespace PrintIngredientsList
 
             Font fntContents = GetFontCalcedBydHeightAndWidth(baseFontSize, comment, labelBlockWidthMM, contentsLimitHightMM, ref contentsHight);
 
-            DrawItemOther(comment, startY, fntTitle, fntContents, contentsHight, (float)(contentsHight + Math.Ceiling(labelType.celGapBottom)), labelBlockWidthMM, bDrawFrame);
+            DrawItemOther(comment, startY,  fntContents, contentsHight, (float)(contentsHight + Math.Ceiling(labelType.CelGapBottom)), labelBlockWidthMM, bDrawFrame);
 
 
             return startY + contentsHight;
@@ -185,11 +185,11 @@ namespace PrintIngredientsList
                                             string content, 
                                             float startY, 
                                             float baseFontSize, 
-                                            float width, 
+                                            float width,
+                                            ref bool result,
                                             bool bDrawFrame = true
             )
         {
-            Font fntTitle = new Font(fontName, fontSizeItemTitle, FontStyle.Regular);
 
             //Font fntTitle = GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM);
             //備考欄の高さは、全エリアの高さから直前の描画開始位置を引いた残りから、セルギャップを差し引いた高さ
@@ -204,13 +204,12 @@ namespace PrintIngredientsList
                 drawAreaW = width;
             }
             fntContents = GetFontCalcedBydHeightAndWidth(baseFontSize, content, drawAreaW, contentsLimitHightMM, ref contentsHight);
-            DrawItemOther( content, startY, fntTitle, fntContents, contentsHight, (float)( contentsHight + Math.Ceiling(labelType.celGapBottom)), drawAreaW, bDrawFrame);
+            result = DrawItemOther( content, startY,  fntContents, contentsHight, (float)( contentsHight + Math.Ceiling(labelType.CelGapBottom)), drawAreaW, bDrawFrame);
 
             return startY + contentsHight;
         }
-        private void DrawItemOther(string content, 
+        private bool DrawItemOther(string content, 
                                            float startY,
-                                           Font fntTitle, 
                                            Font fntContens, 
                                            float contentsHight, 
                                            float gridHeight, 
@@ -218,13 +217,24 @@ namespace PrintIngredientsList
                                            bool bDrawFrame
             )
         {
+            bool bDrawHeightResult = true;
+
             //グリッドセルのTop/Leftの余白
             graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
 
             Brush brs = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
-            PointF point = new PointF(_X(labelType.celGapLeft), _Y(startY + labelType.celGapTop));
+            PointF point = new PointF(_X(labelType.CelGapLeft), _Y(startY + labelType.CelGapTop));
             graphics.DrawString(content, fntContens, brs, new RectangleF(point.X, point.Y, drawAreaW, contentsHight));
+
+            //---------------------------------------------------------
+            // 描画した文字列の高さが グリッド高さをこえていないか？
+            SizeF size = graphics.MeasureString(content, fntContens, (int)drawAreaW);
+
+            if (size.Height > gridHeight)
+            {
+                bDrawHeightResult = false;
+            }
 
             if (bDrawFrame)
             {
@@ -232,6 +242,7 @@ namespace PrintIngredientsList
                 Pen pen = new Pen(Color.Black, (float)0.1);
                 graphics.DrawRectangle(pen, _X(0), _Y(startY), labelBlockWidthMM, gridHeight);
             }
+            return bDrawHeightResult;
 
         }
 
@@ -245,19 +256,34 @@ namespace PrintIngredientsList
             string title        = labelItem.Title;
             float titleX        = 0;
             float titleY        = startY;
-            float titleWidth    = labelItem.parent.titleWidth;
+            float titleWidth    = labelItem.parent.TitleWidth;
             float titleHeight   = labelItem.Height;
             bool bDrawFrame     = labelItem.DrawFrame;
 
             float valueX        = titleAreWidthMM;
             float valueY        = startY;
-            float valueWidth    = labelItem.parent.valueWidth;
+            float valueWidth    = labelItem.parent.ValueWidth;
             float valueHeight   = labelItem.Height;
             float valueFontSize = labelItem.FontSize;
 
-            if( labelItem.bCustomize)
+            //Itemブロック固有設定
+            if( labelItem.ValueWidth>0)
+            {
+                valueWidth = labelItem.ValueWidth;
+            }
+
+            if ( labelItem.bCustomize)
             {
                 //カスタマイズラベル
+                LabelItemCustomize custmizeItem = (LabelItemCustomize)labelItem;
+                titleX = custmizeItem.TitlePosX;
+                titleY = custmizeItem.TitlePosY;
+                titleWidth = custmizeItem.TitleWidth;
+                titleHeight = custmizeItem.TitleHeight;
+                valueX = custmizeItem.ValuePosX;
+                valueY = custmizeItem.ValuePosY; ;
+                valueWidth = custmizeItem.ValueWidth;;
+                valueHeight = custmizeItem.ValueHeight;
 
             }
 
@@ -291,12 +317,16 @@ namespace PrintIngredientsList
         private float DrawItemValue(string value, float x, float y, float width, float height, float baseFontSize, bool bDrawFrame)
         {
             float contentsHight = 0;
-            Font fntContents = GetFontCalcedBydHeight(baseFontSize, value, height - CellBoxGapSumHeight, ref contentsHight);
+
+            float areaWidth = width - CellBoxGapSumWidth;
+            float areaHeight = height - CellBoxGapSumHeight;
+
+            Font fntContents = GetFontCalcedBydHeightAndWidth(baseFontSize, value, areaWidth, areaHeight, ref contentsHight);
 
             Brush brs = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
-            PointF point = new PointF(_X(x + labelType.celGapLeft), _Y(y + labelType.celGapTop));
-            graphics.DrawString(value, fntContents, brs, new RectangleF(point.X, point.Y, contentAreaWidthMM, contentsHight));
+            PointF point = new PointF(_X(x + labelType.CelGapLeft), _Y(y + labelType.CelGapTop));
+            graphics.DrawString(value, fntContents, brs, new RectangleF(point.X, point.Y, areaWidth, areaHeight));
 
             if (bDrawFrame)
             {
@@ -322,7 +352,7 @@ namespace PrintIngredientsList
             //タイトル領域は、横１列として表示可能なフォントサイズのフォントを取得
             Font fntTitle = new Font(fontName, fontSizeItemTitle, FontStyle.Regular);
             float contentsHight = 0;
-            Font fntContents = GetFontCalcedBydHeight(baseFontSize, content, limitHight - CellBoxGapSumHeight, ref contentsHight);
+            Font fntContents = GetFontCalcedByHeight(baseFontSize, content, limitHight - CellBoxGapSumHeight, ref contentsHight);
 
             float cellHeight = limitHight;
             if (bResizeHeight)
@@ -352,10 +382,10 @@ namespace PrintIngredientsList
 
             Brush brs = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
-            PointF point = new PointF(_X(labelType.celGapLeft), _Y(startY + labelType.celGapTop));
+            PointF point = new PointF(_X(labelType.CelGapLeft), _Y(startY + labelType.CelGapTop));
             graphics.DrawString(title, fntTitle, brs, point);
-            point.X = titleAreWidthMM + labelType.celGapLeft;
-            graphics.DrawString(content, fntContens, brs, new RectangleF(_X(point.X), _Y(startY + labelType.celGapTop), contentAreaWidthMM, contentsHight));
+            point.X = titleAreWidthMM + labelType.CelGapLeft;
+            graphics.DrawString(content, fntContens, brs, new RectangleF(_X(point.X), _Y(startY + labelType.CelGapTop), contentAreaWidthMM, contentsHight));
 
             if (bDrawFrame)
             {
@@ -367,8 +397,8 @@ namespace PrintIngredientsList
 
         }
 
-        float _X(float x) { return PageGapLeftMM + LabelBlockOfsX +  labelType.gapLeft + x; }
-        float _Y(float y) { return PageGapTopMM + LabelBlockOfsY +  labelType.gapTop + y; }
+        float _X(float x) { return PageGapLeftMM + LabelBlockOfsX +  labelType.GapLeft + x; }
+        float _Y(float y) { return PageGapTopMM + LabelBlockOfsY +  labelType.GapTop + y; }
 
 
         /// <summary>
@@ -406,7 +436,7 @@ namespace PrintIngredientsList
         /// <param name="s"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        Font GetFontCalcedBydHeight(float startFontSize, string s, float limitHeght, ref float height)
+        Font GetFontCalcedByHeight(float startFontSize, string s, float limitHeght, ref float height)
         {
             float fntSize = startFontSize;
             while (fntSize > 0)

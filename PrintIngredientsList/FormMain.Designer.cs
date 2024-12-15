@@ -57,12 +57,6 @@
             this.panelPreviw = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lblSize = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cmbLabelType = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cmbLayout = new System.Windows.Forms.ComboBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label23 = new System.Windows.Forms.Label();
@@ -90,30 +84,30 @@
             this.txtLabelAreaGapRight = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.txtFontManifacture = new System.Windows.Forms.TabPage();
+            this.grdLabelBlockItems = new System.Windows.Forms.DataGridView();
             this.txtTitleColFontSize = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.txtValueColWidth = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txtTitleColWidth = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.panelPrintTypePreview = new System.Windows.Forms.Panel();
-            this.grdLabelBlockItems = new System.Windows.Forms.DataGridView();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label11 = new System.Windows.Forms.Label();
             this.txtPosY = new System.Windows.Forms.TextBox();
             this.txtPosX = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.cmbLabelBlock = new System.Windows.Forms.ComboBox();
+            this.lblSize = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cmbLabelType = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbLayout = new System.Windows.Forms.ComboBox();
             this.button10 = new System.Windows.Forms.Button();
             this.txtPrintStartPos = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.chkPreview1piece = new System.Windows.Forms.CheckBox();
             this.button9 = new System.Windows.Forms.Button();
             this.chkTestLineDraw = new System.Windows.Forms.CheckBox();
             this.button8 = new System.Windows.Forms.Button();
@@ -140,6 +134,11 @@
             this.mnuUpdateLicense = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuLimitDate = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -164,10 +163,6 @@
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.txtFontManifacture.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdLabelBlockItems)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -286,19 +281,19 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(13, 12);
+            this.tabControl1.Location = new System.Drawing.Point(3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(740, 476);
+            this.tabControl1.Size = new System.Drawing.Size(613, 470);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.splitContainer1);
+            this.tabPage1.Controls.Add(this.splitContainer2);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(732, 450);
+            this.tabPage1.Size = new System.Drawing.Size(605, 444);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "商品一覧";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -306,24 +301,24 @@
             // splitContainer1
             // 
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(27, 39);
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panelPreviw);
-            this.splitContainer1.Size = new System.Drawing.Size(644, 329);
-            this.splitContainer1.SplitterDistance = 457;
+            this.splitContainer1.Size = new System.Drawing.Size(806, 477);
+            this.splitContainer1.SplitterDistance = 619;
             this.splitContainer1.TabIndex = 1;
             // 
             // splitContainer2
             // 
             this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer2.Location = new System.Drawing.Point(70, 13);
+            this.splitContainer2.Location = new System.Drawing.Point(6, 6);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -427,7 +422,7 @@
             this.panelPreviw.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPreviw.Location = new System.Drawing.Point(0, 0);
             this.panelPreviw.Name = "panelPreviw";
-            this.panelPreviw.Size = new System.Drawing.Size(183, 329);
+            this.panelPreviw.Size = new System.Drawing.Size(183, 477);
             this.panelPreviw.TabIndex = 0;
             this.panelPreviw.Paint += new System.Windows.Forms.PaintEventHandler(this.panelPreviw_Paint);
             // 
@@ -448,7 +443,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(732, 450);
+            this.tabPage2.Size = new System.Drawing.Size(605, 444);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "印刷";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -458,75 +453,19 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.tabControl2);
             this.groupBox2.Controls.Add(this.lblSize);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.cmbLabelType);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.cmbLayout);
-            this.groupBox2.Controls.Add(this.tabControl2);
             this.groupBox2.Location = new System.Drawing.Point(242, 19);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(484, 414);
+            this.groupBox2.Size = new System.Drawing.Size(357, 419);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "印刷レイアウト";
-            // 
-            // lblSize
-            // 
-            this.lblSize.AutoSize = true;
-            this.lblSize.Location = new System.Drawing.Point(206, 26);
-            this.lblSize.Name = "lblSize";
-            this.lblSize.Size = new System.Drawing.Size(25, 12);
-            this.lblSize.TabIndex = 32;
-            this.lblSize.Text = "size";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(170, 26);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(40, 12);
-            this.label8.TabIndex = 31;
-            this.label8.Text = "サイズ：";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 50);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 12);
-            this.label7.TabIndex = 30;
-            this.label7.Text = "ラベルタイプ";
-            // 
-            // cmbLabelType
-            // 
-            this.cmbLabelType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbLabelType.FormattingEnabled = true;
-            this.cmbLabelType.Location = new System.Drawing.Point(75, 48);
-            this.cmbLabelType.Name = "cmbLabelType";
-            this.cmbLabelType.Size = new System.Drawing.Size(89, 20);
-            this.cmbLabelType.TabIndex = 29;
-            this.cmbLabelType.SelectedIndexChanged += new System.EventHandler(this.cmbLabelType_SelectedIndexChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 24);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 12);
-            this.label4.TabIndex = 28;
-            this.label4.Text = "用紙";
-            // 
-            // cmbLayout
-            // 
-            this.cmbLayout.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbLayout.FormattingEnabled = true;
-            this.cmbLayout.Location = new System.Drawing.Point(75, 22);
-            this.cmbLayout.Name = "cmbLayout";
-            this.cmbLayout.Size = new System.Drawing.Size(89, 20);
-            this.cmbLayout.TabIndex = 12;
-            this.cmbLayout.SelectedIndexChanged += new System.EventHandler(this.cmbLayout_SelectedIndexChanged);
             // 
             // tabControl2
             // 
@@ -536,10 +475,10 @@
             this.tabControl2.Controls.Add(this.tabPage3);
             this.tabControl2.Controls.Add(this.tabPage4);
             this.tabControl2.Controls.Add(this.txtFontManifacture);
-            this.tabControl2.Location = new System.Drawing.Point(11, 74);
+            this.tabControl2.Location = new System.Drawing.Point(11, 77);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(467, 329);
+            this.tabControl2.Size = new System.Drawing.Size(340, 336);
             this.tabControl2.TabIndex = 11;
             // 
             // tabPage3
@@ -561,7 +500,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(459, 303);
+            this.tabPage3.Size = new System.Drawing.Size(361, 300);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "印刷位置の調整";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -729,7 +668,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(459, 303);
+            this.tabPage4.Size = new System.Drawing.Size(361, 300);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "ラベル余白調整";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -821,13 +760,13 @@
             // 
             // txtFontManifacture
             // 
+            this.txtFontManifacture.Controls.Add(this.grdLabelBlockItems);
             this.txtFontManifacture.Controls.Add(this.txtTitleColFontSize);
             this.txtFontManifacture.Controls.Add(this.label20);
             this.txtFontManifacture.Controls.Add(this.txtValueColWidth);
             this.txtFontManifacture.Controls.Add(this.label19);
             this.txtFontManifacture.Controls.Add(this.txtTitleColWidth);
             this.txtFontManifacture.Controls.Add(this.label12);
-            this.txtFontManifacture.Controls.Add(this.splitContainer4);
             this.txtFontManifacture.Controls.Add(this.label11);
             this.txtFontManifacture.Controls.Add(this.txtPosY);
             this.txtFontManifacture.Controls.Add(this.txtPosX);
@@ -837,95 +776,18 @@
             this.txtFontManifacture.Location = new System.Drawing.Point(4, 22);
             this.txtFontManifacture.Name = "txtFontManifacture";
             this.txtFontManifacture.Padding = new System.Windows.Forms.Padding(3);
-            this.txtFontManifacture.Size = new System.Drawing.Size(459, 303);
+            this.txtFontManifacture.Size = new System.Drawing.Size(332, 310);
             this.txtFontManifacture.TabIndex = 2;
             this.txtFontManifacture.Text = "項目の位置、高さ、ﾌｫﾝﾄ調整";
             this.txtFontManifacture.UseVisualStyleBackColor = true;
-            // 
-            // txtTitleColFontSize
-            // 
-            this.txtTitleColFontSize.Location = new System.Drawing.Point(345, 4);
-            this.txtTitleColFontSize.Name = "txtTitleColFontSize";
-            this.txtTitleColFontSize.Size = new System.Drawing.Size(36, 19);
-            this.txtTitleColFontSize.TabIndex = 50;
-            this.txtTitleColFontSize.TextChanged += new System.EventHandler(this.txtTitleColFontSize_TextChanged);
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(306, 7);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(40, 12);
-            this.label20.TabIndex = 49;
-            this.label20.Text = "フォント:";
-            // 
-            // txtValueColWidth
-            // 
-            this.txtValueColWidth.Location = new System.Drawing.Point(258, 29);
-            this.txtValueColWidth.Name = "txtValueColWidth";
-            this.txtValueColWidth.Size = new System.Drawing.Size(40, 19);
-            this.txtValueColWidth.TabIndex = 48;
-            this.txtValueColWidth.TextChanged += new System.EventHandler(this.txtValueColWidth_TextChanged);
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(209, 31);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(47, 12);
-            this.label19.TabIndex = 47;
-            this.label19.Text = "値列 幅:";
-            // 
-            // txtTitleColWidth
-            // 
-            this.txtTitleColWidth.Location = new System.Drawing.Point(258, 4);
-            this.txtTitleColWidth.Name = "txtTitleColWidth";
-            this.txtTitleColWidth.Size = new System.Drawing.Size(40, 19);
-            this.txtTitleColWidth.TabIndex = 46;
-            this.txtTitleColWidth.TextChanged += new System.EventHandler(this.txtTitleColWidth_TextChanged);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(188, 7);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(70, 12);
-            this.label12.TabIndex = 45;
-            this.label12.Text = "タイトル列 幅:";
-            // 
-            // splitContainer4
-            // 
-            this.splitContainer4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer4.Location = new System.Drawing.Point(8, 61);
-            this.splitContainer4.Name = "splitContainer4";
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.panelPrintTypePreview);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.grdLabelBlockItems);
-            this.splitContainer4.Size = new System.Drawing.Size(445, 236);
-            this.splitContainer4.SplitterDistance = 204;
-            this.splitContainer4.TabIndex = 44;
-            // 
-            // panelPrintTypePreview
-            // 
-            this.panelPrintTypePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelPrintTypePreview.Location = new System.Drawing.Point(14, 31);
-            this.panelPrintTypePreview.Name = "panelPrintTypePreview";
-            this.panelPrintTypePreview.Size = new System.Drawing.Size(173, 164);
-            this.panelPrintTypePreview.TabIndex = 38;
-            this.panelPrintTypePreview.Paint += new System.Windows.Forms.PaintEventHandler(this.panelPrintTypePreview_Paint);
             // 
             // grdLabelBlockItems
             // 
             this.grdLabelBlockItems.AllowUserToAddRows = false;
             this.grdLabelBlockItems.AllowUserToResizeRows = false;
+            this.grdLabelBlockItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -941,59 +803,75 @@
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.Column3});
-            this.grdLabelBlockItems.Location = new System.Drawing.Point(12, 11);
+            this.grdLabelBlockItems.Location = new System.Drawing.Point(8, 57);
             this.grdLabelBlockItems.MultiSelect = false;
             this.grdLabelBlockItems.Name = "grdLabelBlockItems";
             this.grdLabelBlockItems.RowHeadersVisible = false;
             this.grdLabelBlockItems.RowTemplate.Height = 21;
             this.grdLabelBlockItems.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdLabelBlockItems.Size = new System.Drawing.Size(211, 218);
+            this.grdLabelBlockItems.Size = new System.Drawing.Size(318, 250);
             this.grdLabelBlockItems.TabIndex = 39;
             this.grdLabelBlockItems.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdLabelBlockItems_CellContentClick);
             this.grdLabelBlockItems.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.grdLabelBlockItems_CellValidating);
             this.grdLabelBlockItems.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdLabelBlockItems_CellValueChanged);
             this.grdLabelBlockItems.CurrentCellDirtyStateChanged += new System.EventHandler(this.grdLabelBlockItems_CurrentCellDirtyStateChanged);
             // 
-            // dataGridViewCheckBoxColumn1
+            // txtTitleColFontSize
             // 
-            this.dataGridViewCheckBoxColumn1.HeaderText = "表示";
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dataGridViewCheckBoxColumn1.Width = 37;
+            this.txtTitleColFontSize.Location = new System.Drawing.Point(236, 31);
+            this.txtTitleColFontSize.Name = "txtTitleColFontSize";
+            this.txtTitleColFontSize.Size = new System.Drawing.Size(31, 19);
+            this.txtTitleColFontSize.TabIndex = 50;
+            this.txtTitleColFontSize.TextChanged += new System.EventHandler(this.txtTitleColFontSize_TextChanged);
             // 
-            // Column2
+            // label20
             // 
-            this.Column2.HeaderText = "項目名";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 70;
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(155, 34);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(75, 12);
+            this.label20.TabIndex = 49;
+            this.label20.Text = "タイトルフォント:";
             // 
-            // dataGridViewTextBoxColumn1
+            // txtValueColWidth
             // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "高さ";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 40;
+            this.txtValueColWidth.Location = new System.Drawing.Point(317, 7);
+            this.txtValueColWidth.Name = "txtValueColWidth";
+            this.txtValueColWidth.Size = new System.Drawing.Size(28, 19);
+            this.txtValueColWidth.TabIndex = 48;
+            this.txtValueColWidth.TextChanged += new System.EventHandler(this.txtValueColWidth_TextChanged);
             // 
-            // dataGridViewTextBoxColumn2
+            // label19
             // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "フォント";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Width = 50;
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(270, 10);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(47, 12);
+            this.label19.TabIndex = 47;
+            this.label19.Text = "値列 幅:";
+            this.label19.Click += new System.EventHandler(this.label19_Click);
             // 
-            // Column3
+            // txtTitleColWidth
             // 
-            this.Column3.HeaderText = "詳細";
-            this.Column3.Name = "Column3";
-            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column3.Text = "...";
-            this.Column3.Width = 40;
+            this.txtTitleColWidth.Location = new System.Drawing.Point(237, 7);
+            this.txtTitleColWidth.Name = "txtTitleColWidth";
+            this.txtTitleColWidth.Size = new System.Drawing.Size(28, 19);
+            this.txtTitleColWidth.TabIndex = 46;
+            this.txtTitleColWidth.TextChanged += new System.EventHandler(this.txtTitleColWidth_TextChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(163, 11);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(70, 12);
+            this.label12.TabIndex = 45;
+            this.label12.Text = "タイトル列 幅:";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(140, 36);
+            this.label11.Location = new System.Drawing.Point(100, 35);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(12, 12);
             this.label11.TabIndex = 43;
@@ -1001,28 +879,28 @@
             // 
             // txtPosY
             // 
-            this.txtPosY.Location = new System.Drawing.Point(155, 33);
+            this.txtPosY.Location = new System.Drawing.Point(115, 32);
             this.txtPosY.Name = "txtPosY";
-            this.txtPosY.Size = new System.Drawing.Size(40, 19);
+            this.txtPosY.Size = new System.Drawing.Size(34, 19);
             this.txtPosY.TabIndex = 42;
             this.txtPosY.TextChanged += new System.EventHandler(this.txtPosY_TextChanged);
             // 
             // txtPosX
             // 
-            this.txtPosX.Location = new System.Drawing.Point(86, 32);
+            this.txtPosX.Location = new System.Drawing.Point(58, 31);
             this.txtPosX.Name = "txtPosX";
-            this.txtPosX.Size = new System.Drawing.Size(40, 19);
+            this.txtPosX.Size = new System.Drawing.Size(36, 19);
             this.txtPosX.TabIndex = 41;
             this.txtPosX.TextChanged += new System.EventHandler(this.txtPosX_TextChanged);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 36);
+            this.label10.Location = new System.Drawing.Point(6, 35);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(70, 12);
+            this.label10.Size = new System.Drawing.Size(46, 12);
             this.label10.TabIndex = 40;
-            this.label10.Text = "配置位置:  X";
+            this.label10.Text = "位置:  X";
             // 
             // label9
             // 
@@ -1039,9 +917,65 @@
             this.cmbLabelBlock.FormattingEnabled = true;
             this.cmbLabelBlock.Location = new System.Drawing.Point(50, 6);
             this.cmbLabelBlock.Name = "cmbLabelBlock";
-            this.cmbLabelBlock.Size = new System.Drawing.Size(128, 20);
+            this.cmbLabelBlock.Size = new System.Drawing.Size(107, 20);
             this.cmbLabelBlock.TabIndex = 36;
             this.cmbLabelBlock.SelectedIndexChanged += new System.EventHandler(this.cmbLabelBlock_SelectedIndexChanged);
+            // 
+            // lblSize
+            // 
+            this.lblSize.AutoSize = true;
+            this.lblSize.Location = new System.Drawing.Point(206, 26);
+            this.lblSize.Name = "lblSize";
+            this.lblSize.Size = new System.Drawing.Size(25, 12);
+            this.lblSize.TabIndex = 32;
+            this.lblSize.Text = "size";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(170, 26);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(40, 12);
+            this.label8.TabIndex = 31;
+            this.label8.Text = "サイズ：";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(9, 50);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(59, 12);
+            this.label7.TabIndex = 30;
+            this.label7.Text = "ラベルタイプ";
+            // 
+            // cmbLabelType
+            // 
+            this.cmbLabelType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLabelType.FormattingEnabled = true;
+            this.cmbLabelType.Location = new System.Drawing.Point(75, 48);
+            this.cmbLabelType.Name = "cmbLabelType";
+            this.cmbLabelType.Size = new System.Drawing.Size(89, 20);
+            this.cmbLabelType.TabIndex = 29;
+            this.cmbLabelType.SelectedIndexChanged += new System.EventHandler(this.cmbLabelType_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.TabIndex = 28;
+            this.label4.Text = "用紙";
+            // 
+            // cmbLayout
+            // 
+            this.cmbLayout.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLayout.FormattingEnabled = true;
+            this.cmbLayout.Location = new System.Drawing.Point(75, 22);
+            this.cmbLayout.Name = "cmbLayout";
+            this.cmbLayout.Size = new System.Drawing.Size(89, 20);
+            this.cmbLayout.TabIndex = 12;
+            this.cmbLayout.SelectedIndexChanged += new System.EventHandler(this.cmbLayout_SelectedIndexChanged);
             // 
             // button10
             // 
@@ -1072,14 +1006,26 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.chkPreview1piece);
             this.groupBox4.Controls.Add(this.button9);
             this.groupBox4.Controls.Add(this.chkTestLineDraw);
             this.groupBox4.Location = new System.Drawing.Point(16, 214);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(158, 103);
+            this.groupBox4.Size = new System.Drawing.Size(158, 115);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "プレビュー";
+            // 
+            // chkPreview1piece
+            // 
+            this.chkPreview1piece.AutoSize = true;
+            this.chkPreview1piece.Location = new System.Drawing.Point(9, 87);
+            this.chkPreview1piece.Name = "chkPreview1piece";
+            this.chkPreview1piece.Size = new System.Drawing.Size(105, 16);
+            this.chkPreview1piece.TabIndex = 10;
+            this.chkPreview1piece.Text = "1枚づつプレビュー";
+            this.chkPreview1piece.UseVisualStyleBackColor = true;
+            this.chkPreview1piece.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // button9
             // 
@@ -1213,11 +1159,11 @@
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.tabControl1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(782, 488);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(812, 488);
             this.toolStripContainer1.Location = new System.Drawing.Point(12, 28);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(782, 513);
+            this.toolStripContainer1.Size = new System.Drawing.Size(812, 513);
             this.toolStripContainer1.TabIndex = 2;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -1263,7 +1209,7 @@
             this.mnuLicense});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(830, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(834, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1325,11 +1271,46 @@
             this.mnuLimitDate.Text = "ライセンス有効期限について";
             this.mnuLimitDate.Click += new System.EventHandler(this.mnuLimitDate_Click);
             // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.HeaderText = "表示";
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dataGridViewCheckBoxColumn1.Width = 37;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "項目名";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 70;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "高さ";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 40;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "フォント";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 50;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "詳細";
+            this.Column3.Name = "Column3";
+            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column3.Text = "...";
+            this.Column3.Width = 40;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(830, 553);
+            this.ClientSize = new System.Drawing.Size(834, 545);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1368,10 +1349,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.txtFontManifacture.ResumeLayout(false);
             this.txtFontManifacture.PerformLayout();
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdLabelBlockItems)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -1478,17 +1455,10 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cmbLabelBlock;
         private System.Windows.Forms.DataGridView grdLabelBlockItems;
-        private System.Windows.Forms.Panel panelPrintTypePreview;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtPosY;
         private System.Windows.Forms.TextBox txtPosX;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewButtonColumn Column3;
-        private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.TextBox txtTitleColFontSize;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox txtValueColWidth;
@@ -1502,6 +1472,12 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.CheckBox chkPreview1piece;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewButtonColumn Column3;
     }
 }
 
