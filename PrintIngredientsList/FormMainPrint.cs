@@ -463,15 +463,16 @@ namespace PrintIngredientsList
             DrawUtil2 util = new DrawUtil2(gPreview, settingData, gapTop, gapLeft);
 
 
+            bool bResult = true;
             //ラベル描画処理
             float nextY = 0;
             nextY = util.DrawItem("名    称", productData.name,           0,     settingData.hightProductTitle,  settingData.fontSizeProductTitle);
             nextY = util.DrawItem("原材料名", productData.rawMaterials,   nextY, settingData.hightMaterial,      settingData.fontSizeMaterial, true);
             nextY = util.DrawItem("内 容 量", param.amount,               nextY, settingData.hightAmount,        settingData.fontSizeAmount);
-            nextY = util.DrawItem("賞味期限", dt.ToLongDateString(),      nextY, settingData.hightAmount,        settingData.fontSizeLimitDate);
+            nextY = util.DrawItem("賞味期限", dt.ToLongDateString(),      nextY, settingData.hightLimitDate,        settingData.fontSizeLimitDate);
             nextY = util.DrawItem("保存方法", commonDefStorage.printText, nextY, settingData.hightStorage,       settingData.fontSizeStorage);
             nextY = util.DrawItem("製 造 者", commonDefManifac.printText, nextY, settingData.hightManifac,       settingData.fontSizeManifac);
-            nextY = util.DrawItemComment("", productData.comment,         nextY,                                 settingData.fontSizeComment, false);
+            nextY = util.DrawItemComment("", productData.comment,         nextY,                                 settingData.fontSizeComment, ref bResult,false);
 
             if(bDrawProductSepLine)
             {
@@ -480,6 +481,11 @@ namespace PrintIngredientsList
                 PointF pnt1 = new PointF(x, gapTop);
                 PointF pnt2 = new PointF(x, gapTop +1);
                 util.DrawLine(pen, pnt1, pnt2);
+            }
+
+            if(bResult==false)
+            {
+                Utility.MessageError($"{productData.name}の欄外表示がはみ出している可能性があります。");
             }
         }
 

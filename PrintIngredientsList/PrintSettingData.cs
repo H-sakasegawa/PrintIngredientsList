@@ -32,7 +32,7 @@ namespace PrintIngredientsList
         public float LabelAreaGapRight  = (float)2.0;
 
         //ラベル領域内の各セル（矩形）内の文字描画範囲余白サイズ
-        public float CellBoxGapTop      = (float)0.4;
+        public float CellBoxGapTop      = (float)0.2;
         public float CellBoxGapBottom   = (float)0.2;
         public float CellBoxGapLeft     = (float)0.2;
         public float CellBoxGapRight    = (float)0.2;

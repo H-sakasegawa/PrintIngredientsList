@@ -117,18 +117,21 @@ namespace PrintIngredientsList
 
         }
 
-        public float DrawItemComment(string title, string content, float startY, float baseFontSize, bool bDrawFrame = true)
+        public float DrawItemComment(string title, string content, float startY, float baseFontSize, ref bool result ,bool bDrawFrame = true)
         {
-            Font fntTitle = new Font(settingData.fontName, fontSizeItemTitle, FontStyle.Regular);
 
             //Font fntTitle = GetFontCalcedByWidth(baseFontSize, title, titleAreWidthMM);
             //備考欄の高さは、全エリアの高さから直前の描画開始位置を引いた残りから、セルギャップを差し引いた高さ
             float contentsLimitHightMM = labelDrawAreaHeightMM - startY - CellBoxGapSumHeight;
             float contentsHight = 0;
+            float drawAreaWidth = labelDrawAreaWidthMM - CellBoxGapSumWidth;
 
-            Font fntContents = GetFontCalcedBydHeightAndWidth(baseFontSize, content, labelDrawAreaWidthMM, contentsLimitHightMM, ref contentsHight);
+            Font fntContents = GetFontCalcedBydHeightAndWidth(baseFontSize, content, drawAreaWidth, contentsLimitHightMM, ref contentsHight);
 
-            DrawItem( content, startY, fntTitle, fntContents, contentsHight, (float)( contentsHight + Math.Ceiling(settingData.CellBoxGapBottom)),bDrawFrame);
+            float cellHeight = contentsLimitHightMM;
+            cellHeight = contentsHight + (int)Math.Ceiling(settingData.CellBoxGapSumHeight);
+
+            result = DrawItem(content, startY,  fntContents, drawAreaWidth, contentsHight, cellHeight, bDrawFrame);
 
             return startY + contentsHight;
         }
@@ -176,15 +179,25 @@ namespace PrintIngredientsList
             }
 
         }
-        private void DrawItem( string content, float startY, Font fntTitle, Font fntContens, float contentsHight, float gridHeight, bool bDrawFrame)
+        private bool DrawItem( string content, float startY,  Font fntContens, float drawAreaWidth,float contentsHight, float gridHeight, bool bDrawFrame)
         {
+            bool bDrawHeightResult = true;
             //グリッドセルのTop/Leftの余白
-            graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            //graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
 
             Brush brs = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
 
             PointF point = new PointF(_X(settingData.CellBoxGapLeft), _Y(startY + settingData.CellBoxGapTop));
-            graphics.DrawString(content, fntContens, brs, new RectangleF(point.X, point.Y, labelDrawAreaWidthMM - CellBoxGapSumWidth, contentsHight));
+            graphics.DrawString(content, fntContens, brs, new RectangleF(point.X, point.Y, drawAreaWidth, gridHeight));
+
+            //---------------------------------------------------------
+            // 描画した文字列の高さが グリッド高さをこえていないか？
+            SizeF size = graphics.MeasureString(content, fntContens, (int)drawAreaWidth );
+
+            if( size.Height > gridHeight)
+            {
+                bDrawHeightResult = false;
+            }
 
             if (bDrawFrame)
             {
@@ -192,6 +205,8 @@ namespace PrintIngredientsList
                 Pen pen = new Pen(Color.Black, (float)0.1);
                 graphics.DrawRectangle(pen,_X(0), _Y(startY), labelDrawAreaWidthMM, gridHeight);
             }
+
+            return bDrawHeightResult;
 
         }
 
