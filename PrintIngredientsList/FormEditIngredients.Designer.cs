@@ -137,6 +137,7 @@
             // 
             this.txtMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMaterial.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtMaterial.Location = new System.Drawing.Point(64, 58);
             this.txtMaterial.Multiline = true;
             this.txtMaterial.Name = "txtMaterial";
@@ -157,6 +158,7 @@
             // 
             this.txtComment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtComment.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtComment.Location = new System.Drawing.Point(63, 379);
             this.txtComment.Multiline = true;
             this.txtComment.Name = "txtComment";
@@ -166,9 +168,10 @@
             // 
             // txtAmount
             // 
+            this.txtAmount.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtAmount.Location = new System.Drawing.Point(63, 150);
             this.txtAmount.Name = "txtAmount";
-            this.txtAmount.Size = new System.Drawing.Size(55, 19);
+            this.txtAmount.Size = new System.Drawing.Size(55, 22);
             this.txtAmount.TabIndex = 6;
             // 
             // timePicker
@@ -191,10 +194,11 @@
             // cmbStorage
             // 
             this.cmbStorage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbStorage.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.cmbStorage.FormattingEnabled = true;
             this.cmbStorage.Location = new System.Drawing.Point(63, 175);
             this.cmbStorage.Name = "cmbStorage";
-            this.cmbStorage.Size = new System.Drawing.Size(83, 20);
+            this.cmbStorage.Size = new System.Drawing.Size(83, 23);
             this.cmbStorage.TabIndex = 7;
             this.cmbStorage.SelectedIndexChanged += new System.EventHandler(this.cmbStorage_SelectedIndexChanged);
             // 
@@ -202,6 +206,7 @@
             // 
             this.txtAllergy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAllergy.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtAllergy.Location = new System.Drawing.Point(63, 252);
             this.txtAllergy.Multiline = true;
             this.txtAllergy.Name = "txtAllergy";
@@ -236,6 +241,7 @@
             // 
             this.txtStoragePrintText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtStoragePrintText.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtStoragePrintText.Location = new System.Drawing.Point(152, 173);
             this.txtStoragePrintText.Multiline = true;
             this.txtStoragePrintText.Name = "txtStoragePrintText";
@@ -246,10 +252,11 @@
             // cmbManufacture
             // 
             this.cmbManufacture.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbManufacture.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.cmbManufacture.FormattingEnabled = true;
             this.cmbManufacture.Location = new System.Drawing.Point(64, 311);
             this.cmbManufacture.Name = "cmbManufacture";
-            this.cmbManufacture.Size = new System.Drawing.Size(82, 20);
+            this.cmbManufacture.Size = new System.Drawing.Size(82, 23);
             this.cmbManufacture.TabIndex = 12;
             this.cmbManufacture.SelectedIndexChanged += new System.EventHandler(this.cmbManufacture_SelectedIndexChanged);
             // 
@@ -257,6 +264,7 @@
             // 
             this.txtAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAddress.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtAddress.Location = new System.Drawing.Point(152, 311);
             this.txtAddress.Multiline = true;
             this.txtAddress.Name = "txtAddress";
@@ -320,9 +328,10 @@
             // 
             // txtNumOfSheets
             // 
+            this.txtNumOfSheets.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtNumOfSheets.Location = new System.Drawing.Point(63, 33);
             this.txtNumOfSheets.Name = "txtNumOfSheets";
-            this.txtNumOfSheets.Size = new System.Drawing.Size(55, 19);
+            this.txtNumOfSheets.Size = new System.Drawing.Size(55, 22);
             this.txtNumOfSheets.TabIndex = 23;
             // 
             // label12
@@ -356,6 +365,7 @@
             // 
             this.txtProductName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtProductName.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.txtProductName.Location = new System.Drawing.Point(61, 6);
             this.txtProductName.Multiline = true;
             this.txtProductName.Name = "txtProductName";
@@ -381,6 +391,7 @@
             this.lvNutritional.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
+            this.lvNutritional.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lvNutritional.GridLines = true;
             this.lvNutritional.HideSelection = false;
             this.lvNutritional.Location = new System.Drawing.Point(11, 6);
@@ -434,6 +445,7 @@
             this.lstProductNames.TabIndex = 19;
             this.lstProductNames.SelectedIndexChanged += new System.EventHandler(this.lstProductNames_SelectedIndexChanged);
             this.lstProductNames.DoubleClick += new System.EventHandler(this.lstProductNames_DoubleClick);
+            this.lstProductNames.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstProductNames_KeyDown);
             // 
             // splitContainer1
             // 

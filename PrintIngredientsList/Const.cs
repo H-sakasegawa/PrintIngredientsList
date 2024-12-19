@@ -28,6 +28,12 @@ namespace PrintIngredientsList
         public const float GapLeft = (float)19.0;
 
         public const string defaultFontName = "Meiryo UI";
+        public const float defaultProdListFontSize = 9;
+
+        /// <summary>
+        /// 商品リストのホイール操作によるフォントサイズ変更値
+        /// </summary>
+        public const float prodListFontSizeInc = 0.5f;
 
         public const float defaultFontSize = 6;
         public const float defaultItemHeight = 4;
@@ -41,7 +47,7 @@ namespace PrintIngredientsList
         public const string SaveDataFileName = "save.dat";
         public const string SettingDataFineName = "setting.dat";
 
-        public const string printLayoutDataFineName = "PrintLayout.dat";
+        public const string printLayoutDataFolderPath = "Layout";
 
 
         public const string LicenseFileName = "license.dat";

@@ -19,10 +19,10 @@ namespace PrintIngredientsList
 
         public int printStartPos = 1;
 
-        private PrintSettingData settingData;
+        private AppSettingData settingData;
         private LabelType labelType;
 
-        public FormEditPrintStartPos(LabelType labelType, PrintSettingData settingData)
+        public FormEditPrintStartPos(LabelType labelType, AppSettingData settingData)
         {
             InitializeComponent();
 

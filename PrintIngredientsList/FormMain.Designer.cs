@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gridList = new System.Windows.Forms.DataGridView();
             this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,7 +45,6 @@
             this.colManufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.label21 = new System.Windows.Forms.Label();
@@ -54,9 +53,10 @@
             this.button11 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.panelPreviw = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cmbLayout = new System.Windows.Forms.ComboBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label23 = new System.Windows.Forms.Label();
@@ -85,6 +85,11 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.txtFontManifacture = new System.Windows.Forms.TabPage();
             this.grdLabelBlockItems = new System.Windows.Forms.DataGridView();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.txtTitleColFontSize = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.txtValueColWidth = new System.Windows.Forms.TextBox();
@@ -102,7 +107,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.cmbLabelType = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.cmbLayout = new System.Windows.Forms.ComboBox();
+            this.cmbPaperType = new System.Windows.Forms.ComboBox();
             this.button10 = new System.Windows.Forms.Button();
             this.txtPrintStartPos = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -121,6 +126,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radPrintSelect = new System.Windows.Forms.RadioButton();
             this.radPrintAll = new System.Windows.Forms.RadioButton();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panelPreviw = new System.Windows.Forms.Panel();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolBtnSave = new System.Windows.Forms.ToolStripButton();
@@ -134,18 +141,11 @@
             this.mnuUpdateLicense = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuLimitDate = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSetting = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -167,6 +167,10 @@
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -178,14 +182,14 @@
             // 
             this.gridList.AllowUserToAddRows = false;
             this.gridList.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.gridList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCheck,
@@ -242,17 +246,17 @@
             // 
             // colPrintNum
             // 
-            dataGridViewCellStyle2.NullValue = null;
-            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.NullValue = null;
+            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle6;
             this.colPrintNum.HeaderText = "枚数";
             this.colPrintNum.Name = "colPrintNum";
             this.colPrintNum.Width = 50;
             // 
             // colLImitDate
             // 
-            dataGridViewCellStyle3.Format = "d";
-            dataGridViewCellStyle3.NullValue = null;
-            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Format = "d";
+            dataGridViewCellStyle7.NullValue = null;
+            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle7;
             this.colLImitDate.HeaderText = "賞味期限";
             this.colLImitDate.Name = "colLImitDate";
             this.colLImitDate.ReadOnly = true;
@@ -298,23 +302,6 @@
             this.tabPage1.Text = "商品一覧";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.panelPreviw);
-            this.splitContainer1.Size = new System.Drawing.Size(806, 477);
-            this.splitContainer1.SplitterDistance = 619;
-            this.splitContainer1.TabIndex = 1;
-            // 
             // splitContainer2
             // 
             this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
@@ -331,7 +318,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.button11);
             this.splitContainer2.Panel2.Controls.Add(this.button7);
             this.splitContainer2.Panel2.Controls.Add(this.button6);
-            this.splitContainer2.Size = new System.Drawing.Size(318, 294);
+            this.splitContainer2.Size = new System.Drawing.Size(414, 294);
             this.splitContainer2.SplitterDistance = 255;
             this.splitContainer2.TabIndex = 1;
             // 
@@ -351,7 +338,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.gridList);
-            this.splitContainer3.Size = new System.Drawing.Size(266, 194);
+            this.splitContainer3.Size = new System.Drawing.Size(370, 194);
             this.splitContainer3.SplitterDistance = 25;
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 1;
@@ -416,16 +403,6 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // panelPreviw
-            // 
-            this.panelPreviw.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelPreviw.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPreviw.Location = new System.Drawing.Point(0, 0);
-            this.panelPreviw.Name = "panelPreviw";
-            this.panelPreviw.Size = new System.Drawing.Size(183, 477);
-            this.panelPreviw.TabIndex = 0;
-            this.panelPreviw.Paint += new System.Windows.Forms.PaintEventHandler(this.panelPreviw_Paint);
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.groupBox2);
@@ -453,19 +430,42 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.cmbLayout);
+            this.groupBox2.Controls.Add(this.label24);
             this.groupBox2.Controls.Add(this.tabControl2);
             this.groupBox2.Controls.Add(this.lblSize);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.cmbLabelType);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.cmbLayout);
+            this.groupBox2.Controls.Add(this.cmbPaperType);
             this.groupBox2.Location = new System.Drawing.Point(242, 19);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(357, 419);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "印刷レイアウト";
+            // 
+            // cmbLayout
+            // 
+            this.cmbLayout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbLayout.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLayout.FormattingEnabled = true;
+            this.cmbLayout.Location = new System.Drawing.Point(75, 12);
+            this.cmbLayout.Name = "cmbLayout";
+            this.cmbLayout.Size = new System.Drawing.Size(276, 20);
+            this.cmbLayout.TabIndex = 34;
+            this.cmbLayout.SelectedIndexChanged += new System.EventHandler(this.cmbLayout_SelectedIndexChanged_1);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(9, 15);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(49, 12);
+            this.label24.TabIndex = 33;
+            this.label24.Text = "レイアウト";
             // 
             // tabControl2
             // 
@@ -475,10 +475,10 @@
             this.tabControl2.Controls.Add(this.tabPage3);
             this.tabControl2.Controls.Add(this.tabPage4);
             this.tabControl2.Controls.Add(this.txtFontManifacture);
-            this.tabControl2.Location = new System.Drawing.Point(11, 77);
+            this.tabControl2.Location = new System.Drawing.Point(11, 86);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(340, 336);
+            this.tabControl2.Size = new System.Drawing.Size(340, 327);
             this.tabControl2.TabIndex = 11;
             // 
             // tabPage3
@@ -500,7 +500,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(361, 300);
+            this.tabPage3.Size = new System.Drawing.Size(332, 301);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "印刷位置の調整";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -668,7 +668,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(361, 300);
+            this.tabPage4.Size = new System.Drawing.Size(332, 301);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "ラベル余白調整";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -776,7 +776,7 @@
             this.txtFontManifacture.Location = new System.Drawing.Point(4, 22);
             this.txtFontManifacture.Name = "txtFontManifacture";
             this.txtFontManifacture.Padding = new System.Windows.Forms.Padding(3);
-            this.txtFontManifacture.Size = new System.Drawing.Size(332, 310);
+            this.txtFontManifacture.Size = new System.Drawing.Size(332, 301);
             this.txtFontManifacture.TabIndex = 2;
             this.txtFontManifacture.Text = "項目の位置、高さ、ﾌｫﾝﾄ調整";
             this.txtFontManifacture.UseVisualStyleBackColor = true;
@@ -788,14 +788,14 @@
             this.grdLabelBlockItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdLabelBlockItems.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdLabelBlockItems.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.grdLabelBlockItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdLabelBlockItems.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewCheckBoxColumn1,
@@ -809,12 +809,47 @@
             this.grdLabelBlockItems.RowHeadersVisible = false;
             this.grdLabelBlockItems.RowTemplate.Height = 21;
             this.grdLabelBlockItems.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdLabelBlockItems.Size = new System.Drawing.Size(318, 250);
+            this.grdLabelBlockItems.Size = new System.Drawing.Size(318, 241);
             this.grdLabelBlockItems.TabIndex = 39;
             this.grdLabelBlockItems.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdLabelBlockItems_CellContentClick);
             this.grdLabelBlockItems.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.grdLabelBlockItems_CellValidating);
             this.grdLabelBlockItems.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdLabelBlockItems_CellValueChanged);
             this.grdLabelBlockItems.CurrentCellDirtyStateChanged += new System.EventHandler(this.grdLabelBlockItems_CurrentCellDirtyStateChanged);
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.HeaderText = "表示";
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dataGridViewCheckBoxColumn1.Width = 37;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "項目名";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 70;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "高さ";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 40;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "フォント";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 50;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "詳細";
+            this.Column3.Name = "Column3";
+            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column3.Text = "...";
+            this.Column3.Width = 40;
             // 
             // txtTitleColFontSize
             // 
@@ -924,7 +959,7 @@
             // lblSize
             // 
             this.lblSize.AutoSize = true;
-            this.lblSize.Location = new System.Drawing.Point(206, 26);
+            this.lblSize.Location = new System.Drawing.Point(206, 39);
             this.lblSize.Name = "lblSize";
             this.lblSize.Size = new System.Drawing.Size(25, 12);
             this.lblSize.TabIndex = 32;
@@ -933,7 +968,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(170, 26);
+            this.label8.Location = new System.Drawing.Point(170, 41);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(40, 12);
             this.label8.TabIndex = 31;
@@ -942,7 +977,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 50);
+            this.label7.Location = new System.Drawing.Point(9, 63);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(59, 12);
             this.label7.TabIndex = 30;
@@ -952,7 +987,7 @@
             // 
             this.cmbLabelType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbLabelType.FormattingEnabled = true;
-            this.cmbLabelType.Location = new System.Drawing.Point(75, 48);
+            this.cmbLabelType.Location = new System.Drawing.Point(75, 61);
             this.cmbLabelType.Name = "cmbLabelType";
             this.cmbLabelType.Size = new System.Drawing.Size(89, 20);
             this.cmbLabelType.TabIndex = 29;
@@ -961,21 +996,21 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 24);
+            this.label4.Location = new System.Drawing.Point(9, 39);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 28;
             this.label4.Text = "用紙";
             // 
-            // cmbLayout
+            // cmbPaperType
             // 
-            this.cmbLayout.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbLayout.FormattingEnabled = true;
-            this.cmbLayout.Location = new System.Drawing.Point(75, 22);
-            this.cmbLayout.Name = "cmbLayout";
-            this.cmbLayout.Size = new System.Drawing.Size(89, 20);
-            this.cmbLayout.TabIndex = 12;
-            this.cmbLayout.SelectedIndexChanged += new System.EventHandler(this.cmbLayout_SelectedIndexChanged);
+            this.cmbPaperType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPaperType.FormattingEnabled = true;
+            this.cmbPaperType.Location = new System.Drawing.Point(75, 37);
+            this.cmbPaperType.Name = "cmbPaperType";
+            this.cmbPaperType.Size = new System.Drawing.Size(89, 20);
+            this.cmbPaperType.TabIndex = 12;
+            this.cmbPaperType.SelectedIndexChanged += new System.EventHandler(this.cmbLayout_SelectedIndexChanged);
             // 
             // button10
             // 
@@ -1154,6 +1189,33 @@
             this.radPrintAll.Text = "全て印刷";
             this.radPrintAll.UseVisualStyleBackColor = true;
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.panelPreviw);
+            this.splitContainer1.Size = new System.Drawing.Size(806, 477);
+            this.splitContainer1.SplitterDistance = 619;
+            this.splitContainer1.TabIndex = 1;
+            // 
+            // panelPreviw
+            // 
+            this.panelPreviw.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelPreviw.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelPreviw.Location = new System.Drawing.Point(0, 0);
+            this.panelPreviw.Name = "panelPreviw";
+            this.panelPreviw.Size = new System.Drawing.Size(183, 477);
+            this.panelPreviw.TabIndex = 0;
+            this.panelPreviw.Paint += new System.Windows.Forms.PaintEventHandler(this.panelPreviw_Paint);
+            // 
             // toolStripContainer1
             // 
             // 
@@ -1206,6 +1268,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ファイルToolStripMenuItem,
+            this.設定ToolStripMenuItem,
             this.mnuLicense});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -1271,40 +1334,20 @@
             this.mnuLimitDate.Text = "ライセンス有効期限について";
             this.mnuLimitDate.Click += new System.EventHandler(this.mnuLimitDate_Click);
             // 
-            // dataGridViewCheckBoxColumn1
+            // 設定ToolStripMenuItem
             // 
-            this.dataGridViewCheckBoxColumn1.HeaderText = "表示";
-            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dataGridViewCheckBoxColumn1.Width = 37;
+            this.設定ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuSetting});
+            this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.設定ToolStripMenuItem.Text = "オプション";
             // 
-            // Column2
+            // mnuSetting
             // 
-            this.Column2.HeaderText = "項目名";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 70;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "高さ";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 40;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "フォント";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Width = 50;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "詳細";
-            this.Column3.Name = "Column3";
-            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column3.Text = "...";
-            this.Column3.Width = 40;
+            this.mnuSetting.Name = "mnuSetting";
+            this.mnuSetting.Size = new System.Drawing.Size(180, 22);
+            this.mnuSetting.Text = "設定";
+            this.mnuSetting.Click += new System.EventHandler(this.mnuSetting_Click);
             // 
             // FormMain
             // 
@@ -1322,10 +1365,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -1356,6 +1395,10 @@
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
@@ -1446,7 +1489,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox cmbLayout;
+        private System.Windows.Forms.ComboBox cmbPaperType;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cmbLabelType;
         private System.Windows.Forms.Label label4;
@@ -1478,6 +1521,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewButtonColumn Column3;
+        private System.Windows.Forms.ComboBox cmbLayout;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.ToolStripMenuItem 設定ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuSetting;
     }
 }
 

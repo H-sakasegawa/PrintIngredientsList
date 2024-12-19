@@ -14,9 +14,22 @@ using static PrintIngredientsList.LabelTypeBlockItemBase;
 using static PrintIngredientsList.LabelTypeBlockBase;
 using System.ComponentModel;
 using NPOI.OpenXmlFormats.Wordprocessing;
+using System.IO;
 
 namespace PrintIngredientsList
 {
+    public class LaytoutFile
+    {
+        public LaytoutFile( string filePath)
+        {
+            this.filePath = filePath;
+        }
+        public string filePath;
+        public override string ToString()
+        {
+            return Path.GetFileName(filePath);
+        }
+    }
     public class PrintLayoutBase
     {
         public PrintLayoutBase(CConfigReaderIFWrapper readerIF = null)
