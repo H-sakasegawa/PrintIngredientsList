@@ -244,8 +244,6 @@ namespace PrintIngredientsList
                         curPrintProduct = new PrintedProducts(productData.name);
                         printHeaderProductNames.Add(curPrintProduct);
                     }
-                    //現在の製品のの印刷ラベル枚数カウント
-                    curPrintProduct.printNum++;
                     //印刷される製品の切り替わり位置ライン描画フラグ
                     bool bDrawProductSepLine = false;
                     if(curPrintProduct.printNum==1)
@@ -274,6 +272,8 @@ namespace PrintIngredientsList
                             //印刷枚数
                             DrawLabel(data, e.Graphics, bDrawProductSepLine, curLabelType, drawX, drawY);
                             pd.printDataIndex++;//次のラベル
+                            //現在の製品のの印刷ラベル枚数カウント
+                            curPrintProduct.printNum++;
 
                             drawX += LabelBlockWidth;
                         }
