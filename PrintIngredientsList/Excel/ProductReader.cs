@@ -235,7 +235,7 @@ namespace ExcelReaderUtility
             value = "";
             if (dicColmunIndex[itemKeyName] >= 0)
             {
-                if (dicColmunIndex[itemKeyName] + 1 < rowData.Count)
+                if (dicColmunIndex[itemKeyName] < rowData.Count)
                 {
                     value = rowData[dicColmunIndex[itemKeyName]].Text;
                 }
