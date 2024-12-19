@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Windows.Shapes;
+//using System.Windows.Shapes;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 //using System.Windows.Controls;
@@ -63,7 +63,7 @@ namespace PrintIngredientsList
         }
 
 
-        PrintSettingData settingData = new PrintSettingData();
+        public AppSettingData settingData = new AppSettingData();
 
         public FormMain()
         {
@@ -90,7 +90,7 @@ namespace PrintIngredientsList
 
             prevDataFilePath = System.IO.Path.Combine(SettingsFolderPath, Const.SaveDataFileName);
             settingDataFilePath = System.IO.Path.Combine(SettingsFolderPath, Const.SettingDataFineName);
-            printLayoutDataFilePath = System.IO.Path.Combine(SettingsFolderPath, Const.printLayoutDataFineName);
+            printLayoutDataFilePath = System.IO.Path.Combine(SettingsFolderPath, Const.printLayoutDataFolderPath);
 
             //最小サイズをレイアウト時のサイズで固定
             this.MinimumSize = this.Size;
@@ -134,20 +134,22 @@ namespace PrintIngredientsList
             //セッティング情報の読み込み
             settingData.Read(settingDataFilePath);
 
-            try
-            {
-                //印刷レイアウト情報の読み込み
-                ReadPrintLayoutInfo(printLayoutDataFilePath);
-            }catch(Exception ex)
-            {
-                Utility.MessageError($"印刷レイアウト情報の読み込みで例外が発生\n{ex.Message}");
-            }
+            //印刷レイアウト一覧取得
+            FindLayoutFiles(printLayoutDataFilePath);
+
             //印刷設定をUIに設定
             SettingDataToUI(settingData);
 
 
             //ユーザ固有の設定読み込み
             LoadUserSetting();
+
+            UpdateProdListFont();
+
+            //カラムン幅調整
+            SetColumnWidth();
+
+            gridList.MouseWheel += OnGridList_MouseWheel;
 
 #if LICENSE
             int chkResult = CheckLicense();
@@ -208,20 +210,29 @@ namespace PrintIngredientsList
         }
 
 
-        private void SettingDataToUI( PrintSettingData data)
+        private void SettingDataToUI(AppSettingData data)
         {
+            cmbFont.Text = data.fontName;
+            txtCopyNum.Text = data.copyNum.ToString();
+            txtPrintStartPos.Text = data.printStartPos.ToString();
+
+        }
+
+        private void LaytoutToUI()
+        { 
+            
 
             //印刷レイアウト設定
             var printLayout = printLayoutMng.printLayout;
             var labelLayout = printLayoutMng.labelLayout;
 
-            cmbLayout.Items.Clear();
+            cmbPaperType.Items.Clear();
             cmbLabelType.Items.Clear();
             for (int i = 0; i < printLayout.GetLayoutCnt(); i++)
             {
-                cmbLayout.Items.Add(printLayout[i]);
+                cmbPaperType.Items.Add(printLayout[i]);
             }
-            if (cmbLayout.Items.Count > 0) { cmbLayout.SelectedIndex = 0; }
+            if (cmbPaperType.Items.Count > 0) { cmbPaperType.SelectedIndex = 0; }
 
             for (int i = 0; i < labelLayout.GetLayoutCnt(); i++)
             {
@@ -230,11 +241,9 @@ namespace PrintIngredientsList
             if (cmbLabelType.Items.Count > 0) { cmbLabelType.SelectedIndex = 0; }
 
 
-            cmbFont.Text = data.fontName;
             if (curLayout != null)
             {
 
-                txtCopyNum.Text = data.copyNum.ToString();
                 txtPrintLeftGap.Text = curLayout.PrintGapLeft.ToString("F2");
                 txtPrintTopGap.Text = curLayout.PrintGapTop.ToString("F2");
 
@@ -252,7 +261,6 @@ namespace PrintIngredientsList
                 var labeBlock = curLabelType.GetLabelBlock("成分表");
             }
 
-            txtPrintStartPos.Text       = data.printStartPos.ToString();
            
 
         }
@@ -360,7 +368,55 @@ namespace PrintIngredientsList
         {
             return printLayoutMng.ReadLayout(filePath);
         }
+        /// <summary>
+        /// 商品リストのフォント設定
+        /// </summary>
+        private void UpdateProdListFont()
+        {
+            gridList.Font = new Font(settingData.prodListFontName, settingData.prodListFontSize);
+            int intRowHeight = (int)(float.Parse(gridList.Font.Size.ToString()) + 12);
+            for (int i = 0; i < gridList.Rows.Count; i++)
+            {
+                gridList.Rows[i].Height = intRowHeight;
+            }
+        }
+        /// <summary>
+        /// 商品リストのカラム幅設定
+        /// </summary>
+        private void SetColumnWidth()
+        {
+            int idx = 0;
+            foreach(DataGridViewColumn column  in gridList.Columns)
+            {
+                if( idx >= settingData.prodListColWidthAry.Count())
+                {
+                    break;
+                }
+                column.Width = settingData.prodListColWidthAry[idx];
+                idx++;
+            }
 
+        }
+
+
+        //Layoutフォルダ内にあるレイアウトファイル名の一覧を取得してコンボボックスに設定する
+        void FindLayoutFiles(string filePath)
+        {
+            var PathWidlCard = Path.Combine(filePath, "*.dat");
+            string [] fileNames = Directory.GetFiles(filePath, "*.dat");
+
+            cmbLayout.Items.Clear();
+            foreach ( var name in fileNames)
+            {
+                var path = Path.Combine(filePath, name);
+
+                cmbLayout.Items.Add(new LaytoutFile(path));
+            }
+            if(cmbLayout.Items.Count>0)
+            {
+                cmbLayout.SelectedIndex = 0;
+            }
+        }
         private void UpdateTypeCombobox()
         {
             int selectIndex = -1;
@@ -522,7 +578,23 @@ namespace PrintIngredientsList
 
         }
 
+        void OnGridList_MouseWheel(object sender, MouseEventArgs e)
+        {
 
+            if ((ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (e.Delta > 0)
+                {
+                    settingData.prodListFontSize -= Const.prodListFontSizeInc;
+                }
+                else
+                {
+                    settingData.prodListFontSize += Const.prodListFontSizeInc;
+                }
+
+                UpdateProdListFont();
+            }
+        }
 
 
         //=========================================================
@@ -547,6 +619,15 @@ namespace PrintIngredientsList
                     sw.WriteLine(data.ToString());
                 }
             }
+            //現在のカラム幅をセッティングデータに記録
+            settingData.prodListColWidthAry = new int[gridList.Columns.Count];
+            int index = 0;
+            foreach (DataGridViewColumn column in gridList.Columns)
+            {
+
+                settingData.prodListColWidthAry[index++] = column.Width;
+            }
+
             //セッティング情報の出力
             settingData.Write(settingDataFilePath);
 
@@ -910,7 +991,7 @@ namespace PrintIngredientsList
         /// <param name="e"></param>
         private void cmbLayout_SelectedIndexChanged(object sender, EventArgs e)
         {
-            curLayout = (Layout)cmbLayout.SelectedItem;
+            curLayout = (Layout)cmbPaperType.SelectedItem;
 
             lblSize.Text = $"{curLayout.paperWidth} × {curLayout.paperHeight}";
             txtPrintLeftGap.Text = curLayout.PrintGapLeft.ToString("F2");
@@ -1571,7 +1652,27 @@ namespace PrintIngredientsList
 
         }
 
+        /// <summary>
+        /// レイアウトコンボボックス選択
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmbLayout_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            LaytoutFile layoutFile = (LaytoutFile)cmbLayout.SelectedItem;
+            if (layoutFile == null) return;
 
+            try
+            {
+                //印刷レイアウト情報の読み込み
+                ReadPrintLayoutInfo(layoutFile.filePath);
+            }
+            catch (Exception ex)
+            {
+                Utility.MessageError($"印刷レイアウト情報の読み込みで例外が発生\n{ex.Message}");
+            }
+            LaytoutToUI();
+        }
 
 
 
@@ -1580,6 +1681,16 @@ namespace PrintIngredientsList
         private void label19_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void mnuSetting_Click(object sender, EventArgs e)
+        {
+            FromSetting frm = new FromSetting(settingData);
+            if( frm.ShowDialog() == DialogResult.OK)
+            {
+                UpdateProdListFont();
+
+            }
         }
     }
 

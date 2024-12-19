@@ -22,6 +22,7 @@ namespace PrintIngredientsList
         ProductReader productBaseInfo = null;
         CommonDeftReader commonDefData = null;
         EditProductData editData = null;
+        AppSettingData settingData = null;
 
         FormMain frmMain = null;
 
@@ -34,6 +35,7 @@ namespace PrintIngredientsList
 
             this.editData = editData;
             this.frmMain = frmMain;
+            this.settingData = frmMain.settingData;
         }
 
         private void FormEditIngredients_Load(object sender, EventArgs e)
@@ -108,6 +110,8 @@ namespace PrintIngredientsList
 
                 button1.Text = "OK";
                 button2.Text = "キャンセル";
+                lstProductNames.Enabled = false;
+                cmbKind.Enabled = false;
             }
             else
             {
@@ -116,8 +120,38 @@ namespace PrintIngredientsList
             }
 
             LoadUserSetting();
+
+            UpdateProdListFont();
+
+            lstProductNames.MouseWheel += LstProductNames_MouseWheel;
         }
 
+        private void LstProductNames_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if ((ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (e.Delta > 0)
+                {
+                    settingData.editProdListFontSize -= Const.prodListFontSizeInc;
+                }
+                else
+                {
+                    settingData.editProdListFontSize += Const.prodListFontSizeInc;
+                }
+
+                UpdateProdListFont();
+            }
+        }
+
+        /// <summary>
+        /// 商品リストのフォント設定
+        /// </summary>
+        private void UpdateProdListFont()
+        {
+            lstProductNames.Font = new Font(settingData.prodListFontName, settingData.editProdListFontSize);
+            int intRowHeight = (int)(float.Parse(lstProductNames.Font.Size.ToString()) + 12);
+            lstProductNames.HorizontalExtent = intRowHeight;
+        }
 
         /// <summary>
         /// 種別選択
@@ -346,6 +380,15 @@ namespace PrintIngredientsList
             if (editData != null) return;
             frmMain.AddProduct(GetEditParam());
 
+        }
+
+        private void lstProductNames_KeyDown(object sender, KeyEventArgs e)
+        {
+            if( e.KeyCode == Keys.Space)
+            {
+                if (editData != null) return;
+                frmMain.AddProduct(GetEditParam());
+            }
         }
     }
 }
