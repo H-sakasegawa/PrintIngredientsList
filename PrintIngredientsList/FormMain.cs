@@ -135,7 +135,10 @@ namespace PrintIngredientsList
             settingData.Read(settingDataFilePath);
 
             //印刷レイアウト一覧取得
-            FindLayoutFiles(printLayoutDataFilePath);
+            if(FindLayoutFiles(printLayoutDataFilePath)!=0)
+            {
+                Utility.MessageError($"印刷レイアウトファイルが見つかりません。\n{printLayoutDataFilePath}");
+            }
 
             //印刷設定をUIに設定
             SettingDataToUI(settingData);
@@ -400,8 +403,12 @@ namespace PrintIngredientsList
 
 
         //Layoutフォルダ内にあるレイアウトファイル名の一覧を取得してコンボボックスに設定する
-        void FindLayoutFiles(string filePath)
+        int FindLayoutFiles(string filePath)
         {
+            if (!Directory.Exists(filePath)) 
+            {
+                return -1;
+            }
             var PathWidlCard = Path.Combine(filePath, "*.dat");
             string [] fileNames = Directory.GetFiles(filePath, "*.dat");
 
@@ -415,7 +422,12 @@ namespace PrintIngredientsList
             if(cmbLayout.Items.Count>0)
             {
                 cmbLayout.SelectedIndex = 0;
+            }else
+            {   //印刷レイアウトファイルなし
+                return -1;
             }
+
+            return 0;
         }
         private void UpdateTypeCombobox()
         {
