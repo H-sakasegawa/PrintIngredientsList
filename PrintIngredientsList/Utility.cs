@@ -63,5 +63,12 @@ namespace PrintIngredientsList
             }
             return false;
         }
+
+        public static string RemoveCRLF(string s)
+        {
+            //改行コードを削除
+            s = s.Replace("\n", "");
+            return s.Replace("\r", "");
+        }
     }
 }
