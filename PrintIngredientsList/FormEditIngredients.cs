@@ -2,6 +2,7 @@
 using ExtendedNumerics.Helpers;
 using MathNet.Numerics.Distributions;
 using NPOI.SS.Formula.Functions;
+using NPOI.XSSF.Streaming.Values;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,8 +22,11 @@ namespace PrintIngredientsList
         ProductReader productBaseInfo = null;
         CommonDeftReader commonDefData = null;
         EditProductData editData = null;
+        AppSettingData settingData = null;
 
-        public FormEditIngredients(ProductReader productBaseInfo, CommonDeftReader commonDefData, EditProductData editData = null)
+        FormMain frmMain = null;
+
+        public FormEditIngredients(FormMain frmMain, ProductReader productBaseInfo, CommonDeftReader commonDefData, EditProductData editData = null)
         {
             InitializeComponent();
 
@@ -30,11 +34,14 @@ namespace PrintIngredientsList
             this.commonDefData = commonDefData;
 
             this.editData = editData;
+            this.frmMain = frmMain;
+            this.settingData = frmMain.settingData;
         }
 
         private void FormEditIngredients_Load(object sender, EventArgs e)
         {
-            this.MinimumSize = this.Size;
+            MinimumSize = this.Size;
+
 
             var lstKind = productBaseInfo.GetKindList();
 
@@ -75,24 +82,75 @@ namespace PrintIngredientsList
 
             if (editData != null)
             {
-                var productData = productBaseInfo.GetProductDataByID(editData.id);
+                lstProductNames.SelectedIndexChanged -= lstProductNames_SelectedIndexChanged;
+                {
+                    var productData = productBaseInfo.GetProductDataByID(editData.id);
 
 
-                cmbProduct.SelectedItem = productData;
-                txtMaterial.Text = productData.rawMaterials;
-                txtAmount.Text = editData.amount;
-                txtValidDays.Value = editData.validDays;
-                cmbStorage.Text = editData.storageMethod;
-                txtAllergy.Text = productData.allergy;
-                cmbManufacture.Text = editData.manufacturer;
-                txtComment.Text = productData.comment;
+                    txtProductName.Text = Utility.RemoveCRLF(productData.name);
+                    txtAmount.Text = editData.amount;
+                    txtValidDays.Value = editData.validDays;
+                    cmbStorage.Text = editData.storageMethod;
+                    cmbManufacture.Text = editData.manufacturer;
 
-                txtNumOfSheets.Text = editData.numOfSheets.ToString();
+                    txtNumOfSheets.Text = editData.numOfSheets.ToString();
+
+                    for(int i=0; i< lstProductNames.Items.Count; i++)
+                    {
+                        ProductData product = (ProductData)lstProductNames.Items[i];
+                        if (product.id == editData.id)
+                        {
+                            lstProductNames.SelectedIndex = i;
+                        }
+                    }
+
+                }
+                lstProductNames.SelectedIndexChanged += lstProductNames_SelectedIndexChanged;
 
 
+                button1.Text = "OK";
+                button2.Text = "キャンセル";
+                lstProductNames.Enabled = false;
+                cmbKind.Enabled = false;
+            }
+            else
+            {
+                button1.Text = "追加";
+                button2.Text = "閉じる";
             }
 
+            LoadUserSetting();
 
+            UpdateProdListFont();
+
+            lstProductNames.MouseWheel += LstProductNames_MouseWheel;
+        }
+
+        private void LstProductNames_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if ((ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                if (e.Delta > 0)
+                {
+                    settingData.editProdListFontSize -= Const.prodListFontSizeInc;
+                }
+                else
+                {
+                    settingData.editProdListFontSize += Const.prodListFontSizeInc;
+                }
+
+                UpdateProdListFont();
+            }
+        }
+
+        /// <summary>
+        /// 商品リストのフォント設定
+        /// </summary>
+        private void UpdateProdListFont()
+        {
+            lstProductNames.Font = new Font(settingData.prodListFontName, settingData.editProdListFontSize);
+            int intRowHeight = (int)(float.Parse(lstProductNames.Font.Size.ToString()) + 12);
+            lstProductNames.HorizontalExtent = intRowHeight;
         }
 
         /// <summary>
@@ -103,14 +161,14 @@ namespace PrintIngredientsList
         private void cmbKind_SelectedIndexChanged(object sender, EventArgs e)
         {
             //選択された種別の商品名をコンボボックスに設定
-            cmbProduct.Items.Clear();
+            lstProductNames.Items.Clear();
             //商品名コンボボックス
             var lstProduct = productBaseInfo.GetProductList(cmbKind.Text);
             foreach (var product in lstProduct)
             {
-                cmbProduct.Items.Add(product);
+                int index =lstProductNames.Items.Add(product);
             }
-            if (cmbProduct.Items.Count > 0) cmbProduct.SelectedIndex = 0;
+            if (lstProductNames.Items.Count > 0) lstProductNames.SelectedIndex = 0;
 
         }
         /// <summary>
@@ -118,12 +176,14 @@ namespace PrintIngredientsList
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cmbProduct_SelectedIndexChanged(object sender, EventArgs e)
+        private void lstProductNames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbProduct.SelectedIndex < 0) return;
+            if (lstProductNames.SelectedIndex < 0) return;
 
-            var productData = (ProductData)cmbProduct.Items[cmbProduct.SelectedIndex];
+            var productData = (ProductData)lstProductNames.Items[lstProductNames.SelectedIndex];
 
+            //商品名
+            txtProductName.Text = Utility.RemoveCRLF( productData.name);
             //成分
             txtMaterial.Text = productData.rawMaterials;
             //数量
@@ -140,7 +200,24 @@ namespace PrintIngredientsList
             cmbManufacture.Text = productData.manufacturer;
             //欄外
             txtComment.Text = productData.comment;
+
+            //栄養成分
+            lvNutritional.Items.Clear();
+            AddLvNutritional(ItemName.Calorie, productData.Calorie);
+            AddLvNutritional(ItemName.Protein, productData.Protein);
+            AddLvNutritional(ItemName.Lipids, productData.Lipids);
+            AddLvNutritional(ItemName.Carbohydrates, productData.Carbohydrates);
+            AddLvNutritional(ItemName.Salt, productData.Salt);
         }
+
+
+
+        void AddLvNutritional(string title, string value)
+        {
+            var lvItem = lvNutritional.Items.Add(title);
+            lvItem.SubItems.Add(value);
+        }
+
         /// <summary>
         /// 保存方法
         /// </summary>
@@ -201,18 +278,26 @@ namespace PrintIngredientsList
                 return;
             }
 
+            if (editData != null)
+            {
                 this.DialogResult = DialogResult.OK;
-            this.Close();
+                this.Close();
+            }else
+            {
+                frmMain.AddProduct(GetEditParam());
+            }
+
         }
         private void button2_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+            Close();
         }
 
         public EditProductData GetEditParam()
         {
 
-            var productData = (ProductData)cmbProduct.Items[cmbProduct.SelectedIndex];
+            var productData = (ProductData)lstProductNames.Items[lstProductNames.SelectedIndex];
 
             EditProductData editParam = new EditProductData();
 
@@ -230,6 +315,80 @@ namespace PrintIngredientsList
             return editParam;
         }
 
+        private void FormEditIngredients_SizeChanged(object sender, EventArgs e)
+        {
+        }
 
+        private void FormEditIngredients_Resize(object sender, EventArgs e)
+        {
+            if(this.Height> MinimumSize.Height)
+            {
+                Height = MinimumSize.Height;
+            }
+        }
+
+        private void FormEditIngredients_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveUserSetting();
+        }
+        private void LoadUserSetting()
+        {
+            //setting情報
+            int WinX = Properties.Settings.Default.EdtFrmWinLocX;
+            int WinY = Properties.Settings.Default.EdtFrmWinLocY;
+
+            if (WinX < 0)
+            {   //小さすぎたら補正
+                WinX = 0;
+            }
+            if (WinY < 0)
+            {   //小さすぎたら補正
+                WinY = 0;
+            }
+            this.Location = new Point(WinX, WinY);
+
+            int SizeW = Properties.Settings.Default.EdtFrmWinSizeW;
+            int SizeH = Properties.Settings.Default.EdtFrmWinSizeH;
+            if (SizeW < 200)
+            {   //小さすぎたら補正
+                SizeW = Size.Width;
+            }
+            if (SizeH < 200)
+            {   //小さすぎたら補正
+                SizeH = Size.Height;
+            }
+            this.Size = new Size(SizeW, SizeH);
+
+            int SplitDistance = Properties.Settings.Default.EdtFrmSplitDistance;
+            if (SplitDistance < 100) SplitDistance = 100;
+            splitContainer1.SplitterDistance = SplitDistance;
+        }
+        private void SaveUserSetting()
+        {
+            Properties.Settings.Default.EdtFrmWinLocX = this.Location.X;
+            Properties.Settings.Default.EdtFrmWinLocY = this.Location.Y;
+            Properties.Settings.Default.EdtFrmWinSizeW = this.Size.Width;
+            Properties.Settings.Default.EdtFrmWinSizeH = this.Size.Height;
+            Properties.Settings.Default.EdtFrmSplitDistance = splitContainer1.SplitterDistance;
+
+
+            Properties.Settings.Default.Save();
+        }
+
+        private void lstProductNames_DoubleClick(object sender, EventArgs e)
+        {
+            if (editData != null) return;
+            frmMain.AddProduct(GetEditParam());
+
+        }
+
+        private void lstProductNames_KeyDown(object sender, KeyEventArgs e)
+        {
+            if( e.KeyCode == Keys.Space)
+            {
+                if (editData != null) return;
+                frmMain.AddProduct(GetEditParam());
+            }
+        }
     }
 }

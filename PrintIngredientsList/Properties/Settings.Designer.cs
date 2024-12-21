@@ -142,5 +142,77 @@ namespace PrintIngredientsList.Properties {
                 this["PrintPreviewDlgZoom"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("210")]
+        public int LabelLayoutPreviewSlpitDistance {
+            get {
+                return ((int)(this["LabelLayoutPreviewSlpitDistance"]));
+            }
+            set {
+                this["LabelLayoutPreviewSlpitDistance"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int EdtFrmWinLocX {
+            get {
+                return ((int)(this["EdtFrmWinLocX"]));
+            }
+            set {
+                this["EdtFrmWinLocX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int EdtFrmWinLocY {
+            get {
+                return ((int)(this["EdtFrmWinLocY"]));
+            }
+            set {
+                this["EdtFrmWinLocY"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int EdtFrmWinSizeW {
+            get {
+                return ((int)(this["EdtFrmWinSizeW"]));
+            }
+            set {
+                this["EdtFrmWinSizeW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int EdtFrmWinSizeH {
+            get {
+                return ((int)(this["EdtFrmWinSizeH"]));
+            }
+            set {
+                this["EdtFrmWinSizeH"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int EdtFrmSplitDistance {
+            get {
+                return ((int)(this["EdtFrmSplitDistance"]));
+            }
+            set {
+                this["EdtFrmSplitDistance"] = value;
+            }
+        }
     }
 }

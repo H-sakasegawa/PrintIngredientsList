@@ -14,6 +14,21 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -61,6 +76,9 @@
   <ItemGroup>
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
       <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="ConfigReader">
+      <HintPath>..\bin\Win32\Debug\ConfigReader.dll</HintPath>
     </Reference>
     <Reference Include="Enums.NET, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7ea1c1650d506225, processorArchitecture=MSIL">
       <HintPath>..\packages\Enums.NET.4.0.1\lib\net45\Enums.NET.dll</HintPath>
@@ -148,14 +166,33 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="zxing, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.9\lib\net48\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.9\lib\net48\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Barcode.cs" />
     <Compile Include="Const.cs" />
     <Compile Include="DrawUtil2.cs" />
     <Compile Include="EditProductData.cs" />
     <Compile Include="Excel\ExcelReader.cs" />
     <Compile Include="Excel\CommonDefReader.cs" />
     <Compile Include="Excel\ProductReader.cs" />
+    <Compile Include="FormPrintPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPrintPreview.Designer.cs">
+      <DependentUpon>FormPrintPreview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLabelTypeBlockIItemDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLabelTypeBlockIItemDetail.Designer.cs">
+      <DependentUpon>FormLabelTypeBlockIItemDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormEditIngredients.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,15 +220,25 @@
     <Compile Include="FormLicenseMng.Designer.cs">
       <DependentUpon>FormLicenseMng.cs</DependentUpon>
     </Compile>
+    <Compile Include="FromSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FromSetting.Designer.cs">
+      <DependentUpon>FromSetting.cs</DependentUpon>
+    </Compile>
     <Compile Include="License\License.cs" />
     <Compile Include="Network.cs" />
-    <Compile Include="PrintPreviewDialogEx.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="PrintSettingData.cs" />
+    <Compile Include="PrintLayout.cs" />
+    <Compile Include="AppSettingData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility.cs" />
+    <EmbeddedResource Include="FormPrintPreview.resx">
+      <DependentUpon>FormPrintPreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLabelTypeBlockIItemDetail.resx">
+      <DependentUpon>FormLabelTypeBlockIItemDetail.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormEditIngredients.resx">
       <DependentUpon>FormEditIngredients.cs</DependentUpon>
     </EmbeddedResource>
@@ -203,6 +250,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormLicenseMng.resx">
       <DependentUpon>FormLicenseMng.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FromSetting.resx">
+      <DependentUpon>FromSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -225,6 +275,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 および x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NPOI.SS.Formula.Functions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,32 @@ namespace PrintIngredientsList
         public static float POINT2MILLI(int point)
         {
             return (float)(point * 0.352777);
+        }
+
+        public static float ToFloat(string value)
+        {
+            return float.Parse(value.Trim());
+        }
+        public static int ToInt(string value)
+        {
+            return int.Parse(value.Trim());
+        }
+        public static bool ToBoolean(string value)
+        {
+            if (!string.IsNullOrEmpty(value.Trim()))
+            {
+                int tmpValue = 0;
+                int.TryParse(value, out tmpValue);
+                return tmpValue == 0 ? false : true;
+            }
+            return false;
+        }
+
+        public static string RemoveCRLF(string s)
+        {
+            //改行コードを削除
+            s = s.Replace("\n", "");
+            return s.Replace("\r", "");
         }
     }
 }

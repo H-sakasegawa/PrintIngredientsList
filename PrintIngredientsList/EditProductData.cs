@@ -15,22 +15,10 @@ namespace PrintIngredientsList
         /// ID
         /// </summary>
         public string id;
-        // /// <summary>
-        ///// 分類
-        ///// </summary>
-        //public string kind;
-        ///// <summary>
-        ///// 名称
-        ///// </summary>
-        //public string name;
         /// <summary>
         /// 印刷枚数
         /// </summary>
         public int numOfSheets=1;
-        /// <summary>
-        /// 原材料
-        /// </summary>
-       // public string rawMaterials;
         /// <summary>
         /// 内容量
         /// </summary>
@@ -40,25 +28,13 @@ namespace PrintIngredientsList
         /// </summary>
         public int validDays;
         /// <summary>
-        /// 賞味期限（日付）
-        /// </summary>
-        //public DateTime dtExpirationDate;
-        /// <summary>
         /// 保存方法
         /// </summary>
         public string storageMethod;
         /// <summary>
-        /// アレルギー
-        /// </summary>
-        //public string allergy;
-        /// <summary>
         /// 製造者
         /// </summary>
         public string manufacturer;
-        /// <summary>
-        /// 欄外
-        /// </summary>
-        //public string comment;
 
 
         public EditProductData()
@@ -72,7 +48,6 @@ namespace PrintIngredientsList
                 throw new Exception();
             }
         }
-
 
         public object[] GetParams(ProductReader productReader)
         {
@@ -100,8 +75,6 @@ namespace PrintIngredientsList
         public override string ToString()
         {
             return $"id:{id}" +
-                   //$",kind:{kind}" +
-                   //$",name:{name}" +
                    $",numOfSheets:{numOfSheets}" +
                    $",amount:{amount}" +
                    $",validDays:{validDays}" +
@@ -119,8 +92,6 @@ namespace PrintIngredientsList
             {
                 return -1;
             }
-            //kind = GetValue(ary, "kind", "");
-            //name = GetValue(ary, "name", "");
             numOfSheets = int.Parse(GetValue(ary, "numOfSheets", "1"));
             amount = GetValue(ary, "amount", "");
             validDays =int.Parse( GetValue(ary, "validDays", "0"));
