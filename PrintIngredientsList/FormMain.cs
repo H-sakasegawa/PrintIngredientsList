@@ -889,8 +889,9 @@ namespace PrintIngredientsList
 
             try
             {
-                //印刷レイアウト情報の読み込み
-                ReadPrintLayoutInfo(printLayoutDataFilePath);
+                //印刷レイアウト情報の読み込み →選択コンボボックス更新
+                FindLayoutFiles(printLayoutDataFilePath);
+               
             }
             catch (Exception ex)
             {

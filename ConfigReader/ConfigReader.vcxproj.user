@@ -8,8 +8,4 @@
     <LocalDebuggerCommand>C:\User\sakase\Dev\ConfigReader\ConfigReader\bin\x64\Debug\TestApp.exe</LocalDebuggerCommand>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Motosim|x64'">
-    <LocalDebuggerCommand>C:\User\sakase\Dev\ConfigReader\ConfigReader\bin\x64\Debug_Motosim\TestApp.exe</LocalDebuggerCommand>
-    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-  </PropertyGroup>
 </Project>
