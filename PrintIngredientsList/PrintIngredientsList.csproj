@@ -52,8 +52,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>printer_blue_10877.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_License|x86'">
     <OutputPath>bin\Release_License\</OutputPath>
@@ -181,6 +180,7 @@
     <Compile Include="Excel\ExcelReader.cs" />
     <Compile Include="Excel\CommonDefReader.cs" />
     <Compile Include="Excel\ProductReader.cs" />
+    <Compile Include="FolderSelectDialog.cs" />
     <Compile Include="FormPrintPreview.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -232,6 +232,7 @@
     <Compile Include="AppSettingData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Utility.cs" />
     <EmbeddedResource Include="FormPrintPreview.resx">
       <DependentUpon>FormPrintPreview.cs</DependentUpon>
@@ -287,6 +288,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="printer_blue_10877.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

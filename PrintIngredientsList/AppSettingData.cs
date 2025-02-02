@@ -10,6 +10,7 @@ namespace PrintIngredientsList
 {
     public class AppSettingData
     {
+        public string dataBasePath;
         public int copyNum      = 1;      //セット枚数
         public int printStartPos = 1;       //印刷開始位置
         public string fontName = Const.defaultFontName;
@@ -34,6 +35,10 @@ namespace PrintIngredientsList
 
         public void Write(string filePath)
         {
+            Properties.Settings.Default.DataBasePath = dataBasePath;
+            Properties.Settings.Default.Save();
+
+
             using (var sw = new StreamWriter(filePath))
             {
                 Write(sw, "COPYNUM", copyNum);
@@ -41,7 +46,9 @@ namespace PrintIngredientsList
                 Write(sw, "PRODLIST_FONTNAME", prodListFontName);
                 Write(sw, "PRODLIST_FONTSIZEE", prodListFontSize);
                 Write(sw, "EDIT_PRODLIST_FONTSIZEE", editProdListFontSize);
-                Write(sw, "PRODLIST_COL_WIDTH", string.Join(",",prodListColWidthAry));
+                Write(sw, "PRODLIST_COL_WIDTH", string.Join(",", prodListColWidthAry));
+
+
 
             }
         }
@@ -52,6 +59,10 @@ namespace PrintIngredientsList
         }
         public void Read(string filePath)
         {
+            dataBasePath = Properties.Settings.Default.DataBasePath;
+
+
+
             if (!File.Exists(filePath)) return;
             using (var sr = new StreamReader(filePath))
             {

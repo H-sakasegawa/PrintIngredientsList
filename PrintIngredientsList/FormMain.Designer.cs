@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gridList = new System.Windows.Forms.DataGridView();
             this.colCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -137,12 +137,14 @@
             this.menuSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuReload = new System.Windows.Forms.ToolStripMenuItem();
+            this.設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLicense = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUpdateLicense = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuLimitDate = new System.Windows.Forms.ToolStripMenuItem();
-            this.設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSetting = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolBtnEditDatabase = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.gridList)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -182,14 +184,14 @@
             // 
             this.gridList.AllowUserToAddRows = false;
             this.gridList.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.gridList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCheck,
@@ -246,17 +248,17 @@
             // 
             // colPrintNum
             // 
-            dataGridViewCellStyle6.NullValue = null;
-            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle10.NullValue = null;
+            this.colPrintNum.DefaultCellStyle = dataGridViewCellStyle10;
             this.colPrintNum.HeaderText = "枚数";
             this.colPrintNum.Name = "colPrintNum";
             this.colPrintNum.Width = 50;
             // 
             // colLImitDate
             // 
-            dataGridViewCellStyle7.Format = "d";
-            dataGridViewCellStyle7.NullValue = null;
-            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle11.Format = "d";
+            dataGridViewCellStyle11.NullValue = null;
+            this.colLImitDate.DefaultCellStyle = dataGridViewCellStyle11;
             this.colLImitDate.HeaderText = "賞味期限";
             this.colLImitDate.Name = "colLImitDate";
             this.colLImitDate.ReadOnly = true;
@@ -788,14 +790,14 @@
             this.grdLabelBlockItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdLabelBlockItems.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdLabelBlockItems.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.grdLabelBlockItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdLabelBlockItems.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewCheckBoxColumn1,
@@ -1238,10 +1240,12 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolBtnSave,
-            this.toolBtnReload});
+            this.toolBtnReload,
+            this.toolStripSeparator3,
+            this.toolBtnEditDatabase});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(58, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(87, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolBtnSave
@@ -1251,7 +1255,7 @@
             this.toolBtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolBtnSave.Name = "toolBtnSave";
             this.toolBtnSave.Size = new System.Drawing.Size(23, 22);
-            this.toolBtnSave.Text = "toolStripButton1";
+            this.toolBtnSave.Text = "編集データ保存";
             this.toolBtnSave.Click += new System.EventHandler(this.toolBtnSave_Click);
             // 
             // toolBtnReload
@@ -1261,7 +1265,7 @@
             this.toolBtnReload.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolBtnReload.Name = "toolBtnReload";
             this.toolBtnReload.Size = new System.Drawing.Size(23, 22);
-            this.toolBtnReload.Text = "toolStripButton1";
+            this.toolBtnReload.Text = "データベース再読み込み";
             this.toolBtnReload.Click += new System.EventHandler(this.toolBtnReload_Click);
             // 
             // menuStrip1
@@ -1305,6 +1309,21 @@
             this.menuReload.Text = "商品データベース再読み込み";
             this.menuReload.Click += new System.EventHandler(this.menuReload_Click);
             // 
+            // 設定ToolStripMenuItem
+            // 
+            this.設定ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuSetting});
+            this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
+            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.設定ToolStripMenuItem.Text = "オプション";
+            // 
+            // mnuSetting
+            // 
+            this.mnuSetting.Name = "mnuSetting";
+            this.mnuSetting.Size = new System.Drawing.Size(98, 22);
+            this.mnuSetting.Text = "設定";
+            this.mnuSetting.Click += new System.EventHandler(this.mnuSetting_Click);
+            // 
             // mnuLicense
             // 
             this.mnuLicense.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1334,20 +1353,20 @@
             this.mnuLimitDate.Text = "ライセンス有効期限について";
             this.mnuLimitDate.Click += new System.EventHandler(this.mnuLimitDate_Click);
             // 
-            // 設定ToolStripMenuItem
+            // toolBtnEditDatabase
             // 
-            this.設定ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuSetting});
-            this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
-            this.設定ToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
-            this.設定ToolStripMenuItem.Text = "オプション";
+            this.toolBtnEditDatabase.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolBtnEditDatabase.Image = ((System.Drawing.Image)(resources.GetObject("toolBtnEditDatabase.Image")));
+            this.toolBtnEditDatabase.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolBtnEditDatabase.Name = "toolBtnEditDatabase";
+            this.toolBtnEditDatabase.Size = new System.Drawing.Size(23, 22);
+            this.toolBtnEditDatabase.Text = "商品DBを開く";
+            this.toolBtnEditDatabase.Click += new System.EventHandler(this.toolBtnEditDatabase_Click);
             // 
-            // mnuSetting
+            // toolStripSeparator3
             // 
-            this.mnuSetting.Name = "mnuSetting";
-            this.mnuSetting.Size = new System.Drawing.Size(180, 22);
-            this.mnuSetting.Text = "設定";
-            this.mnuSetting.Click += new System.EventHandler(this.mnuSetting_Click);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // FormMain
             // 
@@ -1525,6 +1544,8 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.ToolStripMenuItem 設定ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuSetting;
+        private System.Windows.Forms.ToolStripButton toolBtnEditDatabase;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 

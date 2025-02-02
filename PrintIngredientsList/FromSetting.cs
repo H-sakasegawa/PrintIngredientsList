@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace PrintIngredientsList
 
             cmbFont.Text = setting.prodListFontName;
             txtFontSize.Text = setting.prodListFontSize.ToString("F1");
-
+            txtDataBasePath.Text = setting.dataBasePath;
 
 
         }
@@ -50,6 +51,11 @@ namespace PrintIngredientsList
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!Directory.Exists(txtDataBasePath.Text))
+            {
+                Utility.MessageError("指定されたデータベースフォルダは存在しません");
+                return;
+            }
             DialogResult = DialogResult.OK;
             Close();
 
@@ -73,6 +79,22 @@ namespace PrintIngredientsList
                 return;
             }
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FolderSelectDialog dlg = new FolderSelectDialog();
+            dlg.Path = setting.dataBasePath;
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                txtDataBasePath.Text = dlg.Path;
+            }
+
+        }
+
+        private void txtDataBasePath_TextChanged(object sender, EventArgs e)
+        {
+            setting.dataBasePath = txtDataBasePath.Text;
         }
     }
 }

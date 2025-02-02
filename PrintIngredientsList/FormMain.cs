@@ -46,6 +46,9 @@ namespace PrintIngredientsList
         string settingDataFilePath;
         string printLayoutDataFilePath;
 
+        string productDataBaseFile;
+        string commonDataBaseFile;
+
         /// <summary>
         /// グリッド列インデックス
         /// </summary>
@@ -79,20 +82,43 @@ namespace PrintIngredientsList
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            exePath = Path.GetDirectoryName(Application.ExecutablePath);
 
-            exePath = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-
-            SettingsFolderPath = System.IO.Path.Combine(exePath, Const.SettingFolderName);
-            if( !Directory.Exists(SettingsFolderPath))
+            SettingsFolderPath = Path.Combine(exePath, Const.SettingFolderName);
+            if (!Directory.Exists(SettingsFolderPath))
             {
                 Directory.CreateDirectory(SettingsFolderPath);
             }
 
-            prevDataFilePath = System.IO.Path.Combine(SettingsFolderPath, Const.SaveDataFileName);
-            settingDataFilePath = System.IO.Path.Combine(SettingsFolderPath, Const.SettingDataFineName);
-            printLayoutDataFilePath = System.IO.Path.Combine(SettingsFolderPath, Const.printLayoutDataFolderPath);
+            prevDataFilePath        = Path.Combine(SettingsFolderPath, Const.SaveDataFileName);
+            printLayoutDataFilePath = Path.Combine(SettingsFolderPath, Const.printLayoutDataFolderPath);
+            settingDataFilePath     = Path.Combine(SettingsFolderPath, Const.SettingDataFineName);
 
-            //最小サイズをレイアウト時のサイズで固定
+
+            //セッティング情報の読み込み
+            settingData.Read(settingDataFilePath);
+            if (string.IsNullOrEmpty(settingData.dataBasePath))
+            {
+                settingData.dataBasePath = System.IO.Path.Combine(exePath, Const.dataBaseFolder);
+
+            }
+
+            //商品データベース、共通データベースのの有無チェック
+            productDataBaseFile = Path.Combine(settingData.dataBasePath, Const.ProductFileName);
+            commonDataBaseFile = System.IO.Path.Combine(settingData.dataBasePath, Const.CommonDefFileName);
+
+            if (!File.Exists(productDataBaseFile))
+            {
+                Utility.MessageError($"{Const.ProductFileName}が見つかりません");
+            }
+            if (!File.Exists(commonDataBaseFile))
+            {
+                Utility.MessageError($"{Const.CommonDefFileName}が見つかりません");
+            }
+
+
+
+           //最小サイズをレイアウト時のサイズで固定
             this.MinimumSize = this.Size;
 
             toolStripContainer1.Dock = DockStyle.Fill;
@@ -109,6 +135,7 @@ namespace PrintIngredientsList
 
             tabControl1.TabPages[0].Focus();
 
+            gridList.Columns[(int)ColumnIndex.COL_NUM].DefaultCellStyle.BackColor = Color.LightBlue;
 
             //フォント一覧
             //-------------------------------------------------------
@@ -131,11 +158,9 @@ namespace PrintIngredientsList
             //前回の編集データの読み込み
             ReadSavedPath();
 
-            //セッティング情報の読み込み
-            settingData.Read(settingDataFilePath);
 
             //印刷レイアウト一覧取得
-            if(FindLayoutFiles(printLayoutDataFilePath)!=0)
+            if (FindLayoutFiles(printLayoutDataFilePath)!=0)
             {
                 Utility.MessageError($"印刷レイアウトファイルが見つかりません。\n{printLayoutDataFilePath}");
             }
@@ -335,15 +360,12 @@ namespace PrintIngredientsList
         /// </summary>
         private int ReadDatabase()
         {
-            string dirPath = System.IO.Path.Combine(exePath, Const.dataBaseFolder);
-            string path = System.IO.Path.Combine(dirPath, Const.CommonDefFileName);
-            
+ 
             //共通データベース読み込み
-            commonDefInfo.ReadExcel(path);
+            commonDefInfo.ReadExcel(commonDataBaseFile);
 
 
-            path = System.IO.Path.Combine(dirPath, Const.ProductFileName);
-            if(productBaseInfo.ReadExcel(path)!=0)
+            if(productBaseInfo.ReadExcel(productDataBaseFile) !=0)
             {
                 return -1;
             }
@@ -904,6 +926,17 @@ namespace PrintIngredientsList
             UpdatePreview();
             Utility.MessageInfo("読み込み完了！");
 
+        }
+        /// <summary>
+        /// 商品データベースを開く
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolBtnEditDatabase_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process p =
+                    System.Diagnostics.Process.Start(productDataBaseFile);
+            
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -1701,10 +1734,22 @@ namespace PrintIngredientsList
             FromSetting frm = new FromSetting(settingData);
             if( frm.ShowDialog() == DialogResult.OK)
             {
+                if (string.IsNullOrEmpty(settingData.dataBasePath))
+                {
+                    Utility.MessageConfirm("データベースのフォルダが未設定です。\nオプション画面からデータベースのフォルダを設定してください。", "データベースパス");
+                    return;
+                }
+
+
+                //商品データベース、共通データベースファイルパス更新
+                productDataBaseFile = Path.Combine(settingData.dataBasePath, Const.ProductFileName);
+                commonDataBaseFile = System.IO.Path.Combine(settingData.dataBasePath, Const.CommonDefFileName);
+
                 UpdateProdListFont();
 
             }
         }
+
     }
 
 }
