@@ -47,7 +47,7 @@ namespace PrintIngredientsList
         public const string SaveDataFileName = "save.dat";
         public const string SettingDataFineName = "setting.dat";
 
-        public const string printLayoutDataFolderPath = "Layout";
+        public const string printLayoutDataFolderName = "Layout";
 
 
         public const string LicenseFileName = "license.dat";

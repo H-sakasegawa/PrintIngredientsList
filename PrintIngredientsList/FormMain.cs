@@ -44,7 +44,7 @@ namespace PrintIngredientsList
 
         string prevDataFilePath;
         string settingDataFilePath;
-        string printLayoutDataFilePath;
+        string printLayoutDataFolderPath;
 
         string productDataBaseFile;
         string commonDataBaseFile;
@@ -91,7 +91,7 @@ namespace PrintIngredientsList
             }
 
             prevDataFilePath        = Path.Combine(SettingsFolderPath, Const.SaveDataFileName);
-            printLayoutDataFilePath = Path.Combine(SettingsFolderPath, Const.printLayoutDataFolderPath);
+            printLayoutDataFolderPath = Path.Combine(SettingsFolderPath, Const.printLayoutDataFolderName);
             settingDataFilePath     = Path.Combine(SettingsFolderPath, Const.SettingDataFineName);
 
 
@@ -160,9 +160,9 @@ namespace PrintIngredientsList
 
 
             //印刷レイアウト一覧取得
-            if (FindLayoutFiles(printLayoutDataFilePath)!=0)
+            if (FindLayoutFiles(printLayoutDataFolderPath)!=0)
             {
-                Utility.MessageError($"印刷レイアウトファイルが見つかりません。\n{printLayoutDataFilePath}");
+                Utility.MessageError($"印刷レイアウトファイルが見つかりません。\n{printLayoutDataFolderPath}");
             }
 
             //印刷設定をUIに設定
@@ -666,12 +666,12 @@ namespace PrintIngredientsList
             settingData.Write(settingDataFilePath);
 
             //印刷レイアウト情報の保存
-#if DEBUG
-            printLayoutMng.SaveLayout(printLayoutDataFilePath + "_");
-#else
-            printLayoutMng.SaveLayout(printLayoutDataFilePath);
-#endif
-
+            foreach (var item in cmbLayout.Items)
+            {
+                var layout = (LaytoutFile)item;
+                string layoutFilePath = layout.filePath;
+                printLayoutMng.SaveLayout(layoutFilePath);
+            }
         }
         /// <summary>
         /// 保存データ読み込み
@@ -912,7 +912,7 @@ namespace PrintIngredientsList
             try
             {
                 //印刷レイアウト情報の読み込み →選択コンボボックス更新
-                FindLayoutFiles(printLayoutDataFilePath);
+                FindLayoutFiles(printLayoutDataFolderPath);
                
             }
             catch (Exception ex)
@@ -1749,7 +1749,6 @@ namespace PrintIngredientsList
 
             }
         }
-
     }
 
 }
