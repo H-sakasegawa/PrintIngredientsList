@@ -179,6 +179,7 @@ namespace PrintIngredientsList
 
             gridList.MouseWheel += OnGridList_MouseWheel;
 
+
 #if LICENSE
             int chkResult = CheckLicense();
             if (chkResult != 0)
@@ -399,7 +400,7 @@ namespace PrintIngredientsList
         private void UpdateProdListFont()
         {
             gridList.Font = new Font(settingData.prodListFontName, settingData.prodListFontSize);
-            int intRowHeight = (int)(float.Parse(gridList.Font.Size.ToString()) + 12);
+            int intRowHeight = (int)(float.Parse(gridList.Font.Size.ToString()) + 20);
             for (int i = 0; i < gridList.Rows.Count; i++)
             {
                 gridList.Rows[i].Height = intRowHeight;
@@ -578,12 +579,24 @@ namespace PrintIngredientsList
         }
 
         /// <summary>
+        /// プレビューパネルのリサイズ
+        /// 　領域を無効化しないと、一部しか更新されないため
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void panelPreviw_Resize(object sender, EventArgs e)
+        {
+            panelPreviw.Invalidate();
+        }
+        /// <summary>
         /// プレビューパネル描画
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void panelPreviw_Paint(object sender, PaintEventArgs e)
         {
+            base.OnPaint(e);
+
             Graphics gPreview = e.Graphics;
 
             //選択されているラベルタイプ
@@ -1749,6 +1762,7 @@ namespace PrintIngredientsList
 
             }
         }
+
     }
 
 }

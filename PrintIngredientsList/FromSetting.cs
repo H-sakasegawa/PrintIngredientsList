@@ -96,5 +96,14 @@ namespace PrintIngredientsList
         {
             setting.dataBasePath = txtDataBasePath.Text;
         }
+
+        private void txtGridRowHeight_TextChanged(object sender, EventArgs e)
+        {
+
+            if( !int.TryParse(txtGridRowHeight.Text, out setting.gridRowHeight))
+            {
+                Utility.MessageError("入力値が正しくありません");
+            }
+        }
     }
 }

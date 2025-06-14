@@ -40,7 +40,7 @@ namespace PrintIngredientsList
 
         private void FormEditIngredients_Load(object sender, EventArgs e)
         {
-            MinimumSize = this.Size;
+           // MinimumSize = this.Size;
 
 
             var lstKind = productBaseInfo.GetKindList();
@@ -133,6 +133,10 @@ namespace PrintIngredientsList
                 if (e.Delta > 0)
                 {
                     settingData.editProdListFontSize -= Const.prodListFontSizeInc;
+                    if (settingData.editProdListFontSize < 0.5f)
+                    {
+                        settingData.editProdListFontSize = 0.5f;
+                    }
                 }
                 else
                 {
@@ -321,10 +325,10 @@ namespace PrintIngredientsList
 
         private void FormEditIngredients_Resize(object sender, EventArgs e)
         {
-            if(this.Height> MinimumSize.Height)
-            {
-                Height = MinimumSize.Height;
-            }
+            //if(this.Height> MinimumSize.Height)
+            //{
+            //    Height = MinimumSize.Height;
+            //}
         }
 
         private void FormEditIngredients_FormClosing(object sender, FormClosingEventArgs e)

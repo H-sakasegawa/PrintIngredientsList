@@ -14,6 +14,7 @@ namespace PrintIngredientsList
         public int copyNum      = 1;      //セット枚数
         public int printStartPos = 1;       //印刷開始位置
         public string fontName = Const.defaultFontName;
+        public int gridRowHeight = 10;
 
         //メイン画面の商品リストのフォント名
         public string prodListFontName = Const.defaultFontName;
@@ -47,6 +48,7 @@ namespace PrintIngredientsList
                 Write(sw, "PRODLIST_FONTSIZEE", prodListFontSize);
                 Write(sw, "EDIT_PRODLIST_FONTSIZEE", editProdListFontSize);
                 Write(sw, "PRODLIST_COL_WIDTH", string.Join(",", prodListColWidthAry));
+                Write(sw, "PRODLIST_ROW_HEIGHT", gridRowHeight);
 
 
 
@@ -94,6 +96,9 @@ namespace PrintIngredientsList
                                 var ary = valueItem[1].Split(',');
                                 prodListColWidthAry = ary.Select(a => int.Parse(a)).ToArray();
                             }
+                            break;
+                        case "PRODLIST_ROW_HEIGHT":
+                            gridRowHeight = int.Parse(valueItem[1]);
                             break;
 
                     }
